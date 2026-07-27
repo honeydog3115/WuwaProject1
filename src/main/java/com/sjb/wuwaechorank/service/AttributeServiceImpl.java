@@ -16,6 +16,5 @@ public class AttributeServiceImpl implements AttributeService {
 
     @Override
     public void add() {
-        this.attributeDao.add();
     }
 }
