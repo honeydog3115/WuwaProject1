@@ -3,7 +3,7 @@ package com.sjb.wuwaechorank.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.sjb.wuwaechorank.dao.AttributeDao;
+import com.sjb.wuwaechorank.dao.attribute.AttributeDao;
 
 @Service
 public class AttributeServiceImpl implements AttributeService {

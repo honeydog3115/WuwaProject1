@@ -18,13 +18,16 @@ repositories {
 }
 
 dependencies {
+	// 코드 작성 편의를 위한 lombok 추가
+	compileOnly 'org.projectlombok:lombok'
+    annotationProcessor 'org.projectlombok:lombok'
+	
 	implementation 'org.springframework.boot:spring-boot-starter'
 	// mysql이 제공하는 JDBC 드라이버
 	implementation 'com.mysql:mysql-connector-j'
 	// JPA 지원 라이브러리. 여기서는 application.properties 에서 spring.datasource 를 사용하기 위해 추가했다.
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
 
-	// implementation 'org.springframework.boot:spring-boot-starter-jdbc'
 
 
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'

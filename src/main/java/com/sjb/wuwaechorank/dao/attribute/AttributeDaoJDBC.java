@@ -31,13 +31,18 @@ public class AttributeDaoJDBC implements AttributeDao {
     }
 
     @Override
-    public Attribute get(String name) {
-        return this.jdbcTemplate.queryForObject("SELECT * FROM attribute WHERE name = ?", this.attributeRowMapper, name);
+    public Attribute get(int id) {
+        return this.jdbcTemplate.queryForObject("SELECT * FROM attribute WHERE id = ?", this.attributeRowMapper, id);
+    }
+    
+    @Override
+    public List<Attribute> getAll() {
+        return this.jdbcTemplate.query("SELECT * FROM attribute", this.attributeRowMapper);
     }
 
     @Override
-    public void delete(String name) {
-        this.jdbcTemplate.update("DELETE FROM attribute WHERE name = ?", name);
+    public void delete(int id) {
+        this.jdbcTemplate.update("DELETE FROM attribute WHERE id = ?", id);
     }
 
     @Override
@@ -46,13 +51,19 @@ public class AttributeDaoJDBC implements AttributeDao {
     }
 
     @Override
-    public List<Attribute> getAll() {
-        return this.jdbcTemplate.query("SELECT * FROM attribute", this.attributeRowMapper);
+    public void update(int id, Attribute attribute) {
+        this.jdbcTemplate.update("UPDATE attribute SET name = ?, imagePath = ? WHERE id = ?", attribute.getName(), attribute.getImagePath(), id);
+    }
+    
+    @Override
+    public int getCount(){
+        return this.jdbcTemplate.queryForObject("SELECT COUNT(*) FROM attribute", Integer.class);
     }
 
-    @Override
-    public void update(Attribute attribute) {
-        this.jdbcTemplate.update("UPDATE attribute SET name = ?, imagePath = ? FROM  WHERE name = ?", attribute.getName(), attribute.getImagePath(), attribute.getName());
+    public void init(){
+        this.jdbcTemplate.execute("SET FOREIGN_KEY_CHECKS = 0;");
+        this.jdbcTemplate.execute("TRUNCATE TABLE attribute;");
+        this.jdbcTemplate.execute("SET FOREIGN_KEY_CHECKS = 1;");
     }
 }
 

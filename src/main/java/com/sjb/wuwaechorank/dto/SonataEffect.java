@@ -1,15 +1,15 @@
 package com.sjb.wuwaechorank.dto;
 
-public class Attribute {
+public class SonataEffect {
     private int id;
     private String name;
     private String imagePath;
 
-    public Attribute(){
+    public SonataEffect(){
 
     }
 
-    public Attribute(int id, String name, String imagePath){
+    public SonataEffect(int id, String name, String imagePath){
         this.id = id;
         this.name = name;
         this.imagePath = imagePath;

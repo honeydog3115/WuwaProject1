@@ -6,9 +6,11 @@ import com.sjb.wuwaechorank.dto.Attribute;
 
 public interface AttributeDao {
     void add(Attribute attribute);
-    Attribute get(String name);
+    Attribute get(int id);
     List<Attribute> getAll();
-    void delete(String name);
+    void delete(int id);
     void deleteAll();
-    void update(Attribute attribute);
+    void update(int id, Attribute attribute);
+    int getCount();
+    void init();
 }

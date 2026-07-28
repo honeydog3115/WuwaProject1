@@ -5,6 +5,16 @@ public class Weapon {
     private String name;
     private String imagePath;
 
+    public Weapon(){
+
+    }
+
+    public Weapon(int id, String name, String imagePath){
+        this.id = id;
+        this.name = name;
+        this.imagePath = imagePath;
+    }
+
     public int getId() {
         return id;
     }
