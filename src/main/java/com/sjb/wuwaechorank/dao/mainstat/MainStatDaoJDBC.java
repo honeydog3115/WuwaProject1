@@ -8,7 +8,7 @@ import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
 import com.sjb.wuwaechorank.dao.BaseDaoImpl;
-import com.sjb.wuwaechorank.dto.MainStat;
+import com.sjb.wuwaechorank.entity.MainStat;
 
 @Repository
 public class MainStatDaoJDBC extends BaseDaoImpl implements MainStatDao {
@@ -27,7 +27,7 @@ public class MainStatDaoJDBC extends BaseDaoImpl implements MainStatDao {
     };
 
     @Override
-    protected String tableName() {
+    public String tableName() {
         return "mainstat";
     }
     @Override

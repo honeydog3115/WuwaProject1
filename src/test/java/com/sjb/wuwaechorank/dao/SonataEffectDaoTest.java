@@ -12,7 +12,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.dao.DuplicateKeyException;
 
 import com.sjb.wuwaechorank.dao.sonataeffect.SonataEffectDao;
-import com.sjb.wuwaechorank.dto.SonataEffect;
+import com.sjb.wuwaechorank.entity.SonataEffect;
 
 @SpringBootTest
 public class SonataEffectDaoTest {

@@ -2,7 +2,7 @@ package com.sjb.wuwaechorank.dao.sonataeffect;
 
 import java.util.List;
 
-import com.sjb.wuwaechorank.dto.SonataEffect;
+import com.sjb.wuwaechorank.entity.SonataEffect;
 
 public interface SonataEffectDao {
     void add(SonataEffect sonataEffect);

@@ -2,7 +2,7 @@ package com.sjb.wuwaechorank.dao.weapon;
 
 import java.util.List;
 
-import com.sjb.wuwaechorank.dto.Weapon;
+import com.sjb.wuwaechorank.entity.Weapon;
 
 public interface WeaponDao {
     void add(Weapon weapon);

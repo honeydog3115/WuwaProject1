@@ -6,7 +6,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
-import com.sjb.wuwaechorank.dto.SonataEffect;
+import com.sjb.wuwaechorank.entity.SonataEffect;
 
 @Repository
 public class SonataEffectDaoJDBC implements SonataEffectDao {

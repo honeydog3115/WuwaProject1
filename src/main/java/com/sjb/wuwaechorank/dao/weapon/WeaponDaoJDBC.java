@@ -7,7 +7,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
-import com.sjb.wuwaechorank.dto.Weapon;
+import com.sjb.wuwaechorank.entity.Weapon;
 
 @Repository
 public class WeaponDaoJDBC implements WeaponDao {

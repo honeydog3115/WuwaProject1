@@ -10,14 +10,18 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.dao.DuplicateKeyException;
+import org.springframework.jdbc.core.JdbcTemplate;
 
 import com.sjb.wuwaechorank.dao.mainstat.MainStatDao;
-import com.sjb.wuwaechorank.dto.MainStat;
+import com.sjb.wuwaechorank.entity.MainStat;
 
 @SpringBootTest
 public class MainStatDaoTest {
     @Autowired
     MainStatDao mainStatDao;
+
+    @Autowired
+    JdbcTemplate jdbcTemplate;
 
     MainStat mainstat1;
     MainStat mainstat2;
@@ -25,13 +29,16 @@ public class MainStatDaoTest {
 
     @BeforeEach
     void setUp(){
-        mainStatDao.init();
+        jdbcTemplate.execute("SET FOREIGN_KEY_CHECKS = 0");
+        jdbcTemplate.execute("TRUNCATE TABLE mainstat");
+        jdbcTemplate.execute("SET FOREIGN_KEY_CHECKS = 1");
+        
         this.mainstat1 = new MainStat(1, "공격력", "30.5", "asdf/qwer/a.jpg");
         this.mainstat2 = new MainStat(2, "방어력", "10", "asdf/qwer/b.jpg");
         this.mainstat3 = new MainStat(3, "체력", "25", "asdf/qwer/c.jpg");
     }
 
-        @Test
+    @Test
     void addAndGet(){
         this.mainStatDao.add(mainstat1);
 

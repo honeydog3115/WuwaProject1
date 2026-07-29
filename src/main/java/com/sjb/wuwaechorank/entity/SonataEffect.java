@@ -1,4 +1,4 @@
-package com.sjb.wuwaechorank.dto;
+package com.sjb.wuwaechorank.entity;
 
 public class SonataEffect {
     private int id;

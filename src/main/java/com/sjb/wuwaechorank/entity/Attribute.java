@@ -1,6 +1,6 @@
-package com.sjb.wuwaechorank.dto;
+package com.sjb.wuwaechorank.entity;
 
-public class Attribute {
+public class Attribute extends Entity{
     private int id;
     private String name;
     private String imagePath;

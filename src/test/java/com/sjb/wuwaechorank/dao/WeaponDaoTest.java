@@ -13,7 +13,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.dao.DuplicateKeyException;
 
 import com.sjb.wuwaechorank.dao.weapon.WeaponDao;
-import com.sjb.wuwaechorank.dto.Weapon;
+import com.sjb.wuwaechorank.entity.Weapon;
 
 @SpringBootTest
 public class WeaponDaoTest {

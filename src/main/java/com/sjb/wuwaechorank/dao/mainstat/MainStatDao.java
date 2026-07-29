@@ -3,7 +3,7 @@ package com.sjb.wuwaechorank.dao.mainstat;
 import java.util.List;
 
 import com.sjb.wuwaechorank.dao.BaseDao;
-import com.sjb.wuwaechorank.dto.MainStat;
+import com.sjb.wuwaechorank.entity.MainStat;
 
 public interface MainStatDao extends BaseDao {
     void add(MainStat mainStat);
