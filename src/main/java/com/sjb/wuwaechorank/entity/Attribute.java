@@ -1,6 +1,9 @@
 package com.sjb.wuwaechorank.entity;
 
-public class Attribute extends Entity{
+import com.sjb.wuwaechorank.dao.PrimaryKey;
+
+public class Attribute{
+    @PrimaryKey
     private int id;
     private String name;
     private String imagePath;

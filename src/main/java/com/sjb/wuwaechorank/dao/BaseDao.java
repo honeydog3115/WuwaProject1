@@ -1,6 +1,12 @@
 package com.sjb.wuwaechorank.dao;
 
-public interface BaseDao {
+import java.util.List;
+
+public interface BaseDao<T, S>{
+    void add(T entity);
+    T get(S primaryKey);
+    List<T> getAll();
+    void delete(S primaryKey);
     int getCount();
-    String tableName();
+    void update(S primaryKey, T entity);
 }
