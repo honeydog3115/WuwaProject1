@@ -1,4 +1,4 @@
-package com.sjb.wuwaechorank.dao;
+package com.sjb.wuwaechorank.dao.sqlGenerator;
 
 import org.springframework.stereotype.Component;
 

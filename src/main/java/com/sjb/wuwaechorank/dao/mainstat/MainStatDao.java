@@ -2,10 +2,10 @@ package com.sjb.wuwaechorank.dao.mainstat;
 
 import java.util.List;
 
-import com.sjb.wuwaechorank.dao.BaseDao;
+import com.sjb.wuwaechorank.dao.CrudDao;
 import com.sjb.wuwaechorank.entity.MainStat;
 
-public interface MainStatDao extends BaseDao {
+public interface MainStatDao extends CrudDao {
     void add(MainStat mainStat);
     MainStat get(int id);
     List<MainStat> getAll();

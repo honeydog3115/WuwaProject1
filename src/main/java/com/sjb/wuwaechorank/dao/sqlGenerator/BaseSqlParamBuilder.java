@@ -1,10 +1,12 @@
-package com.sjb.wuwaechorank.dao;
+package com.sjb.wuwaechorank.dao.sqlGenerator;
 
 import java.lang.reflect.Field;
 import java.util.Arrays;
 import java.util.stream.Stream;
 
 import org.springframework.stereotype.Component;
+
+import com.sjb.wuwaechorank.dao.PrimaryKey;
 
 @Component
 public class BaseSqlParamBuilder implements SqlParamBuilder {

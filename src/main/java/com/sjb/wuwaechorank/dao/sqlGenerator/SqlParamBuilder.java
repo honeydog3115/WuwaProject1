@@ -1,4 +1,4 @@
-package com.sjb.wuwaechorank.dao;
+package com.sjb.wuwaechorank.dao.sqlGenerator;
 
 public interface SqlParamBuilder {
     Object[] insert(Object entity);

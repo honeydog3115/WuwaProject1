@@ -1,4 +1,4 @@
-package com.sjb.wuwaechorank.dao;
+package com.sjb.wuwaechorank.dao.sqlGenerator;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
@@ -9,6 +9,8 @@ import java.util.stream.Collectors;
 import javax.print.DocFlavor.STRING;
 
 import org.springframework.stereotype.Component;
+
+import com.sjb.wuwaechorank.dao.PrimaryKey;
 
 @Component
 public class BaseSqlBuilder implements SqlBuilder {

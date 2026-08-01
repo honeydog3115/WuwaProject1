@@ -4,7 +4,9 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.cglib.proxy.Proxy;
 import org.springframework.jdbc.core.JdbcTemplate;
+
 
 import com.sjb.wuwaechorank.dao.attribute.AttributeDao;
 import com.sjb.wuwaechorank.entity.Attribute;
