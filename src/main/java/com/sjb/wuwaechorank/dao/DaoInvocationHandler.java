@@ -1,17 +1,19 @@
 package com.sjb.wuwaechorank.dao;
 
+import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-
-import org.springframework.cglib.proxy.InvocationHandler;
+import java.util.Arrays;
 
 public class DaoInvocationHandler implements InvocationHandler {
     private final CrudDaoJDBC<?> crudDaoJDBC;
     private final Object daoCore;
+    private final Method[] interfaceMethods;
     
     public DaoInvocationHandler(CrudDaoJDBC<?> crudDaoJDBC, Object customDao) {
         this.crudDaoJDBC = crudDaoJDBC;
         this.daoCore = customDao;
+        this.interfaceMethods = CrudDao.class.getMethods();
     }
 
     @Override
@@ -30,12 +32,10 @@ public class DaoInvocationHandler implements InvocationHandler {
     }
 
     private boolean isBaseDaoMethod(Method method) {
-        try {
-            CrudDao.class.getMethod(method.getName(),method.getParameterTypes());
-            return true;
-        } catch (NoSuchMethodException e) {
-            return false;
-        }
+        return Arrays.stream(this.interfaceMethods)
+                .anyMatch(
+                    interfaceMethod->interfaceMethod.getName().equals(method.getName()) && 
+                    Arrays.equals(interfaceMethod.getParameterTypes(), method.getParameterTypes()));
     }
 
     private Object invokeObjectMethod(Object proxy,Method method,Object[] args) {
