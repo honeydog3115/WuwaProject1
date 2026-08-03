@@ -6,9 +6,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.jdbc.core.JdbcTemplate;
 
-
-import com.sjb.wuwaechorank.dao.attribute.AttributeDao;
+import com.sjb.wuwaechorank.dao.entity.attribute.AttributeDao;
 import com.sjb.wuwaechorank.entity.Attribute;
+import com.sjb.wuwaechorank.util.test.DaoTestUtil;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -17,11 +17,13 @@ import java.util.List;
 
 @SpringBootTest
 public class AttributeDaoTest {
-    @Autowired
-    AttributeDao attributeDao;
+    private static final String TABLE_NAME = "attribute";
 
     @Autowired
-    JdbcTemplate jdbcTemplate;
+    DaoTestUtil daoTestUtil;
+
+    @Autowired
+    AttributeDao attributeDao;
 
     private Attribute attribute1;
     private Attribute attribute2;
@@ -29,9 +31,7 @@ public class AttributeDaoTest {
 
     @BeforeEach
     void setUp(){
-        this.jdbcTemplate.execute("SET FOREIGN_KEY_CHECKS = 0");
-        this.jdbcTemplate.execute("TRUNCATE TABLE attribute");
-        this.jdbcTemplate.execute("SET FOREIGN_KEY_CHECKS = 1");
+        daoTestUtil.initTable(TABLE_NAME);
         this.attribute1 = new Attribute(1, "용융", "asdf/qwer/a.jpg");
         this.attribute2 = new Attribute(2, "회절", "asdf/qwer/b.jpg");
         this.attribute3 = new Attribute(3, "전도", "asdf/qwer/c.jpg");
@@ -76,5 +76,11 @@ public class AttributeDaoTest {
         assertEquals(1, attribute.getId()); 
         assertEquals("응결", attribute.getName()); 
         assertEquals("asdf/qwer/d.jpg", attribute.getImagePath()); 
+    }
+    @Test
+    void getName(){
+        this.attributeDao.add(this.attribute1);
+        String name = this.attributeDao.getName(1);
+        assertEquals("용융", name);
     }
 }

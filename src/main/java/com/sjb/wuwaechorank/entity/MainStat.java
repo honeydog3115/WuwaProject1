@@ -1,5 +1,7 @@
 package com.sjb.wuwaechorank.entity;
 
+import com.sjb.wuwaechorank.customannotation.PrimaryKey;
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -11,6 +13,7 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 public class MainStat {
+    @PrimaryKey
     private int id;
     private String name;
     private String value;

@@ -11,11 +11,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.dao.DuplicateKeyException;
 
-import com.sjb.wuwaechorank.dao.sonataeffect.SonataEffectDao;
+import com.sjb.wuwaechorank.dao.entity.sonataeffect.SonataEffectDao;
 import com.sjb.wuwaechorank.entity.SonataEffect;
+import com.sjb.wuwaechorank.util.test.DaoTestUtil;
 
 @SpringBootTest
 public class SonataEffectDaoTest {
+    private static final String TABLE_NAME = "sonataEffect";
+    @Autowired
+    DaoTestUtil daoTestUtil;
+
     @Autowired
     SonataEffectDao sonataEffectDao;
 
@@ -25,7 +30,8 @@ public class SonataEffectDaoTest {
 
     @BeforeEach
     void setUp(){
-        this.sonataEffectDao.init();
+        daoTestUtil.initTable(TABLE_NAME);
+        
         this.sontaEffect1 = new SonataEffect(1, "야밤의 서리", "asdf/qwer/a.jpg");
         this.sontaEffect2 = new SonataEffect(2, "솟구치는 용암", "asdf/qwer/b.jpg");
         this.sontaEffect3 = new SonataEffect(3, "울려퍼지는 뇌음", "asdf/qwer/c.jpg");
@@ -60,16 +66,6 @@ public class SonataEffectDaoTest {
         assertEquals(0, this.sonataEffectDao.getCount());
     }
 
-    @Test
-    void deleteAll(){
-        this.sonataEffectDao.add(sontaEffect1);
-        this.sonataEffectDao.add(sontaEffect2);
-        this.sonataEffectDao.add(sontaEffect3);
-        this.sonataEffectDao.deleteAll();
-
-        assertEquals(0, this.sonataEffectDao.getCount());
-    }
-    
     @Test
     void update(){
         this.sonataEffectDao.add(sontaEffect1);

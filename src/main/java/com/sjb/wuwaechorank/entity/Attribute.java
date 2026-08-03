@@ -1,6 +1,6 @@
 package com.sjb.wuwaechorank.entity;
 
-import com.sjb.wuwaechorank.dao.PrimaryKey;
+import com.sjb.wuwaechorank.customannotation.PrimaryKey;
 
 public class Attribute{
     @PrimaryKey

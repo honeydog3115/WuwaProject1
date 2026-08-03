@@ -1,6 +1,9 @@
 package com.sjb.wuwaechorank.entity;
 
+import com.sjb.wuwaechorank.customannotation.PrimaryKey;
+
 public class Weapon {
+    @PrimaryKey
     private int id;
     private String name;
     private String imagePath;

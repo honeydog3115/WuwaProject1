@@ -11,12 +11,19 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.dao.DuplicateKeyException;
+import org.springframework.jdbc.core.JdbcTemplate;
 
-import com.sjb.wuwaechorank.dao.weapon.WeaponDao;
+import com.sjb.wuwaechorank.dao.entity.weapon.WeaponDao;
 import com.sjb.wuwaechorank.entity.Weapon;
+import com.sjb.wuwaechorank.util.test.DaoTestUtil;
 
 @SpringBootTest
 public class WeaponDaoTest {
+    private static final String TABLE_NAME = "weapon";
+
+    @Autowired
+    DaoTestUtil daoTestUtil;
+
     @Autowired
     private WeaponDao weaponDao;
 
@@ -27,7 +34,8 @@ public class WeaponDaoTest {
 
     @BeforeEach
     void setUp(){
-        this.weaponDao.init();
+        daoTestUtil.initTable(TABLE_NAME);
+
         this.weapon1 = new Weapon(1, "직검", "asdf/qwer/a.jpg");
         this.weapon2 = new Weapon(2, "권갑", "asdf/qwer/b.jpg");
         this.weapon3 = new Weapon(3, "권총", "asdf/qwer/c.jpg");
@@ -57,17 +65,6 @@ public class WeaponDaoTest {
     void delete(){
         this.weaponDao.add(weapon1);
         this.weaponDao.delete(weapon1.getId());
-        assertEquals(0, this.weaponDao.getCount());
-    }
-
-    @Test
-    void deleteAll(){
-        this.weaponDao.add(weapon1);
-        this.weaponDao.add(weapon2);
-        this.weaponDao.add(weapon3);
-
-        this.weaponDao.deleteAll();
-
         assertEquals(0, this.weaponDao.getCount());
     }
 
