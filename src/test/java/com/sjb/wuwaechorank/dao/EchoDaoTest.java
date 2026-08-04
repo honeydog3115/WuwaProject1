@@ -1,0 +1,115 @@
+package com.sjb.wuwaechorank.dao;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
+import java.sql.SQLIntegrityConstraintViolationException;
+import java.util.List;
+
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.dao.DataIntegrityViolationException;
+
+import com.sjb.wuwaechorank.dao.entity.echo.EchoDao;
+import com.sjb.wuwaechorank.dao.entity.sonataeffect.SonataEffectDao;
+import com.sjb.wuwaechorank.entity.Echo;
+import com.sjb.wuwaechorank.entity.SonataEffect;
+import com.sjb.wuwaechorank.entity.SubStatInfo;
+import com.sjb.wuwaechorank.util.test.DaoSqlErrorCode;
+import com.sjb.wuwaechorank.util.test.DaoTestUtil;
+
+@SpringBootTest
+public class EchoDaoTest {
+    private static final String TABLE_NAME = "echo";
+    private static final String REFERENCE_TABLE_NAME = "sonataeffect";
+
+    @Autowired
+    DaoTestUtil daoTestUtil;
+
+    @Autowired
+    EchoDao echoDao;
+
+    @Autowired
+    SonataEffectDao sonataEffectDao;
+
+    Echo echo1;
+    Echo echo2;
+    Echo echo3;
+    SonataEffect sonataEffect1;
+
+    @BeforeEach
+    void setUp(){
+        daoTestUtil.initTable(TABLE_NAME);
+        daoTestUtil.initTable(REFERENCE_TABLE_NAME);
+        echo1 = new Echo(1, "꾹꾹복어", 1, "1COST", "asdf/qwer/a.jpg");
+        echo2 = new Echo(2, "타종거북이", 1, "4COST", "asdf/qwer/b.jpg");
+        echo3 = new Echo(3, "화살곰", 1, "3COST", "asdf/qwer/c.jpg");
+        sonataEffect1 = new SonataEffect(1, "야밤의 서리", "asdf/qwer/a.jpg");
+        this.sonataEffectDao.add(sonataEffect1);
+    }
+
+    @Test
+    void addAndGet(){
+        this.echoDao.add(echo1);
+        
+        Echo echo = this.echoDao.get(1);
+        assertEquals(echo1.getId(), echo.getId());
+        assertEquals(echo1.getSonataEffectId(), echo.getSonataEffectId());
+        assertEquals(echo1.getName(), echo.getName());
+        assertEquals(echo1.getImagePath(), echo.getImagePath());
+    }
+
+    @Test
+    void getAll(){
+        this.echoDao.add(echo1);
+        this.echoDao.add(echo2);
+        this.echoDao.add(echo3);
+
+        List<Echo> echos = this.echoDao.getAll();
+
+        assertEquals(3, echos.size());
+    }
+    
+    @Test
+    void deleteAndCount(){
+        this.echoDao.add(echo1);
+        
+        this.echoDao.delete(1);
+        assertEquals(0, this.echoDao.getCount());
+    }
+    
+    @Test
+    void update(){
+        this.echoDao.add(echo1);
+        
+        this.echoDao.update(1, echo2);
+        Echo echo = this.echoDao.get(1);
+
+        assertEquals(1, echo.getId());
+        assertEquals(echo2.getName(), echo.getName());
+        assertEquals(echo2.getSonataEffectId(), echo.getSonataEffectId());
+        assertEquals(echo2.getCost(), echo.getCost());
+        assertEquals(echo2.getImagePath(), echo.getImagePath());
+    }
+    
+    @Test
+    void foreignKeyConstraintFail(){
+        this.echo1.setSonataEffectId(2);
+        
+        try {
+            this.echoDao.add(echo1);            
+        } catch (DataIntegrityViolationException e) {
+            assertEquals("SQLIntegrityConstraintViolationException", e.getMostSpecificCause().getClass().getSimpleName());
+            SQLIntegrityConstraintViolationException sqlException = (SQLIntegrityConstraintViolationException)e.getCause();
+            assertEquals(DaoSqlErrorCode.FOREIGN_KEY_CONSTRAINT_FAIL, sqlException.getErrorCode());
+        }
+    }
+
+    @Test
+    void cascadeDelete(){
+        this.echoDao.add(echo1);
+        this.sonataEffectDao.delete(1);
+        assertEquals(0, this.echoDao.getCount()); 
+    }
+}
