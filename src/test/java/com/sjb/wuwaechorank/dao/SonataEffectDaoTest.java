@@ -30,7 +30,7 @@ public class SonataEffectDaoTest {
 
     @BeforeEach
     void setUp(){
-        daoTestUtil.initTable(TABLE_NAME);
+        daoTestUtil.initTables(TABLE_NAME);
         
         this.sontaEffect1 = new SonataEffect(1, "야밤의 서리", "asdf/qwer/a.jpg");
         this.sontaEffect2 = new SonataEffect(2, "솟구치는 용암", "asdf/qwer/b.jpg");

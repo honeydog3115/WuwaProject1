@@ -31,7 +31,7 @@ public class MainStatDaoTest {
 
     @BeforeEach
     void setUp(){
-        this.daoTestUtil.initTable(TABLE_NAME);
+        this.daoTestUtil.initTables(TABLE_NAME);
         
         this.mainstat1 = new MainStat(1, "공격력", "30.5", "asdf/qwer/a.jpg");
         this.mainstat2 = new MainStat(2, "방어력", "10", "asdf/qwer/b.jpg");

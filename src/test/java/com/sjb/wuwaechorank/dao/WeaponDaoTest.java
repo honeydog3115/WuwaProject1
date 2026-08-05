@@ -34,7 +34,7 @@ public class WeaponDaoTest {
 
     @BeforeEach
     void setUp(){
-        daoTestUtil.initTable(TABLE_NAME);
+        daoTestUtil.initTables(TABLE_NAME);
 
         this.weapon1 = new Weapon(1, "직검", "asdf/qwer/a.jpg");
         this.weapon2 = new Weapon(2, "권갑", "asdf/qwer/b.jpg");

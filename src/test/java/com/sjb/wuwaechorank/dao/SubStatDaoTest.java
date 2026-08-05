@@ -31,7 +31,7 @@ public class SubStatDaoTest {
 
     @BeforeEach
     void setUp(){
-        daoTestUtil.initTable(TABLE_NAME);
+        daoTestUtil.initTables(TABLE_NAME);
 
         this.subStat1 = new SubStat(1, "체력%");
         this.subStat2 = new SubStat(2, "크리티컬 확률");

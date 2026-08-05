@@ -31,7 +31,7 @@ public class AttributeDaoTest {
 
     @BeforeEach
     void setUp(){
-        daoTestUtil.initTable(TABLE_NAME);
+        daoTestUtil.initTables(TABLE_NAME);
         this.attribute1 = new Attribute(1, "용융", "asdf/qwer/a.jpg");
         this.attribute2 = new Attribute(2, "회절", "asdf/qwer/b.jpg");
         this.attribute3 = new Attribute(3, "전도", "asdf/qwer/c.jpg");

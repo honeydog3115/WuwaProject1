@@ -1,10 +1,16 @@
 package com.sjb.wuwaechorank.util.test;
 
 import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
+import java.util.Objects;
 import java.util.Set;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.AnnotatedBeanDefinition;
 import org.springframework.beans.factory.config.BeanDefinition;
@@ -15,6 +21,8 @@ import org.springframework.core.type.filter.TypeFilter;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
 import org.springframework.util.ClassUtils;
+import org.springframework.util.ReflectionUtils;
+import org.springframework.util.StringUtils;
 
 import com.sjb.wuwaechorank.customannotation.Entity;
 import com.sjb.wuwaechorank.customannotation.ForeignKey;
@@ -22,30 +30,11 @@ import com.sjb.wuwaechorank.customannotation.ForeignKey;
 @Component
 public class DaoTestUtil {
     private final JdbcTemplate jdbcTemplate;
-    private final String ENTITY_PATH = "com.sjb.wuwaechorank.entity";
-    private List<Class<?>> tables = new ArrayList<>();
+    private TestFixture testFixture;
 
-    public DaoTestUtil(JdbcTemplate jdbcTemplate){
+    public DaoTestUtil(JdbcTemplate jdbcTemplate, TestFixture testFixture){
         this.jdbcTemplate = jdbcTemplate;
-
-        ClassPathScanningCandidateComponentProvider scanner = new ClassPathScanningCandidateComponentProvider(false);
-        scanner.addIncludeFilter(new AnnotationTypeFilter(Entity.class));
-        Set<BeanDefinition> beanDefs = scanner.findCandidateComponents(ENTITY_PATH);
-        try {
-            for (BeanDefinition beanDef : beanDefs) {
-                this.tables.add(ClassUtils.forName(beanDef.getBeanClassName(), ClassUtils.getDefaultClassLoader()));
-            }
-        } catch (ClassNotFoundException e) {
-            System.out.println("Entity의 클래스를 찾지 못 했습니다. 에러: " + e);
-        } catch (LinkageError e) {
-            System.out.println("클래스 로딩에 실패했습니다. 에러: " + e);
-        }
-    }
-
-    public void initTable(String tableName){
-        this.jdbcTemplate.execute("SET FOREIGN_KEY_CHECKS = 0");
-        this.jdbcTemplate.execute("TRUNCATE TABLE "+ tableName);
-        this.jdbcTemplate.execute("SET FOREIGN_KEY_CHECKS = 1");
+        this.testFixture = testFixture;
     }
     
     public void initTables(String... tableNames){
@@ -55,47 +44,28 @@ public class DaoTestUtil {
         }
         this.jdbcTemplate.execute("SET FOREIGN_KEY_CHECKS = 1");
     }
-
-    public void createEntity(Object entity){
-
-
-    }
-    public void findEntity(Class<?> entity){
-        try {
-            Object[] tables = Arrays.stream(entity.getFields())
-                                .filter(field->field.isAnnotationPresent(ForeignKey.class))
-                                .map(Field::getName)
-                                .map(foreignKeyName->foreignKeyName.replaceAll("Id$", ""))
-                                .map(tableName -> ClassUtils.forName(tableName, ClassUtils.getDefaultClassLoader()))
-                                .toArray();
-            if (tables.length != 0){
-                for (Object table : tables) {
-                    this.findEntity((Class<?>)table);
-                }
+    
+    public void initTableWithForeignKey(TestFixture testFixture){
+        Map<Object, Object> refEntityAndDao = testFixture.getReferenceEntityAndDaoMap();
+        this.jdbcTemplate.execute("SET FOREIGN_KEY_CHECKS = 0");
+        for (Object entity : refEntityAndDao.keySet()) {
+            this.jdbcTemplate.execute("TRUNCATE TABLE "+ entity.getClass().getSimpleName());
+            Object dao = refEntityAndDao.get(entity);
+            try {
+                Method daoAdd = dao.getClass().getMethod("add",Object.class);
+                daoAdd.invoke(dao, entity);
+            } catch (NoSuchMethodException e) {
+                System.out.println(dao.getClass().getSimpleName() + "는 add()가 존재하지 않습니다." + e);
+            } catch (IllegalAccessException e){
+                System.out.println(dao.getClass().getSimpleName() + "의 add()에 대한 접근이 잘 못되었습니다." + e);
+            } catch (InvocationTargetException e){
+                System.out.println(dao.getClass().getSimpleName() + "의 add()를 실행 중 내부에서 예외가 발생했습니다." + e);
             }
-            else{
-                Arrays.stream(tables).map(table->(Class<?>)table).map(table->table.getcon)
-            }
-        } catch (ClassNotFoundException e) {
-            System.out.println("Entity의 클래스를 찾지 못 했습니다. 에러: " + e);
-        } catch (LinkageError e) {
-            System.out.println("클래스 로딩에 실패했습니다. 에러: " + e);
-        }
-        
-
-        for (Object field : fields){
-            Field foreignKey = (Field)field;
-            ClassUtils.forName(foreignKey.getName(), ) 
-        }
-
-        for (Object field : fields) {
-            Field foreignKey = (Field)field;
-            for (Class<?> table : tables) {
-                if (foreignKey.getName().contains(table.getSimpleName())){
-                    this.findEntity(table);
-                }
-            }
-        }
+        } 
+        this.jdbcTemplate.execute("SET FOREIGN_KEY_CHECKS = 1");
     }
 
+    public void addEntityTable(TestFixture testFixture){
+
+    }
 }

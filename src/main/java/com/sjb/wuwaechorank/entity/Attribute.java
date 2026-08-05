@@ -2,43 +2,23 @@ package com.sjb.wuwaechorank.entity;
 
 import com.sjb.wuwaechorank.customannotation.PrimaryKey;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
+@NoArgsConstructor
+@AllArgsConstructor
+@Getter
+@Setter
+@Builder
 public class Attribute{
     @PrimaryKey
-    private int id;
-    private String name;
-    private String imagePath;
-
-    public Attribute(){
-
-    }
-
-    public Attribute(int id, String name, String imagePath){
-        this.id = id;
-        this.name = name;
-        this.imagePath = imagePath;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public String getImagePath() {
-        return imagePath;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public void setImagePath(String imagePath) {
-        this.imagePath = imagePath;
-    }
+    @Builder.Default
+    private int id=1;
+    @Builder.Default
+    private String name= "용융";
+    @Builder.Default
+    private String imagePath="asdf/qewr/a.jpg";
 }

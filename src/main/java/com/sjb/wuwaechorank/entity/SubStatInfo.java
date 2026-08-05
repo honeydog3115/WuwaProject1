@@ -1,8 +1,10 @@
 package com.sjb.wuwaechorank.entity;
 
+import com.sjb.wuwaechorank.customannotation.ForeignKey;
 import com.sjb.wuwaechorank.customannotation.PrimaryKey;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -11,10 +13,16 @@ import lombok.Setter;
 @AllArgsConstructor
 @Getter
 @Setter
+@Builder
 public class SubStatInfo {
     @PrimaryKey
-    int id;
-    int SubStatId;
-    String value;
-    String chance;
+    @Builder.Default
+    int id = 1;
+    @ForeignKey
+    @Builder.Default
+    int SubStatId = 1;
+    @Builder.Default
+    String value = "8.5%";
+    @Builder.Default
+    String chance = "10%";
 }

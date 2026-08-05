@@ -40,8 +40,8 @@ public class SubStatInfoDaoTest {
 
     @BeforeEach
     void setUp(){
-        daoTestUtil.initTable(TABLE_NAME);
-        daoTestUtil.initTable(REFERENCE_TABLE_NAME);
+        daoTestUtil.initTables(TABLE_NAME);
+        daoTestUtil.initTables(REFERENCE_TABLE_NAME);
 
         subStatInfo1 = new SubStatInfo(1, 1, "15.5%", "12.1%");
         subStatInfo2 = new SubStatInfo(2, 1, "12.0%", "23.7%");

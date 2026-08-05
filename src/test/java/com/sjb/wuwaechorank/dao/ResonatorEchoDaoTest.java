@@ -23,65 +23,39 @@ import com.sjb.wuwaechorank.entity.SonataEffect;
 import com.sjb.wuwaechorank.entity.SubStat;
 import com.sjb.wuwaechorank.util.test.DaoSqlErrorCode;
 import com.sjb.wuwaechorank.util.test.DaoTestUtil;
+import com.sjb.wuwaechorank.util.test.TestFixture;
 
 @SpringBootTest
 public class ResonatorEchoDaoTest {
     private static final String TABLE_NAME = "resonatorecho";
-    private static final String REFERENCE_TABLE_ECHO = "echo";
-    private static final String REFERENCE_TABLE_MAINSTAT = "mainstat";
-    private static final String REFERENCE_TABLE_SUBSTAT = "substat";
-    private static final String REFERENCE_TABLE_SONATAEFFECT = "sonataeffect";
 
     @Autowired
     DaoTestUtil daoTestUtil;
 
     @Autowired
-    ResonatorEchoDao resonatorEchoDao;
+    TestFixture testFixture;
 
     @Autowired
-    EchoDao echoDao;
-    @Autowired
-    MainStatDao mainStatDao;
-    @Autowired
-    SubStatDao subStatDao;
-    @Autowired
-    SonataEffectDao sonataEffectDao;
+    ResonatorEchoDao resonatorEchoDao;
 
     ResonatorEcho resonatorEcho1;
     ResonatorEcho resonatorEcho2;
     ResonatorEcho resonatorEcho3;
 
-    Echo echo1;
-    MainStat mainStat1;
-    SubStat subStat1;
-    SonataEffect sonataEffect1;
-
     @BeforeEach
     void setUp(){
-        daoTestUtil.initTable(TABLE_NAME);
-        daoTestUtil.initTable(REFERENCE_TABLE_SONATAEFFECT);
-        daoTestUtil.initTable(REFERENCE_TABLE_ECHO);
-        daoTestUtil.initTable(REFERENCE_TABLE_MAINSTAT);
-        daoTestUtil.initTable(REFERENCE_TABLE_SUBSTAT);
+        testFixture.setReferenceEntity(ResonatorEcho.class);
+        daoTestUtil.initTables(TABLE_NAME);
+        daoTestUtil.initTableWithForeignKey(testFixture);
 
         this.resonatorEcho1 = new ResonatorEcho(1, 1, 1, 1, 50);
         this.resonatorEcho2 = new ResonatorEcho(2, 1, 1, 1, 50);
         this.resonatorEcho3 = new ResonatorEcho(3, 1, 1, 1, 50);
-
-        this.echo1 = new Echo(1,"꾹꾹복어", 1, "1COST", "asdf/qwer/a.jpg");
-        this.mainStat1 = new MainStat(1, "공격력%", "12.5%", "asdf/qwer/a.jpg");
-        this.subStat1 = new SubStat(1, "체력%");
-        this.sonataEffect1 = new SonataEffect(1, "야밤의 서리", "asdf/qwer/a.jpg");
-        this.sonataEffectDao.add(sonataEffect1);
-        this.echoDao.add(echo1);
-        this.mainStatDao.add(mainStat1);
-        this.subStatDao.add(subStat1);
     }
 
     @Test
     void addAndGet(){
         this.resonatorEchoDao.add(resonatorEcho1);
-        
         ResonatorEcho resonatorEcho = this.resonatorEchoDao.get(1);
         assertEquals(resonatorEcho1.getId(), resonatorEcho.getId());
         assertEquals(resonatorEcho1.getEchoId(), resonatorEcho.getEchoId());

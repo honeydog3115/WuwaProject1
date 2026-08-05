@@ -40,8 +40,8 @@ public class EchoDaoTest {
 
     @BeforeEach
     void setUp(){
-        daoTestUtil.initTable(TABLE_NAME);
-        daoTestUtil.initTable(REFERENCE_TABLE_NAME);
+        daoTestUtil.initTables(TABLE_NAME);
+        daoTestUtil.initTables(REFERENCE_TABLE_NAME);
         echo1 = new Echo(1, "꾹꾹복어", 1, "1COST", "asdf/qwer/a.jpg");
         echo2 = new Echo(2, "타종거북이", 1, "4COST", "asdf/qwer/b.jpg");
         echo3 = new Echo(3, "화살곰", 1, "3COST", "asdf/qwer/c.jpg");
