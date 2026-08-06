@@ -15,8 +15,8 @@ import com.sjb.wuwaechorank.dao.entity.substat.SubStatDao;
 import com.sjb.wuwaechorank.dao.entity.substatinfo.SubStatInfoDao;
 import com.sjb.wuwaechorank.entity.SubStat;
 import com.sjb.wuwaechorank.entity.SubStatInfo;
-import com.sjb.wuwaechorank.util.test.DaoSqlErrorCode;
-import com.sjb.wuwaechorank.util.test.DaoTestUtil;
+import com.sjb.wuwaechorank.util.DaoSqlErrorCode;
+import com.sjb.wuwaechorank.util.DaoJDBCUtil;
 
 @SpringBootTest
 public class SubStatInfoDaoTest {
@@ -24,7 +24,7 @@ public class SubStatInfoDaoTest {
     private static final String REFERENCE_TABLE_NAME = "substat";
 
     @Autowired
-    DaoTestUtil daoTestUtil;
+    DaoJDBCUtil daoTestUtil;
 
     @Autowired
     SubStatInfoDao subStatInfoDao;

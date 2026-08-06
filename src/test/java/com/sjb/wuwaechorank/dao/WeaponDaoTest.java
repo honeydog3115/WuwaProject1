@@ -15,14 +15,14 @@ import org.springframework.jdbc.core.JdbcTemplate;
 
 import com.sjb.wuwaechorank.dao.entity.weapon.WeaponDao;
 import com.sjb.wuwaechorank.entity.Weapon;
-import com.sjb.wuwaechorank.util.test.DaoTestUtil;
+import com.sjb.wuwaechorank.util.DaoJDBCUtil;
 
 @SpringBootTest
 public class WeaponDaoTest {
     private static final String TABLE_NAME = "weapon";
 
     @Autowired
-    DaoTestUtil daoTestUtil;
+    DaoJDBCUtil daoTestUtil;
 
     @Autowired
     private WeaponDao weaponDao;

@@ -7,30 +7,30 @@ import java.util.List;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.transaction.annotation.Transactional;
 
-import com.sjb.wuwaechorank.dao.entity.echo.EchoDao;
-import com.sjb.wuwaechorank.dao.entity.mainstat.MainStatDao;
 import com.sjb.wuwaechorank.dao.entity.resonatorecho.ResonatorEchoDao;
-import com.sjb.wuwaechorank.dao.entity.sonataeffect.SonataEffectDao;
-import com.sjb.wuwaechorank.dao.entity.substat.SubStatDao;
 import com.sjb.wuwaechorank.entity.Echo;
 import com.sjb.wuwaechorank.entity.MainStat;
 import com.sjb.wuwaechorank.entity.ResonatorEcho;
 import com.sjb.wuwaechorank.entity.SonataEffect;
 import com.sjb.wuwaechorank.entity.SubStat;
-import com.sjb.wuwaechorank.util.test.DaoSqlErrorCode;
-import com.sjb.wuwaechorank.util.test.DaoTestUtil;
-import com.sjb.wuwaechorank.util.test.TestFixture;
+import com.sjb.wuwaechorank.util.DaoSqlErrorCode;
+import com.sjb.wuwaechorank.util.DaoTestUtil;
+import com.sjb.wuwaechorank.util.DaoJDBCUtil;
+import com.sjb.wuwaechorank.util.TestFixture;
 
 @SpringBootTest
 public class ResonatorEchoDaoTest {
     private static final String TABLE_NAME = "resonatorecho";
 
     @Autowired
-    DaoTestUtil daoTestUtil;
+    DaoJDBCUtil daoJDBCUtil;
 
     @Autowired
     TestFixture testFixture;
@@ -44,9 +44,10 @@ public class ResonatorEchoDaoTest {
 
     @BeforeEach
     void setUp(){
-        testFixture.setReferenceEntity(ResonatorEcho.class);
-        daoTestUtil.initTables(TABLE_NAME);
-        daoTestUtil.initTableWithForeignKey(testFixture);
+        testFixture.createReferenceEntity(ResonatorEcho.class);
+        daoJDBCUtil.setTestFixture(testFixture);
+        daoJDBCUtil.initTables(TABLE_NAME);
+        daoJDBCUtil.initReferenceTables();
 
         this.resonatorEcho1 = new ResonatorEcho(1, 1, 1, 1, 50);
         this.resonatorEcho2 = new ResonatorEcho(2, 1, 1, 1, 50);
@@ -99,55 +100,25 @@ public class ResonatorEchoDaoTest {
     @Test
     void foreignKeyConstraintFail(){
         resonatorEcho1.setEchoId(2);
-        try {
-            this.resonatorEchoDao.add(resonatorEcho1);            
-        } catch (DataIntegrityViolationException e) {
-            assertEquals("SQLIntegrityConstraintViolationException", e.getMostSpecificCause().getClass().getSimpleName());
-            SQLIntegrityConstraintViolationException sqlException = (SQLIntegrityConstraintViolationException)e.getCause();
-            assertEquals(DaoSqlErrorCode.FOREIGN_KEY_CONSTRAINT_FAIL, sqlException.getErrorCode());
-        }
+        DaoTestUtil.foreignKeyConstraintViolationTest(()->this.resonatorEchoDao.add(resonatorEcho1));
         
         resonatorEcho1.setMainStatId(2);
-        try {
-            this.resonatorEchoDao.add(resonatorEcho1);            
-        } catch (DataIntegrityViolationException e) {
-            assertEquals("SQLIntegrityConstraintViolationException", e.getMostSpecificCause().getClass().getSimpleName());
-            SQLIntegrityConstraintViolationException sqlException = (SQLIntegrityConstraintViolationException)e.getCause();
-            assertEquals(DaoSqlErrorCode.FOREIGN_KEY_CONSTRAINT_FAIL, sqlException.getErrorCode());
-        }
-
+        DaoTestUtil.foreignKeyConstraintViolationTest(()->this.resonatorEchoDao.add(resonatorEcho1));
+        
         resonatorEcho1.setSubStatId(2);
-        try {
-            this.resonatorEchoDao.add(resonatorEcho1);            
-        } catch (DataIntegrityViolationException e) {
-            assertEquals("SQLIntegrityConstraintViolationException", e.getMostSpecificCause().getClass().getSimpleName());
-            SQLIntegrityConstraintViolationException sqlException = (SQLIntegrityConstraintViolationException)e.getCause();
-            assertEquals(DaoSqlErrorCode.FOREIGN_KEY_CONSTRAINT_FAIL, sqlException.getErrorCode());
-        }
+        DaoTestUtil.foreignKeyConstraintViolationTest(()->this.resonatorEchoDao.add(resonatorEcho1));
     }
 
-    @Test
-    void cascadeDeleteBySonataEffect(){
+    @ParameterizedTest(name = "{0} 삭제시 Cascade 삭제 검증")
+    @ValueSource(classes = {
+        SonataEffect.class,
+        Echo.class,
+        MainStat.class,
+        SubStat.class
+    })
+    void cascadeDeleteByRefEntity(Class<?> refEntityClass){
         this.resonatorEchoDao.add(resonatorEcho1);
-        this.sonataEffectDao.delete(1);
-        assertEquals(0, this.resonatorEchoDao.getCount()); 
-    }
-    @Test
-    void cascadeDeleteByEcho(){
-        this.resonatorEchoDao.add(resonatorEcho1);
-        this.echoDao.delete(1);
-        assertEquals(0, this.resonatorEchoDao.getCount()); 
-    }
-    @Test
-    void cascadeDeleteByMainStat(){
-        this.resonatorEchoDao.add(resonatorEcho1);
-        this.mainStatDao.delete(1);
-        assertEquals(0, this.resonatorEchoDao.getCount()); 
-    }
-    @Test
-    void cascadeDeleteBySubStat(){
-        this.resonatorEchoDao.add(resonatorEcho1);
-        this.subStatDao.delete(1);
-        assertEquals(0, this.resonatorEchoDao.getCount()); 
+        daoJDBCUtil.deleteRefEntity(refEntityClass);
+        assertEquals(0, this.resonatorEchoDao.getCount());
     }
 }

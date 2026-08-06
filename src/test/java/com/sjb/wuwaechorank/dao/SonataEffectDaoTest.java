@@ -13,13 +13,13 @@ import org.springframework.dao.DuplicateKeyException;
 
 import com.sjb.wuwaechorank.dao.entity.sonataeffect.SonataEffectDao;
 import com.sjb.wuwaechorank.entity.SonataEffect;
-import com.sjb.wuwaechorank.util.test.DaoTestUtil;
+import com.sjb.wuwaechorank.util.DaoJDBCUtil;
 
 @SpringBootTest
 public class SonataEffectDaoTest {
     private static final String TABLE_NAME = "sonataEffect";
     @Autowired
-    DaoTestUtil daoTestUtil;
+    DaoJDBCUtil daoTestUtil;
 
     @Autowired
     SonataEffectDao sonataEffectDao;

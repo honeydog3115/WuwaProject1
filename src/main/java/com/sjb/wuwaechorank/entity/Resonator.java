@@ -1,5 +1,6 @@
 package com.sjb.wuwaechorank.entity;
 
+import com.sjb.wuwaechorank.customannotation.ForeignKey;
 import com.sjb.wuwaechorank.customannotation.PrimaryKey;
 
 import lombok.AllArgsConstructor;
@@ -7,22 +8,26 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import lombok.Builder.Default;
 
-// 주음속성
+@NoArgsConstructor
+@AllArgsConstructor
 @Getter
 @Setter
-@AllArgsConstructor
-@NoArgsConstructor
 @Builder
-public class MainStat {
+public class Resonator {
     @PrimaryKey
     @Builder.Default
-    private int id = 1;
+    int id = 1;
     @Builder.Default
-    private String name = "공격력";
+    String name = "방랑자";
+    @ForeignKey
     @Builder.Default
-    private String value = "12.5%";
+    int attributeId = 1;
+    @ForeignKey
     @Builder.Default
-    private String imagePath = "asdf/qwer/a.jpg";
+    int weaponId = 1;
+    @Builder.Default
+    int star = 5;
+    @Builder.Default
+    String imagePath = "asdf/qwer/a.jpg";
 }

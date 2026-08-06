@@ -8,7 +8,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 
 import com.sjb.wuwaechorank.dao.entity.attribute.AttributeDao;
 import com.sjb.wuwaechorank.entity.Attribute;
-import com.sjb.wuwaechorank.util.test.DaoTestUtil;
+import com.sjb.wuwaechorank.util.DaoJDBCUtil;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -20,7 +20,7 @@ public class AttributeDaoTest {
     private static final String TABLE_NAME = "attribute";
 
     @Autowired
-    DaoTestUtil daoTestUtil;
+    DaoJDBCUtil daoTestUtil;
 
     @Autowired
     AttributeDao attributeDao;

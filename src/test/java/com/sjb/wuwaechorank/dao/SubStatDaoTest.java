@@ -13,14 +13,14 @@ import org.springframework.dao.DuplicateKeyException;
 
 import com.sjb.wuwaechorank.dao.entity.substat.SubStatDao;
 import com.sjb.wuwaechorank.entity.SubStat;
-import com.sjb.wuwaechorank.util.test.DaoTestUtil;
+import com.sjb.wuwaechorank.util.DaoJDBCUtil;
 
 @SpringBootTest
 public class SubStatDaoTest {
     private static final String TABLE_NAME = "substat";
 
     @Autowired
-    DaoTestUtil daoTestUtil;
+    DaoJDBCUtil daoTestUtil;
 
     @Autowired
     SubStatDao subStatDao;

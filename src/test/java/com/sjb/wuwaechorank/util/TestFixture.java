@@ -1,4 +1,4 @@
-package com.sjb.wuwaechorank.util.test;
+package com.sjb.wuwaechorank.util;
 
 import java.beans.Introspector;
 import java.lang.reflect.Field;
@@ -29,6 +29,7 @@ import com.sjb.wuwaechorank.customannotation.ForeignKey;
 @Component
 public class TestFixture {
     private final ApplicationContext applicationContext;
+    // 키에는 엔티티 객체가 값에는 엔티티의 Dao의 객체가 담깁니다.
     Map<Object,Object> refEntityAndDao = new HashMap<>();
     private final String ENTITY_PATH = "com.sjb.wuwaechorank.entity";
 
@@ -40,7 +41,7 @@ public class TestFixture {
         return this.refEntityAndDao;
     }
 
-    public void setReferenceEntity(Class<?> entityClass){
+    public void createReferenceEntity(Class<?> entityClass){
         List<Class<?>> refTableList = new ArrayList<>();
         findReferenceTable(entityClass, refTableList);
         Map<String, Object> daos = applicationContext.getBeansWithAnnotation(DaoInterface.class);
@@ -58,7 +59,7 @@ public class TestFixture {
                     throw new IllegalArgumentException("DAO 빈을 찾을 수 없습니다: " + daoBeanName);
                 };
                 this.refEntityAndDao.put(entity, targetDao);
-                
+
             } catch (NoSuchMethodException e) {
                 throw new IllegalStateException(refTable.getSimpleName() + "의 builder/build를 찾지 못했습니다." + e);
             } catch (IllegalAccessException e){

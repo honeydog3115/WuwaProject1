@@ -14,13 +14,13 @@ import org.springframework.jdbc.core.JdbcTemplate;
 
 import com.sjb.wuwaechorank.dao.entity.mainstat.MainStatDao;
 import com.sjb.wuwaechorank.entity.MainStat;
-import com.sjb.wuwaechorank.util.test.DaoTestUtil;
+import com.sjb.wuwaechorank.util.DaoJDBCUtil;
 
 @SpringBootTest
 public class MainStatDaoTest {
     private static final String TABLE_NAME = "mainstat";
     @Autowired
-    DaoTestUtil daoTestUtil;
+    DaoJDBCUtil daoTestUtil;
 
     @Autowired
     MainStatDao mainStatDao;

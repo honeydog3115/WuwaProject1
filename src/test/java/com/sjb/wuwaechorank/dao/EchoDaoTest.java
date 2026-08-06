@@ -16,8 +16,8 @@ import com.sjb.wuwaechorank.dao.entity.sonataeffect.SonataEffectDao;
 import com.sjb.wuwaechorank.entity.Echo;
 import com.sjb.wuwaechorank.entity.SonataEffect;
 import com.sjb.wuwaechorank.entity.SubStatInfo;
-import com.sjb.wuwaechorank.util.test.DaoSqlErrorCode;
-import com.sjb.wuwaechorank.util.test.DaoTestUtil;
+import com.sjb.wuwaechorank.util.DaoSqlErrorCode;
+import com.sjb.wuwaechorank.util.DaoJDBCUtil;
 
 @SpringBootTest
 public class EchoDaoTest {
@@ -25,7 +25,7 @@ public class EchoDaoTest {
     private static final String REFERENCE_TABLE_NAME = "sonataeffect";
 
     @Autowired
-    DaoTestUtil daoTestUtil;
+    DaoJDBCUtil daoTestUtil;
 
     @Autowired
     EchoDao echoDao;
