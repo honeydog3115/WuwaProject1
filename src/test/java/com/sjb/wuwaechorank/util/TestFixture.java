@@ -93,7 +93,7 @@ public class TestFixture {
         try {
             return ClassUtils.forName(path, ClassUtils.getDefaultClassLoader());
         } catch (ClassNotFoundException |LinkageError e) {
-            throw new IllegalArgumentException("Entity 클래스 로딩에 실패앴습니다." + path, e);
+            throw new IllegalArgumentException( tableName + " 클래스 로딩에 실패앴습니다." + path, e);
         }
     }
 

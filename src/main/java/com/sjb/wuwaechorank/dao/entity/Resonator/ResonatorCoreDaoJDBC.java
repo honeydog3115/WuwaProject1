@@ -1,4 +1,4 @@
-package com.sjb.wuwaechorank.dao.entity.Resonator;
+package com.sjb.wuwaechorank.dao.entity.resonator;
 
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;

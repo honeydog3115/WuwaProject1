@@ -13,7 +13,7 @@ import org.junit.jupiter.params.provider.ValueSources;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import com.sjb.wuwaechorank.dao.entity.Resonator.ResonatorDao;
+import com.sjb.wuwaechorank.dao.entity.resonator.ResonatorDao;
 import com.sjb.wuwaechorank.entity.Attribute;
 import com.sjb.wuwaechorank.entity.Resonator;
 import com.sjb.wuwaechorank.entity.Weapon;

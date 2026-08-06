@@ -14,19 +14,29 @@ import lombok.Setter;
 @Getter
 @Setter
 @Builder
-public class ResonatorEcho {
+public class Preset {
     @PrimaryKey
     @Builder.Default
     int id = 1;
+
+    @Builder.Default
+    String name = "방랑자 프리셋";
+    
     @ForeignKey
     @Builder.Default
-    int echoId = 1;
+    Integer userId = 1;
+    
+    @Builder.Default
+    boolean bookmark = true;
+    
     @ForeignKey
     @Builder.Default
-    Integer mainStatId = 1;
+    Integer resonatorId = 1;
+    
     @ForeignKey
     @Builder.Default
-    Integer  SubStatId = 1;
+    Integer resonatorEchoId = 1;
+    
     @Builder.Default
-    float score = 50;
+    Double echoTotalScore = 1.0;
 }

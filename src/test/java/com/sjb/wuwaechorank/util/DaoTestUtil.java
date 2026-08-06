@@ -5,7 +5,6 @@ import static org.junit.jupiter.api.Assertions.assertInstanceOf;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.sql.SQLIntegrityConstraintViolationException;
-import java.util.Arrays;
 
 import org.junit.jupiter.api.function.Executable;
 import org.springframework.dao.DataIntegrityViolationException;
