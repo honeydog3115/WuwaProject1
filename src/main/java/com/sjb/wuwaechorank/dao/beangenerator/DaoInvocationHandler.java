@@ -19,6 +19,13 @@ public class DaoInvocationHandler implements InvocationHandler {
         this.interfaceMethods = CrudDao.class.getMethods();
     }
 
+    /** 
+     * @param proxy
+     * @param method
+     * @param args
+     * @return Object
+     * @throws Throwable
+     */
     @Override
     public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
         if (method.getDeclaringClass() == Object.class) {
@@ -34,6 +41,10 @@ public class DaoInvocationHandler implements InvocationHandler {
         }
     }
 
+    /** 
+     * @param method
+     * @return boolean
+     */
     private boolean isBaseDaoMethod(Method method) {
         return Arrays.stream(this.interfaceMethods)
                 .anyMatch(
@@ -41,6 +52,12 @@ public class DaoInvocationHandler implements InvocationHandler {
                     Arrays.equals(interfaceMethod.getParameterTypes(), method.getParameterTypes()));
     }
 
+    /** 
+     * @param proxy
+     * @param method
+     * @param args
+     * @return Object
+     */
     private Object invokeObjectMethod(Object proxy,Method method,Object[] args) {
         return switch (method.getName()) {
             case "toString" ->"DAO Proxy[" + daoCore.getClass().getSimpleName() + "]";

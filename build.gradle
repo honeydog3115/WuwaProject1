@@ -71,3 +71,10 @@ jacocoTestReport{
         }))
     }
 }
+tasks.named('javadoc') {
+    options {
+        encoding = 'UTF-8'
+        docEncoding = 'UTF-8'
+        charSet = 'UTF-8'
+    }
+}

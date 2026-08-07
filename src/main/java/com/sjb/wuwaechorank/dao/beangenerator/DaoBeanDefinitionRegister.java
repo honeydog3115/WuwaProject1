@@ -12,7 +12,6 @@ import org.springframework.beans.factory.support.BeanDefinitionRegistryPostProce
 import org.springframework.context.annotation.ClassPathScanningCandidateComponentProvider;
 import org.springframework.core.type.filter.AnnotationTypeFilter;
 import org.springframework.stereotype.Component;
-import org.springframework.util.ClassUtils;
 
 import com.sjb.wuwaechorank.customannotation.DaoInterface;
 
@@ -20,6 +19,10 @@ import com.sjb.wuwaechorank.customannotation.DaoInterface;
 public class DaoBeanDefinitionRegister implements BeanDefinitionRegistryPostProcessor {
     private static final String DAO_PACKAGE = "com.sjb.wuwaechorank.dao";
 
+    /** 
+     * @param registry
+     * @throws BeansException
+     */
     @Override
     public void postProcessBeanDefinitionRegistry(BeanDefinitionRegistry registry) throws BeansException {
         ClassPathScanningCandidateComponentProvider scanner = new ClassPathScanningCandidateComponentProvider(false) {

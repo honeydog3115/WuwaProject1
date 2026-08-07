@@ -10,6 +10,10 @@ import com.sjb.wuwaechorank.customannotation.PrimaryKey;
 
 @Component
 public class BaseSqlBuilder implements SqlBuilder {
+    /** 
+     * @param clazz
+     * @return String
+     */
     public String insert(Class<?> clazz){
         Field[] fields = clazz.getDeclaredFields();
         
@@ -27,6 +31,10 @@ public class BaseSqlBuilder implements SqlBuilder {
         return sql;
     }
 
+    /** 
+     * @param clazz
+     * @return String
+     */
     public String select(Class<?> clazz){
         Field[] fields = clazz.getDeclaredFields();
         
@@ -39,11 +47,19 @@ public class BaseSqlBuilder implements SqlBuilder {
         return sql;
     }
     
+    /** 
+     * @param clazz
+     * @return String
+     */
     public String selectAll(Class<?> clazz){
         String sql = "SELECT * FROM " + clazz.getSimpleName();
         return sql;
     }
 
+    /** 
+     * @param clazz
+     * @return String
+     */
     @Override
     public String delete(Class<?> clazz) {
         Field[] fields = clazz.getDeclaredFields();
@@ -56,10 +72,18 @@ public class BaseSqlBuilder implements SqlBuilder {
         String sql = "DELETE FROM " + clazz.getSimpleName() + " WHERE " + column + "=?";
         return sql;
     }
+    /** 
+     * @param clazz
+     * @return String
+     */
     @Override
     public String count(Class<?> clazz) {
         return new String("SELECT COUNT(*) FROM " + clazz.getSimpleName());
     }
+    /** 
+     * @param clazz
+     * @return String
+     */
     @Override
     public String update(Class<?> clazz) {
         Field[] fields = clazz.getDeclaredFields();

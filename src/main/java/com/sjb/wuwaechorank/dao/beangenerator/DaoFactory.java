@@ -15,7 +15,14 @@ import com.sjb.wuwaechorank.dao.crud.CrudDao;
 import com.sjb.wuwaechorank.dao.crud.CrudDaoJDBC;
 import com.sjb.wuwaechorank.dao.crud.sqlgenerator.SqlBuilder;
 import com.sjb.wuwaechorank.dao.crud.sqlgenerator.SqlParamBuilder;
+import com.sjb.wuwaechorank.dao.entity.attribute.AttributeDao;
 
+/**
+ * 제네릭 T에 해당하는 타입의 DAO 반을 생성하는 factory 클래스입니다.<br>
+ * <p>기본 CRUD의 역할을 하는 CrudDao와 DAO의 특수 SQL을 담당하는 DaoCore를 만들어
+ * 다이나믹 프록시로 둘 사이를 조율하고 프록시를 반환합니다.<br>
+ * {@code <T>}는 생성하려는 DAO 빈의 인터페이스 타입이 들어옵니다.(ex. {@link AttributeDao})
+ */
 @Component
 public class DaoFactory<T> {
     private final JdbcTemplate jdbcTemplate;
@@ -30,6 +37,11 @@ public class DaoFactory<T> {
         this.applicationContext = applicationContext;
     }
 
+    /** 
+     * 다이나믹 프록시를 생성하는 함수입니다.
+     * @param daoInterface {@code @DaoInterface}가 붙은 Dao의 인터페이스 타입
+     * @return T 생성하려는 빈의 인터페이스 타입이 그대로 들어갑니다.
+     */
     public T create(Class<T> daoInterface){
         if (!daoInterface.isInterface()) {
             throw new IllegalArgumentException("DAO 타입은 인터페이스여야 합니다: " + daoInterface.getName());
@@ -54,7 +66,15 @@ public class DaoFactory<T> {
         return daoInterface.cast(proxy);
     }
     
+    /** 
+     * Dao 인터페이스 타입으로 
+     * @param daoInterface
+     * @return Class<?>
+     */
     private Class<?> findEntityClass(Class<?> daoInterface) {
+        // getGenericInterfaces() 는 인터페이스가 상속받는 인터페이스를 제네릭 타입을 유지하면서 가져온다.
+        // Type 배열을 반환하는데 제네릭이 있는 인터페이스가 있다면 ParameterizedType이 일반 인터페이스는 Class<?>로 나온다.
+        // 그래서 아래 코드에서 parameterizedType
         for (Type type : daoInterface.getGenericInterfaces()) {
             if (!(type instanceof ParameterizedType parameterizedType)) {
                 continue;
@@ -76,6 +96,10 @@ public class DaoFactory<T> {
         throw new IllegalArgumentException("CrudDao<T>를 찾을 수 없습니다"+ daoInterface.getName());
     }
 
+    /** 
+     * @param daoInterface
+     * @return Class<?>
+     */
     private Class<?> findCoreInterface(Class<?> daoInterface){
         Class<?>[] interfaces = daoInterface.getInterfaces();
         Class<?> daoCoreInterface = Arrays.stream(interfaces)
@@ -85,6 +109,10 @@ public class DaoFactory<T> {
         return daoCoreInterface;
     }
 
+    /** 
+     * @param entityClass
+     * @return CrudDaoJDBC<?>
+     */
     @SuppressWarnings({ "rawtypes", "unchecked" })
     private CrudDaoJDBC<?> createCrudRepository(Class<?> entityClass) {
         return new CrudDaoJDBC(jdbcTemplate, sqlBuilder, sqlParamBuilder,entityClass);

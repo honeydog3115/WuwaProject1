@@ -37,10 +37,16 @@ public class TestFixture {
         this.applicationContext = applicationContext;
     }
 
+    /** 
+     * @return Map<Object, Object>
+     */
     public Map<Object,Object> getReferenceEntityAndDaoMap(){
         return this.refEntityAndDao;
     }
 
+    /** 
+     * @param entityClass
+     */
     public void createReferenceEntity(Class<?> entityClass){
         List<Class<?>> refTableList = new ArrayList<>();
         findReferenceTable(entityClass, refTableList);
@@ -70,6 +76,9 @@ public class TestFixture {
         }
     }
 
+    /** 
+     * @param tableList
+     */
     public void findReferenceTable(Class<?> entityClass, List<Class<?>> tableList){
         List<Class<?>> refEntityClasses = Arrays.stream(entityClass.getDeclaredFields())
                             .filter(field->field.isAnnotationPresent(ForeignKey.class))
@@ -88,6 +97,10 @@ public class TestFixture {
         }
     }
 
+    /** 
+     * @param tableName
+     * @return Class<?>
+     */
     public Class<?> findClassByName(String tableName){
         String path = ENTITY_PATH + "." + tableName;
         try {

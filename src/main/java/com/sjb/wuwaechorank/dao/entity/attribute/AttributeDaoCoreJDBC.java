@@ -15,6 +15,10 @@ public class AttributeDaoCoreJDBC implements AttributeDaoCore {
         this.jdbcTemplate = jdbcTemplate;
     }
 
+    /** 
+     * @param id
+     * @return String
+     */
     @Override
     public String getName(int id){
         return this.jdbcTemplate.queryForObject("SELECT name FROM attribute WHERE id = ?", rowMapper, id).getName();

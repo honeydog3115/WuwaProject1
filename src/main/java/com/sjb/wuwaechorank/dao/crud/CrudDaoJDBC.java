@@ -4,7 +4,6 @@ import java.util.List;
 
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.stereotype.Repository;
 
 import com.sjb.wuwaechorank.dao.crud.sqlgenerator.SqlBuilder;
 import com.sjb.wuwaechorank.dao.crud.sqlgenerator.SqlParamBuilder;
@@ -24,26 +23,46 @@ public class CrudDaoJDBC<T> implements CrudDao<T> {
         this.clazz = entityClass;
         this.rowMapper = BeanPropertyRowMapper.newInstance(this.clazz);
     }
+    /** 
+     * @param entity
+     */
     @Override
     public void add(T entity) {
         this.jdbcTemplate.update(sqlBuilder.insert(clazz), sqlParamBuilder.insert(entity));
     }
+    /** 
+     * @param primaryKey
+     * @return T
+     */
     @Override
     public T get(Object primaryKey) {
         return this.jdbcTemplate.queryForObject(sqlBuilder.select(clazz), this.rowMapper, primaryKey);
     }
+    /** 
+     * @return List<T>
+     */
     @Override
     public List<T> getAll() {
         return this.jdbcTemplate.query(sqlBuilder.selectAll(clazz), this.rowMapper);
     }
+    /** 
+     * @param primaryKey
+     */
     @Override
     public void delete(Object primaryKey) {
         this.jdbcTemplate.update(sqlBuilder.delete(clazz), primaryKey);
     }
+    /** 
+     * @return int
+     */
     @Override
     public int getCount() {
         return this.jdbcTemplate.queryForObject(sqlBuilder.count(clazz), Integer.class);
     }
+    /** 
+     * @param primaryKey
+     * @param entity
+     */
     @Override
     public void update(Object primaryKey, T entity) {
         this.jdbcTemplate.update(sqlBuilder.update(clazz), sqlParamBuilder.update(entity, primaryKey));

@@ -10,6 +10,10 @@ import com.sjb.wuwaechorank.customannotation.PrimaryKey;
 
 @Component
 public class BaseSqlParamBuilder implements SqlParamBuilder {
+    /** 
+     * @param entity
+     * @return Object[]
+     */
     public Object[] insert(Object entity){
         return Arrays.stream(entity.getClass().getDeclaredFields())
                     .filter(field -> !field.isAnnotationPresent(PrimaryKey.class))
@@ -17,6 +21,11 @@ public class BaseSqlParamBuilder implements SqlParamBuilder {
                     .toArray();
     }
 
+    /** 
+     * @param entity
+     * @param primaryKey
+     * @return Object[]
+     */
     public Object[] update(Object entity, Object primaryKey){
         // Field[] fields = entity.getClass().getDeclaredFields();
         // Stream.concat(Arrays.stream(fields,1,fields.length), Stream.of(fields[0])).toArray();
@@ -29,6 +38,11 @@ public class BaseSqlParamBuilder implements SqlParamBuilder {
         return param;
     }
 
+    /** 
+     * @param field
+     * @param entity
+     * @return Object
+     */
     public <T> Object getFieldValue(Field field, Object entity){
         try {
             field.setAccessible(true);

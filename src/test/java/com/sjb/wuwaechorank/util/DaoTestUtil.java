@@ -10,6 +10,9 @@ import org.junit.jupiter.api.function.Executable;
 import org.springframework.dao.DataIntegrityViolationException;
 
 public class DaoTestUtil {
+    /** 
+     * @param executable
+     */
     public static void foreignKeyConstraintViolationTest(Executable executable){
         DataIntegrityViolationException exception = assertThrows(DataIntegrityViolationException.class, executable);
         
