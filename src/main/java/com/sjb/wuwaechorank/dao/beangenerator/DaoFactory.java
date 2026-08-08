@@ -38,7 +38,9 @@ public class DaoFactory<T> {
     }
 
     /** 
-     * 다이나믹 프록시를 생성하는 함수입니다.
+     * 다이나믹 프록시를 생성하는 함수입니다. 
+     * <p>파라미터인 Dao의 인터페이스 타입을 통해서 CrudDao와 Dao의 구현체를 가져옵니다.
+     * 가져온 구현체는 함수 이름에 따라 프록시에서 실행할 구현체를 조율해 줍니다.</p>
      * @param daoInterface {@code @DaoInterface}가 붙은 Dao의 인터페이스 타입
      * @return T 생성하려는 빈의 인터페이스 타입이 그대로 들어갑니다.
      */
@@ -67,9 +69,10 @@ public class DaoFactory<T> {
     }
     
     /** 
-     * Dao 인터페이스 타입으로 
-     * @param daoInterface
-     * @return Class<?>
+     * 엔티티 클래스를 가져오는 함수
+     * <p>Dao 인터페이스 타입으로 생성하려는 Dao에 상응하는 엔티티 를래스를 가져옵니다.
+     * @param daoInterface 필요한 엔티티 타입을 추론하기 위한 Dao 인터페이스 타입
+     * @return {@code Class<?>} Dao에 대응하는 엔티티 클래스 타입
      */
     private Class<?> findEntityClass(Class<?> daoInterface) {
         // getGenericInterfaces() 는 인터페이스가 상속받는 인터페이스를 제네릭 타입을 유지하면서 가져온다.
@@ -96,9 +99,11 @@ public class DaoFactory<T> {
         throw new IllegalArgumentException("CrudDao<T>를 찾을 수 없습니다"+ daoInterface.getName());
     }
 
-    /** 
-     * @param daoInterface
-     * @return Class<?>
+    /**
+     * DaoCore 인터페이스 타입을 찾는 함수
+     * <p>필요한 DaoCore 인터페이스 타입을 찾아 반환합니다.</p>
+     * @param daoInterface 필요한 DaoCore 인터페이스를 찾기위한 Dao 인터페이스 타입
+     * @return {@code Class<?>} Dao에 대응하는 DaoCore 인터페이스 타입
      */
     private Class<?> findCoreInterface(Class<?> daoInterface){
         Class<?>[] interfaces = daoInterface.getInterfaces();
@@ -110,12 +115,14 @@ public class DaoFactory<T> {
     }
 
     /** 
-     * @param entityClass
-     * @return CrudDaoJDBC<?>
+     * CrudDao의 구현체를 생성하는 함수
+     * 엔티티 클래스에 대응하는 CrudDao 구현체를 생성해 반환합니다.
+     * @param entityClass CrudDao의 제네릭 타입에 들어갈 클래스 타입
+     * @return {@code CrudDaoJDBC<?>} 생성된 CrudDao 구현체
      */
     @SuppressWarnings({ "rawtypes", "unchecked" })
     private CrudDaoJDBC<?> createCrudRepository(Class<?> entityClass) {
-        return new CrudDaoJDBC(jdbcTemplate, sqlBuilder, sqlParamBuilder,entityClass);
+        return new CrudDaoJDBC(jdbcTemplate, sqlBuilder, sqlParamBuilder, entityClass);
     }
     
 }
