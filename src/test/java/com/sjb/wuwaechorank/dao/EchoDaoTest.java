@@ -15,7 +15,6 @@ import com.sjb.wuwaechorank.dao.entity.echo.EchoDao;
 import com.sjb.wuwaechorank.dao.entity.sonataeffect.SonataEffectDao;
 import com.sjb.wuwaechorank.entity.Echo;
 import com.sjb.wuwaechorank.entity.SonataEffect;
-import com.sjb.wuwaechorank.entity.SubStatInfo;
 import com.sjb.wuwaechorank.util.DaoSqlErrorCode;
 import com.sjb.wuwaechorank.util.DaoJDBCUtil;
 

@@ -1,16 +1,6 @@
 package com.sjb.wuwaechorank.config;
 
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Import;
-import org.springframework.jdbc.core.JdbcTemplate;
-
-import com.sjb.wuwaechorank.dao.beangenerator.DaoBeanDefinitionRegister;
-import com.sjb.wuwaechorank.dao.beangenerator.DaoFactory;
-import com.sjb.wuwaechorank.dao.beangenerator.DaoFactoryBean;
-import com.sjb.wuwaechorank.dao.entity.attribute.AttributeDao;
-import com.sjb.wuwaechorank.dao.entity.attribute.AttributeDaoCore;
-import com.sjb.wuwaechorank.dao.entity.attribute.AttributeDaoCoreJDBC;
 
 @Configuration
 public class DaoConfig {

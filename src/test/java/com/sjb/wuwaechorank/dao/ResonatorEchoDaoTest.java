@@ -2,7 +2,6 @@ package com.sjb.wuwaechorank.dao;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.List;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -11,8 +10,6 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.dao.DataIntegrityViolationException;
-import org.springframework.transaction.annotation.Transactional;
 
 import com.sjb.wuwaechorank.dao.entity.resonatorecho.ResonatorEchoDao;
 import com.sjb.wuwaechorank.entity.Echo;
@@ -20,7 +17,6 @@ import com.sjb.wuwaechorank.entity.MainStat;
 import com.sjb.wuwaechorank.entity.ResonatorEcho;
 import com.sjb.wuwaechorank.entity.SonataEffect;
 import com.sjb.wuwaechorank.entity.SubStat;
-import com.sjb.wuwaechorank.util.DaoSqlErrorCode;
 import com.sjb.wuwaechorank.util.DaoTestUtil;
 import com.sjb.wuwaechorank.util.DaoJDBCUtil;
 import com.sjb.wuwaechorank.util.TestFixture;
