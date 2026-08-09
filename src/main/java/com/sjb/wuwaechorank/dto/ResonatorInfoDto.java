@@ -15,6 +15,7 @@ import lombok.Setter;
 @Setter
 public class ResonatorInfoDto {
     int id;
+    String name;
     Attribute attribute;
     Weapon weapon;
     int star;

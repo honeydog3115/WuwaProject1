@@ -12,7 +12,6 @@ import com.sjb.wuwaechorank.dao.entity.validstat.ValidStatDao;
 import com.sjb.wuwaechorank.dao.entity.weapon.WeaponDao;
 import com.sjb.wuwaechorank.dto.ResonatorInfoDto;
 import com.sjb.wuwaechorank.entity.Resonator;
-import com.sjb.wuwaechorank.entity.ValidStat;
 
 
 // 공명자 서비스
@@ -22,7 +21,7 @@ public class ResonatorServiceImpl implements ResonatorService {
     private AttributeDao attributeDao;
     private WeaponDao weaponDao;
 
-    public ResonatorServiceImpl(ResonatorDao resonatorDao, AttributeDao attributeDao, WeaponDao weaponDao, ValidStatDao validStatDao){
+    public ResonatorServiceImpl(ResonatorDao resonatorDao, AttributeDao attributeDao, WeaponDao weaponDao){
         this.resonatorDao = resonatorDao;
     }
 
@@ -36,6 +35,7 @@ public class ResonatorServiceImpl implements ResonatorService {
         for (Resonator resonator : resonators) {
             ResonatorInfoDto resonatorInfoDto = new ResonatorInfoDto();
             resonatorInfoDto.setId(resonator.getId());
+            resonatorInfoDto.setName(resonator.getName());
             resonatorInfoDto.setAttribute(this.attributeDao.get(resonator.getAttributeId()));
             resonatorInfoDto.setWeapon(this.weaponDao.get(resonator.getWeaponId()));
             resonatorInfoDto.setStar(resonator.getStar());
