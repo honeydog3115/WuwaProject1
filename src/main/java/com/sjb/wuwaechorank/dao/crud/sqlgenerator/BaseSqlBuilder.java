@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
 
 import com.sjb.wuwaechorank.customannotation.PrimaryKey;
 
-@Component
+@Component("sqlBuilder")
 public class BaseSqlBuilder implements SqlBuilder {
     /** 
      * @param clazz

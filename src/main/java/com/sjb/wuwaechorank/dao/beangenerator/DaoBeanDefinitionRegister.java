@@ -15,16 +15,19 @@ import org.springframework.stereotype.Component;
 
 import com.sjb.wuwaechorank.customannotation.DaoInterface;
 
+// Dao 빈들의 빈 생성 정의를 만드는 클래스
 @Component
 public class DaoBeanDefinitionRegister implements BeanDefinitionRegistryPostProcessor {
     private static final String DAO_PACKAGE = "com.sjb.wuwaechorank.dao";
 
     /** 
-     * @param registry
+     * Dao 빈 정의를 만들어서 등록하는 함수.
+     * @param registry 빈 정의를 등록해주는 객체
      * @throws BeansException
      */
     @Override
     public void postProcessBeanDefinitionRegistry(BeanDefinitionRegistry registry) throws BeansException {
+        // 빈으로 만들 Dao의 인터페이스 타입을 찾기위한 스캐서 정의. 찾는 기준은 인터페이스이면서 @DaoInterface 를 달고 있을것.
         ClassPathScanningCandidateComponentProvider scanner = new ClassPathScanningCandidateComponentProvider(false) {
             @Override
             protected boolean isCandidateComponent(AnnotatedBeanDefinition beanDefinition) {
@@ -35,6 +38,8 @@ public class DaoBeanDefinitionRegister implements BeanDefinitionRegistryPostProc
         scanner.addIncludeFilter(new AnnotationTypeFilter(DaoInterface.class));
         Set<BeanDefinition> daoBeanDefs = scanner.findCandidateComponents(DAO_PACKAGE);
 
+        // 스캐너로 발견한 인터페이스들의 빈 정의를 가져와 빈 생성법을 명시
+        // 빈 생성자로 DaoFactoryBean 클래스를 지정. 그러면 빈 생성시 자동으로 해당 팩토리 클래스의 getObject를 실행함.
         for (BeanDefinition beanDefinition : daoBeanDefs) {
             String interfaceName = beanDefinition.getBeanClassName();
             if (interfaceName == null) continue;

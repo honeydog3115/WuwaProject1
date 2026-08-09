@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
 
 import com.sjb.wuwaechorank.customannotation.PrimaryKey;
 
-@Component
+@Component("sqlParamBuilder")
 public class BaseSqlParamBuilder implements SqlParamBuilder {
     /** 
      * @param entity
