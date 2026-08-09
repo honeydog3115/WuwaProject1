@@ -78,6 +78,7 @@ public class TestFixture {
                             .filter(field->field.isAnnotationPresent(ForeignKey.class))
                             .map(Field::getName)
                             .map(foreignKeyName->foreignKeyName.replaceAll("Id$", ""))
+                            .map(foreignKeyName->foreignKeyName.replaceAll("Id.*$", ""))
                             .map(StringUtils::capitalize)
                             .map(this::findClassByName)
                             .collect(Collectors.toList());

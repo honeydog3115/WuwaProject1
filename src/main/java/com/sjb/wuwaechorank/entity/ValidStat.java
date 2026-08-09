@@ -20,17 +20,17 @@ public class ValidStat {
     int id = 1;
     @ForeignKey
     @Builder.Default
-    int stat1 = 1;
+    int subStatId1 = 1;
     @ForeignKey
     @Builder.Default
-    int stat2 = 1;
+    int subStatId2 = 1;
     @ForeignKey
     @Builder.Default
-    int stat3 = 1;
+    int subStatId3 = 1;
     @ForeignKey
     @Builder.Default
-    int stat4 = 1;
+    int subStatId4 = 1;
     @ForeignKey
     @Builder.Default
-    int stat5 = 1;
+    int subStatId5 = 1;
 }

@@ -28,6 +28,9 @@ public class Resonator {
     int weaponId = 1;
     @Builder.Default
     int star = 5;
+    @ForeignKey
+    @Builder.Default
+    int validStatId = 1;
     @Builder.Default
     String imagePath = "asdf/qwer/a.jpg";
 }

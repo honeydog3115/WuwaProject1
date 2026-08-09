@@ -20,8 +20,6 @@ import com.sjb.wuwaechorank.util.DaoJDBCUtil;
 import com.sjb.wuwaechorank.util.DaoTestUtil;
 import com.sjb.wuwaechorank.util.TestFixture;
 
-import lombok.Value;
-
 @SpringBootTest
 public class ResonatorDaoTest {
     private static final String TABLE_NAME = "resonator";
@@ -45,9 +43,9 @@ public class ResonatorDaoTest {
         daoJDBCUtil.setTestFixture(testFixture);
         daoJDBCUtil.initReferenceTables();
 
-        resonator1 = new Resonator(1, "카르티시아", 1, 1, 5, "asdf/qwer/a.jpg");
-        resonator2 = new Resonator(2, "에이메스", 1, 1, 5, "asdf/qwer/b.jpg");
-        resonator3 = new Resonator(1, "유노", 1, 1, 5, "asdf/qwer/c.jpg");
+        resonator1 = new Resonator(1, "카르티시아", 1, 1, 5, 1, "asdf/qwer/a.jpg");
+        resonator2 = new Resonator(2, "에이메스", 1, 1, 5,1,  "asdf/qwer/b.jpg");
+        resonator3 = new Resonator(1, "유노", 1, 1, 5, 1, "asdf/qwer/c.jpg");
     }
     
     @Test
@@ -81,7 +79,7 @@ public class ResonatorDaoTest {
     @Test
     void update(){
         this.resonatorDao.add(resonator1);
-        Resonator resonator = new Resonator(1, "양양", 1, 1, 4, "asdf/qwer/d.jpg");
+        Resonator resonator = new Resonator(1, "양양", 1, 1, 4, 1, "asdf/qwer/d.jpg");
         this.resonatorDao.update(1, resonator);
         Resonator updatedResonator = this.resonatorDao.get(1);
         assertThat(updatedResonator).usingRecursiveComparison().isEqualTo(resonator);
