@@ -30,7 +30,7 @@ public class ResonatorServiceImpl implements ResonatorService {
     private ValidStatDao validStatDao;
     private SubStatDao subStatDao;
 
-    public ResonatorServiceImpl(ResonatorDao resonatorDao, AttributeDao attributeDao, WeaponDao weaponDao, ValidStatDao validStatDao){
+    public ResonatorServiceImpl(ResonatorDao resonatorDao, AttributeDao attributeDao, WeaponDao weaponDao, ValidStatDao validStatDao, SubStatDao subStatDao){
         this.resonatorDao = resonatorDao;
     }
 
@@ -38,6 +38,7 @@ public class ResonatorServiceImpl implements ResonatorService {
     // 현재 코드로는 공명자가 100명이 되면 SQL을 300개는 던지게됨.
     // 따라서 나중에 Map으로 Attribute나 Weapon을 캐싱하면 좋을 것 같음.
     // 혹은 다른 방법도 생각해 보자.
+    @Override
     public List<ResonatorsInfoDto> getAllResonatorInfo(){
         List<Resonator> resonators = resonatorDao.getAll();
         List<ResonatorsInfoDto> resonatorInfoDtos = new ArrayList<>();
@@ -55,8 +56,10 @@ public class ResonatorServiceImpl implements ResonatorService {
         return resonatorInfoDtos;
     }
 
+    // 공명자 선택시 공명자 세부 정보를 반환하는 함수
+    @Override
     public ResonatorDetailDto getResonatorDetail(int id){
-        Resonator resonator = this.resonatorDao.get(attributeDao);
+        Resonator resonator = this.resonatorDao.get(id);
         Attribute attribute = this.attributeDao.get(resonator.getAttributeId());
         Weapon weapon = this.weaponDao.get(resonator.getWeaponId());
         ValidStat validStat = this.validStatDao.get(resonator.getValidStatId());
@@ -72,8 +75,9 @@ public class ResonatorServiceImpl implements ResonatorService {
                     resonator.getImagePath());
     }
 
-    public SubStat getSubStat(Field field, ValidStat validStat){
+    private SubStat getSubStat(Field field, ValidStat validStat){
         try {
+            field.setAccessible(true);
             return this.subStatDao.get(field.get(validStat));
         } catch (Exception e) {
             throw new IllegalArgumentException("getResonatorDetail() 예외 발생", e);

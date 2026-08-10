@@ -2,8 +2,10 @@ package com.sjb.wuwaechorank.service.resonator;
 
 import java.util.List;
 
-import com.sjb.wuwaechorank.dto.ResonatorInfoDto;
+import com.sjb.wuwaechorank.dto.ResonatorDetailDto;
+import com.sjb.wuwaechorank.dto.ResonatorsInfoDto;
 
 public interface ResonatorService {
-    List<ResonatorInfoDto> getAllResonatorInfo();
+    List<ResonatorsInfoDto> getAllResonatorInfo();
+    ResonatorDetailDto getResonatorDetail(int id);
 }

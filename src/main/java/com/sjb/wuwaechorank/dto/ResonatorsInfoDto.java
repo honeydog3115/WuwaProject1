@@ -9,11 +9,12 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+// 전체 공명자 정보 클래스
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
 @Setter
-public class ResonatorInfoDto {
+public class ResonatorsInfoDto {
     int id;
     String name;
     Attribute attribute;
