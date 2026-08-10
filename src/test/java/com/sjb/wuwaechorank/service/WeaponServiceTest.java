@@ -1,6 +1,12 @@
 package com.sjb.wuwaechorank.service;
 
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.Mockito.when;
+
+import java.util.List;
+
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
@@ -12,6 +18,7 @@ import com.sjb.wuwaechorank.entity.Weapon;
 import com.sjb.wuwaechorank.service.weapon.WeaponService;
 import com.sjb.wuwaechorank.service.weapon.WeaponServiceImpl;
 
+// WeaponService 테스트 클래스
 @SpringBootTest
 @ExtendWith(MockitoExtension.class)
 public class WeaponServiceTest {
@@ -32,5 +39,11 @@ public class WeaponServiceTest {
         this.weapon3 = new Weapon(3, "권총", "asdf/qwer/c.jpg");
     }
 
-    
+    // WeaponService getAllWeapons 테스트
+    @Test
+    void getAllWeapons(){
+        List<Weapon> weapons = this.weaponDao.getAll();
+        when(this.weaponDao.getAll()).thenReturn(weapons);
+        assertThat(this.weaponService.getAllWeapons()).isEqualTo(weapons);
+    }    
 }
