@@ -12,6 +12,7 @@ import com.sjb.wuwaechorank.dto.EchoInfoGroupBySonataEffectDto;
 import com.sjb.wuwaechorank.entity.Echo;
 import com.sjb.wuwaechorank.entity.SonataEffect;
 
+// 에코 관련 서비스 구현 클래스
 @Service
 public class EchoServiceImpl implements EchoService{
     private EchoDao echoDao;
@@ -22,6 +23,7 @@ public class EchoServiceImpl implements EchoService{
         this.sonataEffectDao = sonataEffectDao;
     }
 
+    // 모든 에코들을 화음 효과를 기준으로 묶어서 반환하는 함수
     @Override
     public List<EchoInfoGroupBySonataEffectDto> getAllEchos() {
         List<SonataEffect> sonataEffects = this.sonataEffectDao.getAll();
@@ -40,6 +42,7 @@ public class EchoServiceImpl implements EchoService{
                 .toList();
     }
 
+    // 에코 필터에 필요한 값들을 반환하는 함수
     @Override
     public List<SonataEffect> getEchoFilter() {
         return this.sonataEffectDao.getAll();
