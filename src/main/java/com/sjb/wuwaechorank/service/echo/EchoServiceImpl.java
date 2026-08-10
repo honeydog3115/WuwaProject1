@@ -19,7 +19,7 @@ public class EchoServiceImpl implements EchoService{
     }
 
     @Override
-    public List<Echo> getAllEchos() {
+    public List<Echo> getAllEchoInfos() {
         // TODO Auto-generated method stub
         // List<Echo> echos = this.echoDao.getAll();
         // echos.stream().map(echo->echo.getSonataEffectId()).map(sonataEffectId->)
