@@ -41,6 +41,7 @@ public class ResonatorServiceTest {
     @InjectMocks
     ResonatorService resonatorService = new ResonatorServiceImpl(resonatorDao, attributeDao, weaponDao);
 
+    // 전체 공명자 정보 반환 테스트
     @Test
     void getAllResonatorInfo(){
         Resonator resonator1 = new Resonator(1, "카르티시아", 1, 1, 5, 1, "asdf/qwer/a.jpg");
