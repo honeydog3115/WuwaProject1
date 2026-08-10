@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import com.sjb.wuwaechorank.dao.entity.attribute.AttributeDao;
 import com.sjb.wuwaechorank.entity.Attribute;
 
+// 공명자 속성 관련 서비스 구현 클래스
 @Service
 public class AttributeServiceImpl implements AttributeService{
     private AttributeDao attributeDao;
@@ -17,8 +18,7 @@ public class AttributeServiceImpl implements AttributeService{
     
     @Override
     public List<Attribute> getAllAttribute() {
-        
-
-        return null;
+        List<Attribute> attributes = this.attributeDao.getAll();
+        return attributes;
     }
 }
