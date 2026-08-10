@@ -23,6 +23,7 @@ import com.sjb.wuwaechorank.dao.entity.substat.SubStatDao;
 import com.sjb.wuwaechorank.dao.entity.validstat.ValidStatDao;
 import com.sjb.wuwaechorank.dao.entity.weapon.WeaponDao;
 import com.sjb.wuwaechorank.dto.ResonatorDetailDto;
+import com.sjb.wuwaechorank.dto.ResonatorFilterDto;
 import com.sjb.wuwaechorank.dto.ResonatorsInfoDto;
 import com.sjb.wuwaechorank.entity.Attribute;
 import com.sjb.wuwaechorank.entity.Resonator;
@@ -165,5 +166,20 @@ public class ResonatorServiceTest {
                 .build();
 
         assertThat(actualDto).usingRecursiveComparison().isEqualTo(expectedDto);
+    }
+
+    @Test
+    void getResonatorFilter(){
+        List<Attribute> attributes = List.of(attribute1, attribute2, attribute3);
+        List<Weapon> weapons = List.of(weapon1, weapon2);
+        when(this.attributeDao.getAll()).thenReturn(attributes);
+        when(this.weaponDao.getAll()).thenReturn(weapons);
+
+        assertThat(this.resonatorService.getResonatorFilter()).isEqualTo(
+            ResonatorFilterDto.builder()
+                    .attributes(attributes)
+                    .weapons(weapons)
+                    .build()
+        );
     }
 }
