@@ -1,8 +1,11 @@
 package com.sjb.wuwaechorank.dao;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.ArgumentMatchers.assertArg;
 
 import java.sql.SQLIntegrityConstraintViolationException;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -35,7 +38,9 @@ public class EchoDaoTest {
     Echo echo1;
     Echo echo2;
     Echo echo3;
+    Echo echo4;
     SonataEffect sonataEffect1;
+    SonataEffect sonataEffect2;
 
     @BeforeEach
     void setUp(){
@@ -44,8 +49,11 @@ public class EchoDaoTest {
         echo1 = new Echo(1, "꾹꾹복어", 1, "1COST", "asdf/qwer/a.jpg");
         echo2 = new Echo(2, "타종거북이", 1, "4COST", "asdf/qwer/b.jpg");
         echo3 = new Echo(3, "화살곰", 1, "3COST", "asdf/qwer/c.jpg");
+        echo4 = new Echo(4, "지옥불기사", 2, "4COST", "asdf/qwer/d.jpg");
         sonataEffect1 = new SonataEffect(1, "야밤의 서리", "asdf/qwer/a.jpg");
+        sonataEffect2 = new SonataEffect(2, "솟구치는 용암", "asdf/qwer/b.jpg");
         this.sonataEffectDao.add(sonataEffect1);
+        this.sonataEffectDao.add(sonataEffect2);
     }
 
     @Test
@@ -110,5 +118,19 @@ public class EchoDaoTest {
         this.echoDao.add(echo1);
         this.sonataEffectDao.delete(1);
         assertEquals(0, this.echoDao.getCount()); 
+    }
+
+    @Test
+    void getAllBySonataEffect(){
+        this.echoDao.add(this.echo1);
+        this.echoDao.add(this.echo2);
+        this.echoDao.add(this.echo3);
+        this.echoDao.add(this.echo4);
+        
+        List<Echo> echos = this.echoDao.getAllBySonataEffect(1);
+
+        assertThat(echos.get(0)).usingRecursiveComparison().isEqualTo(echo1);
+        assertThat(echos.get(1)).usingRecursiveComparison().isEqualTo(echo2);
+        assertThat(echos.get(2)).usingRecursiveComparison().isEqualTo(echo3);
     }
 }
