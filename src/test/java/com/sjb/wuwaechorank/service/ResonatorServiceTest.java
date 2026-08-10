@@ -152,8 +152,7 @@ public class ResonatorServiceTest {
         when(this.subStatDao.get(4)).thenReturn(subStat4);
         when(this.subStatDao.get(5)).thenReturn(subStat5);
 
-        String[] validStats = { subStat1.getName(), subStat2.getName(), subStat3.getName(), subStat4.getName(),
-                subStat5.getName() };
+        String[] validStats = { subStat1.getName(), subStat2.getName(), subStat3.getName(), subStat4.getName(), subStat5.getName() };
 
         ResonatorDetailDto actualDto = this.resonatorService.getResonatorDetail(1);
         ResonatorDetailDto expectedDto = ResonatorDetailDto.builder()
