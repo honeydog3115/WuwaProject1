@@ -13,6 +13,7 @@ import com.sjb.wuwaechorank.dao.entity.substat.SubStatDao;
 import com.sjb.wuwaechorank.dao.entity.validstat.ValidStatDao;
 import com.sjb.wuwaechorank.dao.entity.weapon.WeaponDao;
 import com.sjb.wuwaechorank.dto.ResonatorDetailDto;
+import com.sjb.wuwaechorank.dto.ResonatorFilterDto;
 import com.sjb.wuwaechorank.dto.ResonatorsInfoDto;
 import com.sjb.wuwaechorank.entity.Attribute;
 import com.sjb.wuwaechorank.entity.Resonator;
@@ -73,6 +74,14 @@ public class ResonatorServiceImpl implements ResonatorService {
                     resonator.getId(), resonator.getName(), 
                     attribute, weapon, resonator.getStar(), validStats, 
                     resonator.getImagePath());
+    }
+
+    @Override
+    public ResonatorFilterDto getResonatorFilter() {
+        return ResonatorFilterDto.builder()
+                .attributes(this.attributeDao.getAll())
+                .weapons(this.weaponDao.getAll())
+                .build();
     }
 
     private SubStat getSubStat(Field field, ValidStat validStat){
