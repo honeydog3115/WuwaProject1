@@ -17,7 +17,7 @@ public class AttributeServiceImpl implements AttributeService{
     }
     
     @Override
-    public List<Attribute> getAllAttribute() {
+    public List<Attribute> getAllAttributes() {
         List<Attribute> attributes = this.attributeDao.getAll();
         return attributes;
     }

@@ -39,14 +39,15 @@ public class AttributeServiceTest {
         this.attribute3 = new Attribute(3, "전도", "asdf/qwer/c.jpg");
     }
 
+    // 서비스의 getAllAttributes 테스트
     @Test
-    void getAllAttribute(){
+    void getAllAttributes(){
         List<Attribute> attributes = new ArrayList<>();
         attributes.add(attribute1);
         attributes.add(attribute2);
         attributes.add(attribute3);
         when(this.attributeDao.getAll()).thenReturn(attributes);
 
-        assertThat(attributeService.getAllAttribute()).isEqualTo(attributes);
+        assertThat(attributeService.getAllAttributes()).isEqualTo(attributes);
     }
 }
