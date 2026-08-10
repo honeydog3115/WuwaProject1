@@ -2,6 +2,8 @@ package com.sjb.wuwaechorank.service.echo;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 
@@ -24,22 +26,19 @@ public class EchoServiceImpl implements EchoService{
     @Override
     public List<EchoInfoGroupBySonataEffectDto> getAllEchos() {
         List<SonataEffect> sonataEffects = this.sonataEffectDao.getAll();
-        
-        List<EchoInfoGroupBySonataEffectDto> dto = new ArrayList<>();
 
-        for (SonataEffect sonataEffect : sonataEffects) {
-            List<Echo> echos = this.echoDao.getAllBySonataEffect(sonataEffect.getId());
-            EchoInfoGroupBySonataEffectDto element = EchoInfoGroupBySonataEffectDto.builder()
-                    .id(sonataEffect.getId())
-                    .name(sonataEffect.getName())
-                    .imagePath(sonataEffect.getImagePath())
-                    .echos(echos)
-                    .build();
+        List<Echo> echos = this.echoDao.getAll();
+        Map<Integer, List<Echo>> echosBySonataEffectMap = echos.stream()
+                .collect(Collectors.groupingBy(Echo::getSonataEffectId));
 
-            dto.add(element);
-        }
-
-        return dto;
+        return sonataEffects.stream()
+                .map(sonataEffect -> EchoInfoGroupBySonataEffectDto.builder()
+                        .id(sonataEffect.getId())
+                        .name(sonataEffect.getName())
+                        .imagePath(sonataEffect.getImagePath())
+                        .echos(echosBySonataEffectMap.getOrDefault(sonataEffect.getId(), List.of()))
+                        .build())
+                .toList();
     }
     
 }
