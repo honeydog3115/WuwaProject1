@@ -19,7 +19,7 @@ public class EchoDaoCoreJDBC implements EchoDaoCore {
     }
 
     @Override
-    public List<Echo> getAllEchoBySonataEffect(int id) {
+    public List<Echo> getAllBySonataEffect(int id) {
         return this.jdbcTemplate.query("SELECT * FROM echo WHERE sonataEffectId = ?", rowMapper, id);
     }
     
