@@ -20,6 +20,5 @@ public class ResonatorsInfoDto {
     Attribute attribute;
     Weapon weapon;
     int star;
-    int validateStatId;
     String imagePath;
 }
