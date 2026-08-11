@@ -4,7 +4,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.util.List;
-import java.util.concurrent.Flow.Subscriber;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -44,9 +43,9 @@ public class ValidStatDaoTest {
         daoJDBCUtil.setTestFixture(testFixture);
         daoJDBCUtil.initReferenceTables();
 
-        validStat1 = new ValidStat(1, 1, 1, 1, 1, 1);
-        validStat2 = new ValidStat(2, 1, 1, 1, 1, 1);
-        validStat3 = new ValidStat(3, 1, 1, 1, 1, 1);
+        validStat1 = new ValidStat(1, 1, 1, 1, 1, 1, 1);
+        validStat2 = new ValidStat(2, 1, 1, 1, 1, 1, 1);
+        validStat3 = new ValidStat(3, 1, 1, 1, 1, 1, 1);
     }
 
     @Test
