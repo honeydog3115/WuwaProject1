@@ -24,8 +24,8 @@ public class ResonatorDetailDto {
     Attribute attribute;
     Weapon weapon;
     int star;
-    // 최대 길이는 5
-    String[] validStats;
+    // 최대 길이 6
+    List<String> validStats;
     String energyRegenRequirements;
     String imagePath;
 }

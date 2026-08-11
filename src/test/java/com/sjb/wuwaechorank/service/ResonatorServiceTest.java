@@ -73,12 +73,13 @@ public class ResonatorServiceTest {
     SubStat subStat3;
     SubStat subStat4;
     SubStat subStat5;
+    SubStat subStat6;
 
     @BeforeEach
     void setUp() {
-        this.resonator1 = new Resonator(1, "카르티시아", 1, 1, 5, 1, "asdf/qwer/a.jpg");
-        this.resonator2 = new Resonator(2, "에이메스", 2, 1, 5, 3, "asdf/qwer/b.jpg");
-        this.resonator3 = new Resonator(3, "유노", 3, 2, 5, 3, "asdf/qwer/c.jpg");
+        this.resonator1 = new Resonator(1, "카르티시아", 1, 1, 5, 1, "120%", "asdf/qwer/a.jpg");
+        this.resonator2 = new Resonator(2, "에이메스", 2, 1, 5, 3, "125%", "asdf/qwer/b.jpg");
+        this.resonator3 = new Resonator(3, "유노", 3, 2, 5, 3, "130%", "asdf/qwer/c.jpg");
 
         this.attribute1 = new Attribute(1, "용융", "asdf/qwer/a.jpg");
         this.attribute2 = new Attribute(2, "회절", "asdf/qwer/b.jpg");
@@ -87,13 +88,14 @@ public class ResonatorServiceTest {
         this.weapon1 = new Weapon(1, "직검", "asdf/qwer/a.jpg");
         this.weapon2 = new Weapon(2, "권갑", "asdf/qwer/b.jpg");
 
-        this.validStat1 = new ValidStat(1, 1, 2, 3, 4, 5);
+        this.validStat1 = new ValidStat(1, 1, 2, 3, 4, 5, 6);
 
         this.subStat1 = new SubStat(1, "체력%");
         this.subStat2 = new SubStat(2, "크리티컬 확률");
         this.subStat3 = new SubStat(3, "크리티컬 피해");
         this.subStat4 = new SubStat(4, "공격력%");
         this.subStat5 = new SubStat(5, "일반공격피해");
+        this.subStat6 = new SubStat(6, "공격력");
     }
 
     // 전체 공명자 정보 반환 테스트
@@ -120,7 +122,6 @@ public class ResonatorServiceTest {
             assertEquals(resonators.get(index).getId(), resonatorInfoDto.getId());
             assertEquals(resonators.get(index).getName(), resonatorInfoDto.getName());
             assertEquals(resonators.get(index).getStar(), resonatorInfoDto.getStar());
-            assertEquals(resonators.get(index).getValidStatId(), resonatorInfoDto.getValidateStatId());
             assertEquals(resonators.get(index).getImagePath(), resonatorInfoDto.getImagePath());
             index++;
         }
@@ -151,8 +152,9 @@ public class ResonatorServiceTest {
         when(this.subStatDao.get(3)).thenReturn(subStat3);
         when(this.subStatDao.get(4)).thenReturn(subStat4);
         when(this.subStatDao.get(5)).thenReturn(subStat5);
+        when(this.subStatDao.get(6)).thenReturn(subStat6);
 
-        String[] validStats = { subStat1.getName(), subStat2.getName(), subStat3.getName(), subStat4.getName(), subStat5.getName() };
+        List<String> validStats = List.of(subStat1.getName(), subStat2.getName(), subStat3.getName(), subStat4.getName(), subStat5.getName(), subStat6.getName());
 
         ResonatorDetailDto actualDto = this.resonatorService.getResonatorDetail(1);
         ResonatorDetailDto expectedDto = ResonatorDetailDto.builder()
@@ -162,6 +164,7 @@ public class ResonatorServiceTest {
                 .weapon(weapon1)
                 .star(resonator1.getStar())
                 .validStats(validStats)
+                .energyRegenRequirements(resonator1.getEnergyRegenRequirements())
                 .imagePath(resonator1.getImagePath())
                 .build();
 
