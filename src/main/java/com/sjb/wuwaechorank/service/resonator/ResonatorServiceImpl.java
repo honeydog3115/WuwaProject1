@@ -50,7 +50,6 @@ public class ResonatorServiceImpl implements ResonatorService {
             resonatorInfoDto.setAttribute(this.attributeDao.get(resonator.getAttributeId()));
             resonatorInfoDto.setWeapon(this.weaponDao.get(resonator.getWeaponId()));
             resonatorInfoDto.setStar(resonator.getStar());
-            resonatorInfoDto.setValidateStatId(resonator.getValidStatId());
             resonatorInfoDto.setImagePath(resonator.getImagePath());
             resonatorInfoDtos.add(resonatorInfoDto);
         }
@@ -70,10 +69,16 @@ public class ResonatorServiceImpl implements ResonatorService {
                                     .toList();
         String[] validStats = subStats.stream().map(subStat->subStat.getName()).toArray(String[]::new);
 
-        return new ResonatorDetailDto(
-                    resonator.getId(), resonator.getName(), 
-                    attribute, weapon, resonator.getStar(), validStats, 
-                    resonator.getImagePath());
+        return ResonatorDetailDto.builder()
+                .id(id)
+                .name(resonator.getName())
+                .attribute(attribute)
+                .weapon(weapon)
+                .star(resonator.getStar())
+                .validStats(validStats)
+                .energyRegenRequirements(resonator.getEnergyRegenRequirements())
+                .imagePath(null)
+                .build();
     }
 
     @Override
