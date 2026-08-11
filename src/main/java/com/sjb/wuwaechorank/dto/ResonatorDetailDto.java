@@ -26,5 +26,6 @@ public class ResonatorDetailDto {
     int star;
     // 최대 길이는 5
     String[] validStats;
+    String energyRegenRequirements;
     String imagePath;
 }
