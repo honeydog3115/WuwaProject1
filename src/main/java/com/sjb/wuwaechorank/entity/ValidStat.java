@@ -33,4 +33,7 @@ public class ValidStat {
     @ForeignKey
     @Builder.Default
     Integer subStatId5 = 1;
+    @ForeignKey
+    @Builder.Default
+    Integer subStatId6 = 1;
 }
