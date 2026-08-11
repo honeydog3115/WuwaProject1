@@ -1,11 +1,5 @@
 package com.sjb.wuwaechorank.entity;
 
-import java.lang.reflect.Field;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Objects;
-import java.util.stream.Stream;
-
 import com.sjb.wuwaechorank.customannotation.ForeignKey;
 import com.sjb.wuwaechorank.customannotation.PrimaryKey;
 
@@ -42,11 +36,4 @@ public class ValidStat {
     @ForeignKey
     @Builder.Default
     Integer subStatId6 = 1;
-
-    // subStatId가 ValidStat에 포함되어 있는지 확인하는 함수
-    public boolean containSubStat(int subStatId) {
-        return Stream.of(subStatId1, subStatId2, subStatId3, subStatId4, subStatId5, subStatId6)
-                .filter(Objects::nonNull)
-                .anyMatch(id -> id.equals(subStatId));
-    }
 }
