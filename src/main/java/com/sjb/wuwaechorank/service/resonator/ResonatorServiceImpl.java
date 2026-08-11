@@ -67,7 +67,7 @@ public class ResonatorServiceImpl implements ResonatorService {
                                     .filter(field->field.getName().contains("subStatId"))
                                     .map(field -> getSubStat(field, validStat))
                                     .toList();
-        String[] validStats = subStats.stream().map(subStat->subStat.getName()).toArray(String[]::new);
+        List<String> validStats = subStats.stream().map(subStat->subStat.getName()).toList();
 
         return ResonatorDetailDto.builder()
                 .id(id)
@@ -77,7 +77,7 @@ public class ResonatorServiceImpl implements ResonatorService {
                 .star(resonator.getStar())
                 .validStats(validStats)
                 .energyRegenRequirements(resonator.getEnergyRegenRequirements())
-                .imagePath(null)
+                .imagePath(resonator.getImagePath())
                 .build();
     }
 
