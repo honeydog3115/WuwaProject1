@@ -20,6 +20,6 @@ public class SubStatInfoDaoCoreJDBC implements SubStatInfoDaoCore {
     
     @Override
     public List<SubStatInfo> getAllBySubStatId(int subStatId) {
-        return this.jdbcTemplate.query("SELECT * FROM substatinfo WHERE ORDER BY value", rowMapper, subStatId);
+        return this.jdbcTemplate.query("SELECT * FROM substatinfo WHERE substatid = ? ORDER BY value", rowMapper, subStatId);
     }
 }

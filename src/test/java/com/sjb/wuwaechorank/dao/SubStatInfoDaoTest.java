@@ -1,5 +1,6 @@
 package com.sjb.wuwaechorank.dao;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.sql.SQLIntegrityConstraintViolationException;
@@ -50,7 +51,7 @@ public class SubStatInfoDaoTest {
         this.subStatDao.add(subStat1);
     }
 
-        @Test
+    @Test
     void addAndGet(){        
         this.subStatInfoDao.add(subStatInfo1);
         
@@ -105,5 +106,14 @@ public class SubStatInfoDaoTest {
         this.subStatInfoDao.add(subStatInfo1);
         this.subStatDao.delete(1);
         assertEquals(0, this.subStatInfoDao.getCount()); 
+    }
+
+    @Test
+    void getAllBySubStatId(){
+        this.subStatInfoDao.add(subStatInfo1);
+        this.subStatInfoDao.add(subStatInfo2);
+        this.subStatInfoDao.add(subStatInfo3);
+        List<SubStatInfo> subStatInfos = this.subStatInfoDao.getAllBySubStatId(1);
+        assertThat(subStatInfos.size()).isEqualTo(3);
     }
 }
