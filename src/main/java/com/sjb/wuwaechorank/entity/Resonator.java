@@ -32,7 +32,7 @@ public class Resonator {
     @Builder.Default
     int validStatId = 1;
     @Builder.Default
-    String energyRegenRequirement = "120%";
+    String energyRegenRequirements = "120%";
     @Builder.Default
     String imagePath = "asdf/qwer/a.jpg";
 }

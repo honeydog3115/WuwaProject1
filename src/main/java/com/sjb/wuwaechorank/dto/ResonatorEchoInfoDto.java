@@ -6,6 +6,7 @@ import lombok.Builder;
 
 @Builder
 public record ResonatorEchoInfoDto(
+    int echoId,
     // 최대 5개
     List<ResonatorEchoSubStatDto> echoSubStats
 ) {}

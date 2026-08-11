@@ -27,14 +27,18 @@ public class ResonatorEcho {
     @ForeignKey
     @Builder.Default
     Integer  SubStatId1 = 1;
+    @ForeignKey
     @Builder.Default
     Integer  SubStatId2 = 1;
+    @ForeignKey
     @Builder.Default
     Integer  SubStatId3 = 1;
+    @ForeignKey
     @Builder.Default
     Integer  SubStatId4 = 1;
+    @ForeignKey
     @Builder.Default
     Integer  SubStatId5 = 1;
     @Builder.Default
-    float score = 50;
+    double score = 50;
 }
