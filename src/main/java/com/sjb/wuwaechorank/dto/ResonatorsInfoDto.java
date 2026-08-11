@@ -1,6 +1,7 @@
 package com.sjb.wuwaechorank.dto;
 
 import com.sjb.wuwaechorank.entity.Attribute;
+import com.sjb.wuwaechorank.entity.ValidStat;
 import com.sjb.wuwaechorank.entity.Weapon;
 
 import lombok.AllArgsConstructor;
