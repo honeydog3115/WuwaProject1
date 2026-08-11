@@ -1,5 +1,6 @@
 package com.sjb.wuwaechorank.dao;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.util.List;
@@ -45,20 +46,16 @@ public class ResonatorEchoDaoTest {
         daoJDBCUtil.initTables(TABLE_NAME);
         daoJDBCUtil.initReferenceTables();
 
-        this.resonatorEcho1 = new ResonatorEcho(1, 1, 1, 1, 50);
-        this.resonatorEcho2 = new ResonatorEcho(2, 1, 1, 1, 50);
-        this.resonatorEcho3 = new ResonatorEcho(3, 1, 1, 1, 50);
+        this.resonatorEcho1 = new ResonatorEcho(1, 1, 1, 1, 1, 1, 1, 1, 50);
+        this.resonatorEcho2 = new ResonatorEcho(2, 1, 1, 1, 1, 1, 1, 1, 50);
+        this.resonatorEcho3 = new ResonatorEcho(3, 1, 1, 1, 1, 1, 1, 1, 50);
     }
 
     @Test
     void addAndGet(){
         this.resonatorEchoDao.add(resonatorEcho1);
         ResonatorEcho resonatorEcho = this.resonatorEchoDao.get(1);
-        assertEquals(resonatorEcho1.getId(), resonatorEcho.getId());
-        assertEquals(resonatorEcho1.getEchoId(), resonatorEcho.getEchoId());
-        assertEquals(resonatorEcho1.getMainStatId(), resonatorEcho.getMainStatId());
-        assertEquals(resonatorEcho1.getSubStatId(), resonatorEcho.getSubStatId());
-        assertEquals(resonatorEcho1.getScore(), resonatorEcho.getScore());
+        assertThat(resonatorEcho).usingRecursiveComparison().isEqualTo(resonatorEcho1);
     }
     
     @Test
@@ -82,15 +79,11 @@ public class ResonatorEchoDaoTest {
     void update(){
         this.resonatorEchoDao.add(resonatorEcho1);
         
-        ResonatorEcho resonatorEcho = new ResonatorEcho(1, 1, 1, 1, 20);
+        ResonatorEcho resonatorEcho = new ResonatorEcho(1, 1, 1, 1, 1, 1, 1, 1, 20);
         this.resonatorEchoDao.update(1, resonatorEcho);
         ResonatorEcho updatedResonatorEcho = this.resonatorEchoDao.get(1);
 
-        assertEquals(resonatorEcho.getId(), updatedResonatorEcho.getId());
-        assertEquals(resonatorEcho.getEchoId(), updatedResonatorEcho.getEchoId());
-        assertEquals(resonatorEcho.getMainStatId(), updatedResonatorEcho.getMainStatId());
-        assertEquals(resonatorEcho.getSubStatId(), updatedResonatorEcho.getSubStatId());
-        assertEquals(resonatorEcho.getScore(), updatedResonatorEcho.getScore());        
+        assertThat(updatedResonatorEcho).usingRecursiveComparison().isEqualTo(resonatorEcho);
     }
 
     @Test
@@ -101,16 +94,22 @@ public class ResonatorEchoDaoTest {
         resonatorEcho1.setMainStatId(2);
         DaoTestUtil.foreignKeyConstraintViolationTest(()->this.resonatorEchoDao.add(resonatorEcho1));
         
-        resonatorEcho1.setSubStatId(2);
+        resonatorEcho1.setSubStatId1(2);
+        DaoTestUtil.foreignKeyConstraintViolationTest(()->this.resonatorEchoDao.add(resonatorEcho1));
+        resonatorEcho1.setSubStatId2(2);
+        DaoTestUtil.foreignKeyConstraintViolationTest(()->this.resonatorEchoDao.add(resonatorEcho1));
+        resonatorEcho1.setSubStatId3(2);
+        DaoTestUtil.foreignKeyConstraintViolationTest(()->this.resonatorEchoDao.add(resonatorEcho1));
+        resonatorEcho1.setSubStatId4(2);
+        DaoTestUtil.foreignKeyConstraintViolationTest(()->this.resonatorEchoDao.add(resonatorEcho1));
+        resonatorEcho1.setSubStatId5(2);
         DaoTestUtil.foreignKeyConstraintViolationTest(()->this.resonatorEchoDao.add(resonatorEcho1));
     }
 
     @ParameterizedTest(name = "{0} 삭제시 Cascade 삭제 검증")
     @ValueSource(classes = {
         SonataEffect.class,
-        Echo.class,
-        MainStat.class,
-        SubStat.class
+        Echo.class
     })
     void cascadeDeleteByRefEntity(Class<?> refEntityClass){
         this.resonatorEchoDao.add(resonatorEcho1);
