@@ -52,10 +52,15 @@ public class PresetServiceImpl implements PresetService {
 
     @Override
     public List<SimplePresetInfoDto> getSimplePresetInfo(int userId) {
-
-        // TODO Auto-generated method stub
-        // this.presetDao.
-        return null;
+        List<Preset> presets = this.presetDao.getAllByUserId(userId);
+        List<SimplePresetInfoDto> simplePresetInfos = presets.stream()
+                .map(preset->SimplePresetInfoDto.builder()
+                        .id(preset.getId())
+                        .name(preset.getName())
+                        .bookmark(preset.getBookmark())
+                        .build())
+                .toList();
+        return simplePresetInfos;
     }
 
     // 리스트의 범위를 벗어나면 null을 주는 함수
