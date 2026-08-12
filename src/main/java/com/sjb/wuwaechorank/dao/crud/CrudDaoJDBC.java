@@ -65,6 +65,8 @@ public class CrudDaoJDBC<T> implements CrudDao<T> {
      */
     @Override
     public void update(Object primaryKey, T entity) {
-        this.jdbcTemplate.update(sqlBuilder.update(clazz), sqlParamBuilder.update(entity, primaryKey));
+        String sql = sqlBuilder.update(clazz);
+        Object[] param = sqlParamBuilder.update(entity, primaryKey);
+        this.jdbcTemplate.update(sql, param);
     }
 }
