@@ -4,6 +4,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.when;
 
 import java.util.List;
+import java.util.Map;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -91,11 +92,7 @@ public class ResonatorEchoServiceTest {
     void getResonatorEchoScore(){
         when(this.resonatorDao.get(resonator1.getId())).thenReturn(resonator1);
         when(this.validStatDao.get(resonator1.getValidStatId())).thenReturn(validStat1);
-        when(this.subStatInfoDao.getAllBySubStatId(1)).thenReturn(List.of(this.subStatInfo1, this.subStatInfo2, this.subStatInfo3, this.subStatInfo4));
-        when(this.subStatInfoDao.getAllBySubStatId(2)).thenReturn(List.of(this.subStatInfo5));
-        when(this.subStatInfoDao.getAllBySubStatId(3)).thenReturn(List.of(this.subStatInfo6));
-        when(this.subStatInfoDao.getAllBySubStatId(4)).thenReturn(List.of(this.subStatInfo7));
-        when(this.subStatInfoDao.getAllBySubStatId(5)).thenReturn(List.of(this.subStatInfo8));
+        when(this.subStatInfoDao.getAllBySubStatIdIn(List.of(1,2,3,4,5))).thenReturn(List.of(this.subStatInfo1, this.subStatInfo2, this.subStatInfo3, this.subStatInfo4, this.subStatInfo5, this.subStatInfo6, this.subStatInfo7, this.subStatInfo8));
 
         List<ResonatorEchoInfoDto> resonatorEchoInfoDtos = List.of(
             ResonatorEchoInfoDto.builder()
