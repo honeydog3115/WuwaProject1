@@ -9,5 +9,6 @@ import com.sjb.wuwaechorank.dto.SimplePresetInfoDto;
 public interface PresetService {
     // 프리셋 저장 함수
     void savePreset(PresetInfoDto presetInfoDto);
+    // 사용자의 프리셋들 기본 정보를 반환하는 함수
     List<SimplePresetInfoDto> getSimplePresetInfo(int userId);
 }
