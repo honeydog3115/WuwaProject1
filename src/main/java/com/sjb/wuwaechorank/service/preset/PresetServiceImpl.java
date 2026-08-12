@@ -65,6 +65,6 @@ public class PresetServiceImpl implements PresetService {
 
     // 리스트의 범위를 벗어나면 null을 주는 함수
     private Integer getOrNull(List<ResonatorEchoSubStatDto> echoSubStats, int index) {
-        return echoSubStats.size() < index ? null : echoSubStats.get(index).subStatId();
+        return echoSubStats.size() <= index ? null : echoSubStats.get(index).subStatId();
     }
 }

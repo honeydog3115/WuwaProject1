@@ -95,6 +95,6 @@ public class ResonatorEchoServiceImpl implements ResonatorEchoService{
     }
 
     private Integer getOrNull(List<ResonatorEchoSubStatDto> echoSubStats, int index){
-        return echoSubStats.size() < index ? null : echoSubStats.get(index).subStatId();
+        return echoSubStats.size() <= index ? null : echoSubStats.get(index).subStatId();
     }
 }
