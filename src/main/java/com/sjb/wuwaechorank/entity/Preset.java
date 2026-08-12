@@ -27,7 +27,7 @@ public class Preset {
     Integer userId = 1;
     
     @Builder.Default
-    boolean bookmark = true;
+    Boolean bookmark = true;
     
     @ForeignKey
     @Builder.Default
