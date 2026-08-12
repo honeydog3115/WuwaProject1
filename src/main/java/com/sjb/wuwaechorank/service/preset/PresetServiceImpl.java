@@ -51,7 +51,8 @@ public class PresetServiceImpl implements PresetService {
     }
 
     @Override
-    public List<SimplePresetInfoDto> getSimplePresetInfo() {
+    public List<SimplePresetInfoDto> getSimplePresetInfo(int userId) {
+
         // TODO Auto-generated method stub
         // this.presetDao.
         return null;
