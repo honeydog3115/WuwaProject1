@@ -15,7 +15,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import com.sjb.wuwaechorank.dao.entity.preset.PresetDao;
 import com.sjb.wuwaechorank.entity.Preset;
 import com.sjb.wuwaechorank.entity.Resonator;
-import com.sjb.wuwaechorank.entity.ResonatorEcho;
 import com.sjb.wuwaechorank.entity.User;
 import com.sjb.wuwaechorank.util.DaoJDBCUtil;
 import com.sjb.wuwaechorank.util.DaoTestUtil;
@@ -43,9 +42,9 @@ public class PresetDaoTest {
         daoJDBCUtil.setTestFixture(testFixture);
         daoJDBCUtil.initReferenceTables();
 
-        preset1 = new Preset(1, "카르티시아 프리셋", 1, false, 1, 1, 60.15);
-        preset2 = new Preset(2, "에이메스 프리셋", 1, false, 1, 1, 30.15);
-        preset3 = new Preset(3, "유노 프리셋", 1, false, 1, 1, 0.15);
+        preset1 = new Preset(1, "카르티시아 프리셋", 1, false, 1, 60.15);
+        preset2 = new Preset(2, "에이메스 프리셋", 1, false, 1, 30.15);
+        preset3 = new Preset(3, "유노 프리셋", 1, false, 1, 0.15);
     }
 
     @Test
@@ -75,7 +74,7 @@ public class PresetDaoTest {
     @Test
     void update(){
         this.presetDao.add(preset1);
-        Preset preset = new Preset(1, "양양 프리셋", 1, true, 1, 1, 77.7);
+        Preset preset = new Preset(1, "양양 프리셋", 1, true, 1, 77.7);
         this.presetDao.update(1, preset);
         Preset updatedPreset = this.presetDao.get(1);
 
@@ -86,8 +85,6 @@ public class PresetDaoTest {
     void foreignKeyConstraintViolation(){
         this.preset1.setUserId(2);
         DaoTestUtil.foreignKeyConstraintViolationTest(()->this.presetDao.add(preset1));
-        this.preset2.setResonatorEchoId(2);
-        DaoTestUtil.foreignKeyConstraintViolationTest(()->this.presetDao.add(preset2));
         this.preset3.setResonatorId(2);
         DaoTestUtil.foreignKeyConstraintViolationTest(()->this.presetDao.add(preset3));
     }
@@ -96,7 +93,6 @@ public class PresetDaoTest {
     @ValueSource(classes = {
         User.class,
         Resonator.class,
-        ResonatorEcho.class
     })
     void onDeleteSetNull(Class<?> refEntityClass){
         this.presetDao.add(preset1);
@@ -106,7 +102,5 @@ public class PresetDaoTest {
             assertThat(preset.getUserId()).isEqualTo(null);
         if (refEntityClass == Resonator.class)
             assertThat(preset.getResonatorId()).isEqualTo(null);
-        if (refEntityClass == ResonatorEcho.class)
-            assertThat(preset.getResonatorEchoId()).isEqualTo(null);
     }
 }
