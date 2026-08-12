@@ -36,19 +36,44 @@ public class SubStatInfoDaoTest {
     SubStatInfo subStatInfo1;
     SubStatInfo subStatInfo2;
     SubStatInfo subStatInfo3;
+    SubStatInfo subStatInfo4;
+    SubStatInfo subStatInfo5;
+    SubStatInfo subStatInfo6;
+    SubStatInfo subStatInfo7;
+    SubStatInfo subStatInfo8;
 
     SubStat subStat1;
+    SubStat subStat2;
+    SubStat subStat3;
+    SubStat subStat4;
+    SubStat subStat5;
+
 
     @BeforeEach
     void setUp(){
         daoTestUtil.initTables(TABLE_NAME);
         daoTestUtil.initTables(REFERENCE_TABLE_NAME);
 
-        subStatInfo1 = new SubStatInfo(1, 1, "15.5%", "12.1%");
-        subStatInfo2 = new SubStatInfo(2, 1, "12.0%", "23.7%");
-        subStatInfo3 = new SubStatInfo(3, 1, "18.5%", "5.2%");
-        subStat1 = new SubStat(1, "공격력%");
+        this.subStat1 = new SubStat(1, "체력%");
+        this.subStat2 = new SubStat(2, "크리티컬확률");
+        this.subStat3 = new SubStat(3, "크리티컬피해");
+        this.subStat4 = new SubStat(4, "일반공격피해");
+        this.subStat5 = new SubStat(5, "공명효율");
+
+        this.subStatInfo1 = SubStatInfo.builder().id(1).SubStatId(1).value("10%").build();
+        this.subStatInfo2 = SubStatInfo.builder().id(2).SubStatId(1).value("20%").build();
+        this.subStatInfo3 = SubStatInfo.builder().id(3).SubStatId(1).value("30%").build();
+        this.subStatInfo4 = SubStatInfo.builder().id(4).SubStatId(1).value("40%").build();
+        this.subStatInfo5 = SubStatInfo.builder().id(5).SubStatId(2).value("10%").build();
+        this.subStatInfo6 = SubStatInfo.builder().id(6).SubStatId(3).value("10%").build();
+        this.subStatInfo7 = SubStatInfo.builder().id(7).SubStatId(4).value("10%").build();
+        this.subStatInfo8 = SubStatInfo.builder().id(8).SubStatId(5).value("10%").build();
+        subStat1 = new SubStat(1, "체력%");
         this.subStatDao.add(subStat1);
+        this.subStatDao.add(subStat2);
+        this.subStatDao.add(subStat3);
+        this.subStatDao.add(subStat4);
+        this.subStatDao.add(subStat5);
     }
 
     @Test
@@ -56,9 +81,7 @@ public class SubStatInfoDaoTest {
         this.subStatInfoDao.add(subStatInfo1);
         
         SubStatInfo subStatInfo = this.subStatInfoDao.get(subStatInfo1.getId());
-        assertEquals(1, subStatInfo.getId());
-        assertEquals("15.5%", subStatInfo.getValue());
-        assertEquals("12.1%", subStatInfo.getChance());
+        assertThat(subStatInfo).usingRecursiveComparison().isEqualTo(subStatInfo1);
     }
     
     @Test
@@ -115,5 +138,24 @@ public class SubStatInfoDaoTest {
         this.subStatInfoDao.add(subStatInfo3);
         List<SubStatInfo> subStatInfos = this.subStatInfoDao.getAllBySubStatId(1);
         assertThat(subStatInfos.size()).isEqualTo(3);
+    }
+    
+    @Test
+    void getAllBySubStatIdIn(){
+        this.subStatInfoDao.add(subStatInfo1);
+        this.subStatInfoDao.add(subStatInfo2);
+        this.subStatInfoDao.add(subStatInfo3);
+        this.subStatInfoDao.add(subStatInfo4);
+        this.subStatInfoDao.add(subStatInfo5);
+        this.subStatInfoDao.add(subStatInfo6);
+        this.subStatInfoDao.add(subStatInfo7);
+        this.subStatInfoDao.add(subStatInfo8);
+
+        List<Integer> subStatIds = List.of(1,2,3,4,5);
+        List<SubStatInfo> subStatInfos =  this.subStatInfoDao.getAllBySubStatIdIn(subStatIds);
+
+        List<SubStatInfo> expected = List.of(subStatInfo1, subStatInfo2, subStatInfo3, subStatInfo4, subStatInfo5, subStatInfo6, subStatInfo7, subStatInfo8);
+
+        assertThat(subStatInfos).usingRecursiveComparison().isEqualTo(expected);
     }
 }
