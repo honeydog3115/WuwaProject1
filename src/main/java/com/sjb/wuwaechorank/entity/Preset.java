@@ -32,11 +32,7 @@ public class Preset {
     @ForeignKey
     @Builder.Default
     Integer resonatorId = 1;
-    
-    @ForeignKey
-    @Builder.Default
-    Integer resonatorEchoId = 1;
-    
+        
     @Builder.Default
     Double echoTotalScore = 1.0;
 }
