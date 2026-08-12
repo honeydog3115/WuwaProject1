@@ -1,10 +1,16 @@
 package com.sjb.wuwaechorank.service;
 
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
+
 import java.util.List;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.ArgumentCaptor;
+import org.mockito.Captor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
@@ -15,10 +21,10 @@ import com.sjb.wuwaechorank.dao.entity.resonatorecho.ResonatorEchoDao;
 import com.sjb.wuwaechorank.dto.PresetInfoDto;
 import com.sjb.wuwaechorank.dto.ResonatorEchoInfoDto;
 import com.sjb.wuwaechorank.dto.ResonatorEchoSubStatDto;
+import com.sjb.wuwaechorank.entity.Preset;
 import com.sjb.wuwaechorank.service.preset.PresetService;
 import com.sjb.wuwaechorank.service.preset.PresetServiceImpl;
 
-@SpringBootTest
 @ExtendWith(MockitoExtension.class)
 public class PresetServiceTest {
     @Mock
@@ -30,9 +36,14 @@ public class PresetServiceTest {
     @InjectMocks
     PresetService presetService = new PresetServiceImpl(presetDao, resonatorEchoDao);
 
+    @Captor
+    ArgumentCaptor<Preset> presetCaptor;
+
     PresetInfoDto presetInfoDto1;
     List<ResonatorEchoInfoDto> resonatorEchoInfoDto; 
     List<ResonatorEchoSubStatDto> resonatorEchoSubStatDtos;
+
+    Preset preset1;
 
     @BeforeEach
     void setUp(){
@@ -53,10 +64,20 @@ public class PresetServiceTest {
                 .echosInfo(this.resonatorEchoInfoDto)
                 .score(50)
                 .build();
+        this.preset1 = new Preset(1, "방랑자 프리셋", 1, false, 1, 50.0);
     }
 
     @Test
     void savePreset(){
         this.presetService.savePreset(presetInfoDto1);
+
+        verify(this.presetDao).add(presetCaptor.capture());
+        Preset preset = presetCaptor.getValue();
+        assertThat(preset).usingRecursiveComparison().isEqualTo(preset1);
+    }
+
+    @Test
+    void getSimplePresetInfo(){
+
     }
 }
