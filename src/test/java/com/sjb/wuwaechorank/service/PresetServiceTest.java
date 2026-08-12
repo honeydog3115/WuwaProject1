@@ -1,5 +1,62 @@
 package com.sjb.wuwaechorank.service;
 
+import java.util.List;
+
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.boot.test.context.SpringBootTest;
+
+import com.sjb.wuwaechorank.dao.entity.preset.PresetDao;
+import com.sjb.wuwaechorank.dao.entity.resonatorecho.ResonatorEchoDao;
+import com.sjb.wuwaechorank.dto.PresetInfoDto;
+import com.sjb.wuwaechorank.dto.ResonatorEchoInfoDto;
+import com.sjb.wuwaechorank.dto.ResonatorEchoSubStatDto;
+import com.sjb.wuwaechorank.service.preset.PresetService;
+import com.sjb.wuwaechorank.service.preset.PresetServiceImpl;
+
+@SpringBootTest
+@ExtendWith(MockitoExtension.class)
 public class PresetServiceTest {
-    
+    @Mock
+    PresetDao presetDao;
+
+    @Mock
+    ResonatorEchoDao resonatorEchoDao;
+
+    @InjectMocks
+    PresetService presetService = new PresetServiceImpl(presetDao, resonatorEchoDao);
+
+    PresetInfoDto presetInfoDto1;
+    List<ResonatorEchoInfoDto> resonatorEchoInfoDto; 
+    List<ResonatorEchoSubStatDto> resonatorEchoSubStatDtos;
+
+    @BeforeEach
+    void setUp(){
+        this.resonatorEchoSubStatDtos = List.of(
+            ResonatorEchoSubStatDto.builder().subStatId(1).value("10%").build(),
+            ResonatorEchoSubStatDto.builder().subStatId(2).value("20%").build(),
+            ResonatorEchoSubStatDto.builder().subStatId(3).value("30%").build(),
+            ResonatorEchoSubStatDto.builder().subStatId(4).value("40%").build()
+        );
+        this.resonatorEchoInfoDto = List.of(ResonatorEchoInfoDto.builder()
+                .echoId(1)
+                .echoSubStats(this.resonatorEchoSubStatDtos)
+                .build());
+        this.presetInfoDto1 = PresetInfoDto.builder()
+                .userId(1)
+                .name("방랑자 프리셋")
+                .resonatorId(1)
+                .echosInfo(this.resonatorEchoInfoDto)
+                .score(50)
+                .build();
+    }
+
+    @Test
+    void savePreset(){
+        this.presetService.savePreset(presetInfoDto1);
+    }
 }
