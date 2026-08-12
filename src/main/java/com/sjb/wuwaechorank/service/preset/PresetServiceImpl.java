@@ -11,6 +11,7 @@ import com.sjb.wuwaechorank.dao.entity.resonatorecho.ResonatorEchoDao;
 import com.sjb.wuwaechorank.dto.PresetInfoDto;
 import com.sjb.wuwaechorank.dto.ResonatorEchoInfoDto;
 import com.sjb.wuwaechorank.dto.ResonatorEchoSubStatDto;
+import com.sjb.wuwaechorank.dto.SimplePresetInfoDto;
 import com.sjb.wuwaechorank.entity.Preset;
 import com.sjb.wuwaechorank.entity.Resonator;
 import com.sjb.wuwaechorank.entity.ResonatorEcho;
@@ -49,6 +50,12 @@ public class PresetServiceImpl implements PresetService {
                         .build()));
     }
 
+    @Override
+    public List<SimplePresetInfoDto> getSimplePresetInfo() {
+        // TODO Auto-generated method stub
+        // this.presetDao.
+        return null;
+    }
 
     // 리스트의 범위를 벗어나면 null을 주는 함수
     private Integer getOrNull(List<ResonatorEchoSubStatDto> echoSubStats, int index) {

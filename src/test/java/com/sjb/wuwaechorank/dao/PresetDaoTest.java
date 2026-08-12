@@ -34,7 +34,9 @@ public class PresetDaoTest {
     Preset preset1;
     Preset preset2;
     Preset preset3;
+    Preset preset4;
 
+    User user2;
     @BeforeEach
     void setUp(){
         daoJDBCUtil.initTables(TABLE_NAME);
@@ -45,6 +47,10 @@ public class PresetDaoTest {
         preset1 = new Preset(1, "카르티시아 프리셋", 1, false, 1, 60.15);
         preset2 = new Preset(2, "에이메스 프리셋", 1, false, 1, 30.15);
         preset3 = new Preset(3, "유노 프리셋", 1, false, 1, 0.15);
+        preset4 = new Preset(4, "여별 프리셋", 2, false, 1, 20.0);
+
+        user2 = new User(2);
+        daoJDBCUtil.addRefEntity(user2);
     }
 
     @Test
@@ -103,4 +109,13 @@ public class PresetDaoTest {
         if (refEntityClass == Resonator.class)
             assertThat(preset.getResonatorId()).isEqualTo(null);
     }
+
+    @Test
+    void getAllByUserId(){
+        this.presetDao.add(preset1);
+        this.presetDao.add(preset2);
+        this.presetDao.add(preset3);
+        this.presetDao.add(preset4);
+        assertThat(this.presetDao.getAllByUserId(1)).usingRecursiveComparison().isEqualTo(List.of(preset1, preset2, preset3));
+    }    
 }
