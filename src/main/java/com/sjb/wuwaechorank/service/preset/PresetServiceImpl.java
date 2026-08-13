@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.sjb.wuwaechorank.dao.entity.preset.PresetDao;
 import com.sjb.wuwaechorank.dao.entity.resonatorecho.ResonatorEchoDao;
-import com.sjb.wuwaechorank.dto.PresetInfoDto;
+import com.sjb.wuwaechorank.dto.PresetInputInfoDto;
 import com.sjb.wuwaechorank.dto.ResonatorEchoInfoDto;
 import com.sjb.wuwaechorank.dto.ResonatorEchoSubStatDto;
 import com.sjb.wuwaechorank.dto.SimplePresetInfoDto;
@@ -28,7 +28,7 @@ public class PresetServiceImpl implements PresetService {
     }
 
     @Override
-    public void savePreset(PresetInfoDto presetInfoDto) {
+    public void savePreset(PresetInputInfoDto presetInfoDto) {
         this.presetDao.add(
                 Preset.builder()
                         .userId(presetInfoDto.userId())
@@ -62,6 +62,8 @@ public class PresetServiceImpl implements PresetService {
                 .toList();
         return simplePresetInfos;
     }
+
+
 
     // 리스트의 범위를 벗어나면 null을 주는 함수
     private Integer getOrNull(List<ResonatorEchoSubStatDto> echoSubStats, int index) {

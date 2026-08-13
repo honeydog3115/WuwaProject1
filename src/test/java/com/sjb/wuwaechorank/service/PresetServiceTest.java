@@ -18,7 +18,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import com.sjb.wuwaechorank.dao.entity.preset.PresetDao;
 import com.sjb.wuwaechorank.dao.entity.resonatorecho.ResonatorEchoDao;
-import com.sjb.wuwaechorank.dto.PresetInfoDto;
+import com.sjb.wuwaechorank.dto.PresetInputInfoDto;
 import com.sjb.wuwaechorank.dto.ResonatorEchoInfoDto;
 import com.sjb.wuwaechorank.dto.ResonatorEchoSubStatDto;
 import com.sjb.wuwaechorank.dto.SimplePresetInfoDto;
@@ -44,7 +44,7 @@ public class PresetServiceTest {
     @Captor
     ArgumentCaptor<ResonatorEcho> resonatorEchoCaptor;
 
-    PresetInfoDto presetInfoDto1;
+    PresetInputInfoDto presetInfoDto1;
     List<ResonatorEchoInfoDto> resonatorEchoInfoDto; 
     List<ResonatorEchoSubStatDto> resonatorEchoSubStatDtos;
 
@@ -68,7 +68,7 @@ public class PresetServiceTest {
                 .echoSubStats(this.resonatorEchoSubStatDtos)
                 .build());
         
-        this.presetInfoDto1 = PresetInfoDto.builder()
+        this.presetInfoDto1 = PresetInputInfoDto.builder()
                 .userId(1)
                 .name("방랑자 프리셋")
                 .resonatorId(1)

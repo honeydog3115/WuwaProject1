@@ -6,7 +6,7 @@ import lombok.Builder;
 
 // PresetService.savePreset()에 사용될 DTO
 @Builder
-public record PresetInfoDto(
+public record PresetInputInfoDto(
     int userId,
     String name,
     int resonatorId,
