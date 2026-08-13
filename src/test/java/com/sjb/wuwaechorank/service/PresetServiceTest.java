@@ -22,6 +22,7 @@ import com.sjb.wuwaechorank.dto.PresetInfoDto;
 import com.sjb.wuwaechorank.dto.ResonatorEchoInfoDto;
 import com.sjb.wuwaechorank.dto.ResonatorEchoSubStatDto;
 import com.sjb.wuwaechorank.entity.Preset;
+import com.sjb.wuwaechorank.entity.ResonatorEcho;
 import com.sjb.wuwaechorank.service.preset.PresetService;
 import com.sjb.wuwaechorank.service.preset.PresetServiceImpl;
 
@@ -39,12 +40,16 @@ public class PresetServiceTest {
     @Captor
     ArgumentCaptor<Preset> presetCaptor;
 
+    @Captor
+    ArgumentCaptor<ResonatorEcho> resonatorEchoCaptor;
+
     PresetInfoDto presetInfoDto1;
     List<ResonatorEchoInfoDto> resonatorEchoInfoDto; 
     List<ResonatorEchoSubStatDto> resonatorEchoSubStatDtos;
 
     Preset preset1;
-
+    ResonatorEcho resonatorEcho1;
+    
     @BeforeEach
     void setUp(){
         this.resonatorEchoSubStatDtos = List.of(
@@ -65,6 +70,14 @@ public class PresetServiceTest {
                 .score(50)
                 .build();
         this.preset1 = new Preset(1, "방랑자 프리셋", 1, false, 1, 50.0);
+        this.resonatorEcho1 = ResonatorEcho.builder()
+                .echoId(this.resonatorEchoInfoDto.get(0).echoId())
+                .SubStatId1(resonatorEchoSubStatDtos.get(0).subStatId())
+                .SubStatId2(resonatorEchoSubStatDtos.get(1).subStatId())
+                .SubStatId3(resonatorEchoSubStatDtos.get(2).subStatId())
+                .SubStatId4(resonatorEchoSubStatDtos.get(3).subStatId())
+                .SubStatId5(null)
+                .build();
     }
 
     @Test
@@ -73,7 +86,12 @@ public class PresetServiceTest {
 
         verify(this.presetDao).add(presetCaptor.capture());
         Preset preset = presetCaptor.getValue();
+
+        verify(this.resonatorEchoDao).add(resonatorEchoCaptor.capture());
+        ResonatorEcho resonatorEcho = resonatorEchoCaptor.getValue();
+
         assertThat(preset).usingRecursiveComparison().isEqualTo(preset1);
+        assertThat(resonatorEcho).usingRecursiveComparison().isEqualTo(resonatorEcho1);
     }
 
     @Test
