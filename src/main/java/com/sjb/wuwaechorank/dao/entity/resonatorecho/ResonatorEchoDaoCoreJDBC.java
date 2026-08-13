@@ -1,6 +1,5 @@
 package com.sjb.wuwaechorank.dao.entity.resonatorecho;
 
-import java.beans.BeanProperty;
 import java.util.List;
 
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
