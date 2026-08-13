@@ -36,6 +36,7 @@ public class PresetEchoDaoTest {
     PresetEcho presetEcho2;
     PresetEcho presetEcho3;
 
+    ResonatorEcho resonatorEcho1;
     ResonatorEcho resonatorEcho2;
     ResonatorEcho resonatorEcho3;
 
@@ -47,9 +48,10 @@ public class PresetEchoDaoTest {
         this.daoJDBCUtil.initReferenceTables();
 
         this.presetEcho1 = new PresetEcho(1, 1, 1);
-        this.presetEcho2 = new PresetEcho(1, 1, 2);
-        this.presetEcho3 = new PresetEcho(1, 1, 3);
+        this.presetEcho2 = new PresetEcho(2, 1, 2);
+        this.presetEcho3 = new PresetEcho(3, 1, 3);
 
+        this.resonatorEcho2 = new ResonatorEcho(1, 1, 1, 1, 1, 1, 1, 1, 0);
         this.resonatorEcho2 = new ResonatorEcho(2, 1, 1, 1, 1, 1, 1, 1, 0);
         this.resonatorEcho3 = new ResonatorEcho(3, 1, 1, 1, 1, 1, 1, 1, 0);
         this.daoJDBCUtil.addRefEntity(resonatorEcho2);
@@ -109,5 +111,17 @@ public class PresetEchoDaoTest {
         this.presetEchoDao.add(presetEcho1);
         daoJDBCUtil.deleteRefEntity(refEntiyClass);
         assertThat(this.presetEchoDao.getCount()).isEqualTo(0);
+    }
+
+    @Test
+    void getAllByPresetId(){
+        this.presetEchoDao.add(presetEcho1);
+        this.presetEchoDao.add(presetEcho2);
+        this.presetEchoDao.add(presetEcho3);
+
+        List<PresetEcho> presetEchos = this.presetEchoDao.getAllByPresetId(1);
+        List<PresetEcho> expected = List.of(this.presetEcho1, this.presetEcho2, this.presetEcho3);
+
+        assertThat(presetEchos).usingRecursiveComparison().isEqualTo(expected);
     }
 }
