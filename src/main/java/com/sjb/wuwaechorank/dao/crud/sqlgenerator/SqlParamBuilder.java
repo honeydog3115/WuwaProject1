@@ -1,6 +1,8 @@
 package com.sjb.wuwaechorank.dao.crud.sqlgenerator;
 
+import java.util.Map;
+
 public interface SqlParamBuilder {
-    Object[] insert(Object entity);
+    Map<String,Object> insert(Object entity);
     Object[] update(Object entity, Object primaryKey);
 }

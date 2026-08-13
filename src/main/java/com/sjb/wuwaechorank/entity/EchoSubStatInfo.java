@@ -23,5 +23,5 @@ public class EchoSubStatInfo {
     int resonatorEchoId = 1;
     @ForeignKey
     @Builder.Default
-    int substatInfoId = 1;
+    int subStatInfoId = 1;
 }

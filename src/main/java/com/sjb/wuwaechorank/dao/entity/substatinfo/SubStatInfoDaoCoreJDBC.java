@@ -39,4 +39,15 @@ public class SubStatInfoDaoCoreJDBC implements SubStatInfoDaoCore {
         return this.namedParameterJdbcTemplate.query("SELECT * FROM substatinfo WHERE substatid IN (:ids)", parameter, rowMapper);
     }
     
+    @Override
+    public List<SubStatInfo> getAllByEchoSubStatInfos(List<Integer> echoSubStatInfoIds) {
+        if(echoSubStatInfoIds == null || echoSubStatInfoIds.isEmpty())
+            return List.of();
+        
+        MapSqlParameterSource parameter = new MapSqlParameterSource();
+        parameter.addValue("ids", echoSubStatInfoIds);
+        
+        return this.namedParameterJdbcTemplate.query("SELECT s.id s.substatis s.value s.chance FROM echosubstatinfo e INNER JOIN substatinfo s ON e.substatinfoid = s.id WHERE e.id IN (:ids)", parameter, rowMapper);
+    }
+
 }

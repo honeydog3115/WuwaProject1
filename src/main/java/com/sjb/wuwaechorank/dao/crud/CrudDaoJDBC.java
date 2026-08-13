@@ -4,6 +4,9 @@ import java.util.List;
 
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
+import org.springframework.jdbc.support.GeneratedKeyHolder;
+import org.springframework.jdbc.support.KeyHolder;
 
 import com.sjb.wuwaechorank.dao.crud.sqlgenerator.SqlBuilder;
 import com.sjb.wuwaechorank.dao.crud.sqlgenerator.SqlParamBuilder;
@@ -27,8 +30,14 @@ public class CrudDaoJDBC<T> implements CrudDao<T> {
      * @param entity
      */
     @Override
-    public void add(T entity) {
-        this.jdbcTemplate.update(sqlBuilder.insert(clazz), sqlParamBuilder.insert(entity));
+    public int add(T entity) {
+        SimpleJdbcInsert jdbcInsert = new SimpleJdbcInsert(jdbcTemplate)
+                .withTableName(entity.getClass().getSimpleName())
+                .usingGeneratedKeyColumns("id");
+        Number key = jdbcInsert.executeAndReturnKey(sqlParamBuilder.insert(entity));
+        return key.intValue();
+        // this.jdbcTemplate.update(sqlBuilder.insert(clazz), sqlParamBuilder.insert(entity),keyHolder);
+        // this.jdbcTemplate.update(con -> {}, keyHolder);
     }
     /** 
      * @param primaryKey

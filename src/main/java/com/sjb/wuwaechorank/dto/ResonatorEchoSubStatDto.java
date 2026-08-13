@@ -5,5 +5,7 @@ import lombok.Builder;
 @Builder
 public record ResonatorEchoSubStatDto(
     int subStatId,
-    String value
+    int subStatInfoId,
+    String value,
+    String chance
 ) {}

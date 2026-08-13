@@ -11,4 +11,6 @@ public interface SubStatInfoDaoCore {
     List<SubStatInfo> getAllBySubStatId(int subStatId);
     // subStatIds에 해당하는 SubStatInfo 들을 전부 가져옴.
     List<SubStatInfo> getAllBySubStatIdIn(List<Integer> subStatIds);
+    // EchoSubStatInfo와 조인해서 공명자 에코의 서브스탯 정보를 가져옴.
+    List<SubStatInfo> getAllByEchoSubStatInfos(List<Integer> echoSubStatInfoIds);
 }

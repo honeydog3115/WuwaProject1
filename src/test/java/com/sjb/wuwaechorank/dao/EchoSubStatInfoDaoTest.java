@@ -112,4 +112,9 @@ public class EchoSubStatInfoDaoTest {
         this.daoJDBCUtil.deleteRefEntity(refEntiyClass);
         assertThat(this.echoSubStatInfoDao.getCount());
     }
+
+    @Test
+    void getIdsByResonatorEchoId (){
+        
+    }
 }   

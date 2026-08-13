@@ -51,9 +51,9 @@ public class PresetEchoDaoTest {
         this.presetEcho2 = new PresetEcho(2, 1, 2);
         this.presetEcho3 = new PresetEcho(3, 1, 3);
 
-        this.resonatorEcho2 = new ResonatorEcho(1, 1, 1, 1, 1, 1, 1, 1, 0);
-        this.resonatorEcho2 = new ResonatorEcho(2, 1, 1, 1, 1, 1, 1, 1, 0);
-        this.resonatorEcho3 = new ResonatorEcho(3, 1, 1, 1, 1, 1, 1, 1, 0);
+        this.resonatorEcho2 = new ResonatorEcho(1, 1, 1, 50);
+        this.resonatorEcho2 = new ResonatorEcho(2, 1, 1, 50);
+        this.resonatorEcho3 = new ResonatorEcho(3, 1, 1, 50);
         this.daoJDBCUtil.addRefEntity(resonatorEcho2);
         this.daoJDBCUtil.addRefEntity(resonatorEcho3);
     }

@@ -14,10 +14,15 @@ import org.mockito.Captor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.boot.test.context.SpringBootTest;
 
+import com.sjb.wuwaechorank.dao.entity.echo.EchoDao;
+import com.sjb.wuwaechorank.dao.entity.echosubstatinfo.EchoSubStatInfoDao;
+import com.sjb.wuwaechorank.dao.entity.mainstat.MainStatDao;
 import com.sjb.wuwaechorank.dao.entity.preset.PresetDao;
+import com.sjb.wuwaechorank.dao.entity.resonator.ResonatorDao;
 import com.sjb.wuwaechorank.dao.entity.resonatorecho.ResonatorEchoDao;
+import com.sjb.wuwaechorank.dao.entity.substat.SubStatDao;
+import com.sjb.wuwaechorank.dao.entity.substatinfo.SubStatInfoDao;
 import com.sjb.wuwaechorank.dto.PresetInputInfoDto;
 import com.sjb.wuwaechorank.dto.ResonatorEchoInfoDto;
 import com.sjb.wuwaechorank.dto.ResonatorEchoSubStatDto;
@@ -26,17 +31,28 @@ import com.sjb.wuwaechorank.entity.Preset;
 import com.sjb.wuwaechorank.entity.ResonatorEcho;
 import com.sjb.wuwaechorank.service.preset.PresetService;
 import com.sjb.wuwaechorank.service.preset.PresetServiceImpl;
+import com.sjb.wuwaechorank.service.resonator.ResonatorService;
+import com.sjb.wuwaechorank.service.resonatorecho.ResonatorEchoService;
 
 @ExtendWith(MockitoExtension.class)
 public class PresetServiceTest {
     @Mock
     PresetDao presetDao;
-
     @Mock
     ResonatorEchoDao resonatorEchoDao;
+    @Mock
+    ResonatorDao resonatorDao;
+    @Mock
+    ResonatorService resonatorService;
+    @Mock EchoDao echoDao;
+    @Mock MainStatDao mainStatDao;
+    @Mock SubStatDao subStatDao;
+    @Mock ResonatorEchoService resonatorEchoService;
+    @Mock SubStatInfoDao subStatInfoDao;
+    @Mock EchoSubStatInfoDao echoSubStatInfoDao;
 
     @InjectMocks
-    PresetService presetService = new PresetServiceImpl(presetDao, resonatorEchoDao);
+    PresetService presetService = new PresetServiceImpl(presetDao, resonatorEchoDao, resonatorService, resonatorEchoService, echoDao, mainStatDao, subStatDao, subStatInfoDao, echoSubStatInfoDao);
 
     @Captor
     ArgumentCaptor<Preset> presetCaptor;
@@ -82,11 +98,6 @@ public class PresetServiceTest {
 
         this.resonatorEcho1 = ResonatorEcho.builder()
                 .echoId(this.resonatorEchoInfoDto.get(0).echoId())
-                .SubStatId1(resonatorEchoSubStatDtos.get(0).subStatId())
-                .SubStatId2(resonatorEchoSubStatDtos.get(1).subStatId())
-                .SubStatId3(resonatorEchoSubStatDtos.get(2).subStatId())
-                .SubStatId4(resonatorEchoSubStatDtos.get(3).subStatId())
-                .SubStatId5(null)
                 .build();
     }
 

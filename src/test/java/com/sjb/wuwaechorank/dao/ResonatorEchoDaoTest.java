@@ -15,11 +15,9 @@ import org.springframework.boot.test.context.SpringBootTest;
 import com.sjb.wuwaechorank.dao.entity.presetecho.PresetEchoDao;
 import com.sjb.wuwaechorank.dao.entity.resonatorecho.ResonatorEchoDao;
 import com.sjb.wuwaechorank.entity.Echo;
-import com.sjb.wuwaechorank.entity.MainStat;
 import com.sjb.wuwaechorank.entity.PresetEcho;
 import com.sjb.wuwaechorank.entity.ResonatorEcho;
 import com.sjb.wuwaechorank.entity.SonataEffect;
-import com.sjb.wuwaechorank.entity.SubStat;
 import com.sjb.wuwaechorank.util.DaoTestUtil;
 import com.sjb.wuwaechorank.util.DaoJDBCUtil;
 import com.sjb.wuwaechorank.util.TestFixture;
@@ -56,9 +54,9 @@ public class ResonatorEchoDaoTest {
         daoJDBCUtil.initTables("presetecho");
         daoJDBCUtil.initReferenceTables();
 
-        this.resonatorEcho1 = new ResonatorEcho(1, 1, 1, 1, 1, 1, 1, 1, 50);
-        this.resonatorEcho2 = new ResonatorEcho(2, 1, 1, 1, 1, 1, 1, 1, 50);
-        this.resonatorEcho3 = new ResonatorEcho(3, 1, 1, 1, 1, 1, 1, 1, 50);
+        this.resonatorEcho1 = new ResonatorEcho(1, 1, 1, 50);
+        this.resonatorEcho2 = new ResonatorEcho(2, 1, 1, 50);
+        this.resonatorEcho3 = new ResonatorEcho(3, 1, 1, 50);
         this.presetEcho1 = new PresetEcho(1, 1, 1);
         this.presetEcho2 = new PresetEcho(2, 1, 2);
         this.presetEcho3 = new PresetEcho(3, 1, 3);
@@ -92,7 +90,7 @@ public class ResonatorEchoDaoTest {
     void update(){
         this.resonatorEchoDao.add(resonatorEcho1);
         
-        ResonatorEcho resonatorEcho = new ResonatorEcho(1, 1, 1, 1, 1, 1, 1, 1, 20);
+        ResonatorEcho resonatorEcho = new ResonatorEcho(1, 1, 1, 20);
         this.resonatorEchoDao.update(1, resonatorEcho);
         ResonatorEcho updatedResonatorEcho = this.resonatorEchoDao.get(1);
 
@@ -105,20 +103,8 @@ public class ResonatorEchoDaoTest {
         DaoTestUtil.foreignKeyConstraintViolationTest(()->this.resonatorEchoDao.add(resonatorEcho1));
         
         resonatorEcho1.setMainStatId(2);
-        DaoTestUtil.foreignKeyConstraintViolationTest(()->this.resonatorEchoDao.add(resonatorEcho1));
-        
-        resonatorEcho1.setSubStatId1(2);
-        DaoTestUtil.foreignKeyConstraintViolationTest(()->this.resonatorEchoDao.add(resonatorEcho1));
-        resonatorEcho1.setSubStatId2(2);
-        DaoTestUtil.foreignKeyConstraintViolationTest(()->this.resonatorEchoDao.add(resonatorEcho1));
-        resonatorEcho1.setSubStatId3(2);
-        DaoTestUtil.foreignKeyConstraintViolationTest(()->this.resonatorEchoDao.add(resonatorEcho1));
-        resonatorEcho1.setSubStatId4(2);
-        DaoTestUtil.foreignKeyConstraintViolationTest(()->this.resonatorEchoDao.add(resonatorEcho1));
-        resonatorEcho1.setSubStatId5(2);
-        DaoTestUtil.foreignKeyConstraintViolationTest(()->this.resonatorEchoDao.add(resonatorEcho1));
+        DaoTestUtil.foreignKeyConstraintViolationTest(()->this.resonatorEchoDao.add(resonatorEcho1));   
     }
-
     @ParameterizedTest(name = "{0} 삭제시 Cascade 삭제 검증")
     @ValueSource(classes = {
         SonataEffect.class,

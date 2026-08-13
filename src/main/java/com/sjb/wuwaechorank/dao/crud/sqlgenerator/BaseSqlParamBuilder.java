@@ -2,6 +2,8 @@ package com.sjb.wuwaechorank.dao.crud.sqlgenerator;
 
 import java.lang.reflect.Field;
 import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.stream.Stream;
 
 import org.springframework.stereotype.Component;
@@ -14,11 +16,12 @@ public class BaseSqlParamBuilder implements SqlParamBuilder {
      * @param entity
      * @return Object[]
      */
-    public Object[] insert(Object entity){
-        return Arrays.stream(entity.getClass().getDeclaredFields())
+    public Map<String, Object> insert(Object entity){
+        Map<String, Object> param = new HashMap<>();
+        Arrays.stream(entity.getClass().getDeclaredFields())
                     .filter(field -> !field.isAnnotationPresent(PrimaryKey.class))
-                    .map(field -> getFieldValue(field, entity))
-                    .toArray();
+                    .map(field -> param.put(field.getName(), getFieldValue(field, entity))).close();
+        return param;
     }
 
     /** 

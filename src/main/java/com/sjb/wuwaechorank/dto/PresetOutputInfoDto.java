@@ -8,6 +8,8 @@ import lombok.Builder;
 @Builder
 public record PresetOutputInfoDto(
     int presetId,
+    String presetName,
     ResonatorDetailDto resonatorDetailDto,
-    List<ResonatorEchoInfoDto> resonatorEchoInfoDtos
+    List<EchoDetailDto> echoDetailDtos,
+    Double totalScore
 ) {}

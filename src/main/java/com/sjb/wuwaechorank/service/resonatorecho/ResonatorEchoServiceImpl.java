@@ -7,12 +7,17 @@ import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 
+import com.sjb.wuwaechorank.dao.entity.echosubstatinfo.EchoSubStatInfoDao;
+import com.sjb.wuwaechorank.dao.entity.preset.PresetDao;
+import com.sjb.wuwaechorank.dao.entity.presetecho.PresetEchoDao;
 import com.sjb.wuwaechorank.dao.entity.resonator.ResonatorDao;
 import com.sjb.wuwaechorank.dao.entity.resonatorecho.ResonatorEchoDao;
 import com.sjb.wuwaechorank.dao.entity.substatinfo.SubStatInfoDao;
 import com.sjb.wuwaechorank.dao.entity.validstat.ValidStatDao;
 import com.sjb.wuwaechorank.dto.ResonatorEchoInfoDto;
 import com.sjb.wuwaechorank.dto.ResonatorEchoSubStatDto;
+import com.sjb.wuwaechorank.entity.EchoSubStatInfo;
+import com.sjb.wuwaechorank.entity.PresetEcho;
 import com.sjb.wuwaechorank.entity.ResonatorEcho;
 import com.sjb.wuwaechorank.entity.SubStatInfo;
 import com.sjb.wuwaechorank.entity.ValidStat;
@@ -25,16 +30,20 @@ public class ResonatorEchoServiceImpl implements ResonatorEchoService{
     private SubStatInfoDao subStatInfoDao;
     private ResonatorDao resonatorDao;
     private ValidStatDao validStatDao;
+    private EchoSubStatInfoDao echoSubStatInfoDao;
+    private PresetEchoDao presetEchoDao;
     
-    public ResonatorEchoServiceImpl(ResonatorEchoDao resonatorEchoDao, SubStatInfoDao subStatInfoDao, ResonatorDao resonatorDao, ValidStatDao validStatDao){
+    public ResonatorEchoServiceImpl(ResonatorEchoDao resonatorEchoDao, SubStatInfoDao subStatInfoDao, ResonatorDao resonatorDao, ValidStatDao validStatDao, EchoSubStatInfoDao echoSubStatInfoDao, PresetEchoDao presetEchoDao){
         this.resonatorEchoDao = resonatorEchoDao;
         this.subStatInfoDao = subStatInfoDao;
         this.resonatorDao = resonatorDao;
         this.validStatDao = validStatDao;
+        this.echoSubStatInfoDao = echoSubStatInfoDao;
+        this.presetEchoDao = presetEchoDao;
     }
 
     @Override
-    public double getResonatorEchoScore(int resonatorId, List<ResonatorEchoInfoDto> resonatorEchosInfo) {
+    public double getResonatorEchoScore(int resonatorId, List<ResonatorEchoInfoDto> resonatorEchosInfo, boolean insertDB, int presetId) {
         ValidStat validStat = this.validStatDao.get(this.resonatorDao.get(resonatorId).getValidStatId());
         List<Integer> subStatIds = resonatorEchosInfo.stream()
                 .flatMap(resonatorEchoInfo->resonatorEchoInfo.echoSubStats().stream())
@@ -49,39 +58,47 @@ public class ResonatorEchoServiceImpl implements ResonatorEchoService{
                 ));
 
         double totalScore = resonatorEchosInfo.stream()
-                .map(resonatorEchoInfo->this.calcEchoScore(resonatorEchoInfo, validStat, idValueMap))
+                .map(resonatorEchoInfo->this.calcEchoScore(resonatorEchoInfo, validStat, idValueMap, insertDB, presetId))
                 .mapToDouble(Double::doubleValue)
                 .average()
-                .getAsDouble();
+                .orElse(0.0);
         
         return totalScore;
     }
 
     // 예코 점수 계산 함수
-    private double calcEchoScore(ResonatorEchoInfoDto resonatorEchoInfoDto, ValidStat validStat, Map<Integer, List<String>> idValueMap){
+    private double calcEchoScore(ResonatorEchoInfoDto resonatorEchoInfoDto, ValidStat validStat, Map<Integer, List<String>> idValueMap, boolean insertDB, int presetId){
         List<ResonatorEchoSubStatDto> echoSubStats = resonatorEchoInfoDto.echoSubStats();
+
+        final int resonatorEchoId = insertDB ? this.resonatorEchoDao.add(
+                ResonatorEcho.builder()
+                    .echoId(resonatorEchoInfoDto.echoId())
+                    .mainStatId(resonatorEchoInfoDto.mainStatid())
+                    .build()
+            ):-1;
+
         double score = resonatorEchoInfoDto.echoSubStats().stream()
-                .map(resonatorEchoSubStat->this.calcSubStatScore(resonatorEchoSubStat, validStat, idValueMap))
+                .map(resonatorEchoSubStat->this.calcSubStatScore(resonatorEchoSubStat, validStat, idValueMap, insertDB, resonatorEchoId))
                 .mapToDouble(Double::doubleValue)
                 .sum();
 
-        this.resonatorEchoDao.add(
-            ResonatorEcho.builder()
-                .echoId(resonatorEchoInfoDto.echoId())
-                .SubStatId1(this.getOrNull(echoSubStats, 0))
-                .SubStatId2(this.getOrNull(echoSubStats, 1))
-                .SubStatId3(this.getOrNull(echoSubStats, 2))
-                .SubStatId4(this.getOrNull(echoSubStats, 3))
-                .SubStatId5(this.getOrNull(echoSubStats, 4))
-                .score(score)
-                .build()
-        );
+        if(insertDB){
+            this.resonatorEchoDao.update(resonatorEchoId, ResonatorEcho.builder()
+                    .echoId(resonatorEchoInfoDto.echoId())
+                    .mainStatId(resonatorEchoInfoDto.mainStatid())
+                    .score(score)
+                    .build());
+            this.presetEchoDao.add(PresetEcho.builder()
+                    .presetId(presetId)
+                    .resonatorEchoId(resonatorEchoId)
+                    .build());
+        }
         
         return score;
     }
 
     // 부음속성 점수 계산함수
-    private double calcSubStatScore(ResonatorEchoSubStatDto echoSubStat, ValidStat validStat, Map<Integer, List<String>> idValueMap){
+    private double calcSubStatScore(ResonatorEchoSubStatDto echoSubStat, ValidStat validStat, Map<Integer, List<String>> idValueMap, boolean insertDB, int resonatorEchoId){
         if(!validStat.containSubStat(echoSubStat.subStatId()))
             return 0;
         
@@ -91,6 +108,14 @@ public class ResonatorEchoServiceImpl implements ResonatorEchoService{
         double baseScoreUnit = MAX_SUBSTAT_SCORE/values.size();
         // 가중치는 해당 옵션이 상옵일 수록 올라감.
         int weight = values.indexOf(echoSubStat.value())+1;
+
+        if(insertDB){
+            this.echoSubStatInfoDao.add(EchoSubStatInfo.builder()
+                    .resonatorEchoId(resonatorEchoId)
+                    .subStatInfoId(echoSubStat.subStatInfoId())
+                    .build());
+        }
+
         return baseScoreUnit * weight;
     }
 

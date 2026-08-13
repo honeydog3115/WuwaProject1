@@ -14,6 +14,8 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import com.sjb.wuwaechorank.dao.entity.echosubstatinfo.EchoSubStatInfoDao;
+import com.sjb.wuwaechorank.dao.entity.presetecho.PresetEchoDao;
 import com.sjb.wuwaechorank.dao.entity.resonator.ResonatorDao;
 import com.sjb.wuwaechorank.dao.entity.resonatorecho.ResonatorEchoDao;
 import com.sjb.wuwaechorank.dao.entity.substatinfo.SubStatInfoDao;
@@ -42,9 +44,14 @@ public class ResonatorEchoServiceTest {
     @Mock
     ValidStatDao validStatDao;
 
+    @Mock
+    EchoSubStatInfoDao echoSubStatInfoDao;
+    
+    @Mock
+    PresetEchoDao presetEchoDao;
+
     @InjectMocks
-    ResonatorEchoService resonatorEchoService = new ResonatorEchoServiceImpl(resonatorEchoDao, subStatInfoDao,
-            resonatorDao, validStatDao);
+    ResonatorEchoService resonatorEchoService = new ResonatorEchoServiceImpl(resonatorEchoDao, subStatInfoDao, resonatorDao, validStatDao,  echoSubStatInfoDao, presetEchoDao);
 
     Resonator resonator1;
 
@@ -107,7 +114,7 @@ public class ResonatorEchoServiceTest {
                 .build()
         );
         
-        double socre = this.resonatorEchoService.getResonatorEchoScore(resonator1.getId(), resonatorEchoInfoDtos);
+        double socre = this.resonatorEchoService.getResonatorEchoScore(resonator1.getId(), resonatorEchoInfoDtos, false, -1);
         assertThat(socre).isEqualTo((double)90);
     }
 }

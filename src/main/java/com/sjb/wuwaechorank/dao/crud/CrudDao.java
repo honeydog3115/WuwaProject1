@@ -3,7 +3,7 @@ package com.sjb.wuwaechorank.dao.crud;
 import java.util.List;
 
 public interface CrudDao<T>{
-    void add(T entity);
+    int add(T entity);
     T get(Object primaryKey);
     List<T> getAll();
     void delete(Object primaryKey);
