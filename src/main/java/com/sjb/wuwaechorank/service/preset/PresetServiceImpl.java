@@ -1,8 +1,6 @@
 package com.sjb.wuwaechorank.service.preset;
 
 import java.util.List;
-import java.util.stream.Collector;
-import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 
@@ -13,7 +11,6 @@ import com.sjb.wuwaechorank.dto.ResonatorEchoInfoDto;
 import com.sjb.wuwaechorank.dto.ResonatorEchoSubStatDto;
 import com.sjb.wuwaechorank.dto.SimplePresetInfoDto;
 import com.sjb.wuwaechorank.entity.Preset;
-import com.sjb.wuwaechorank.entity.Resonator;
 import com.sjb.wuwaechorank.entity.ResonatorEcho;
 
 // PresetService 인터페이스 구현체
