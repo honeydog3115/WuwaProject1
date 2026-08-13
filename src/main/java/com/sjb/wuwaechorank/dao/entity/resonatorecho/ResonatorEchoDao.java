@@ -5,6 +5,6 @@ import com.sjb.wuwaechorank.dao.crud.CrudDao;
 import com.sjb.wuwaechorank.entity.ResonatorEcho;
 
 @DaoInterface
-public interface ResonatorEchoDao extends CrudDao<ResonatorEcho>, ResonatorEchoCore {
+public interface ResonatorEchoDao extends CrudDao<ResonatorEcho>, ResonatorEchoDaoCore {
     
 }

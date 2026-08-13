@@ -4,10 +4,10 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public class ResonatorEchoCoreJDBC implements ResonatorEchoCore {
+public class ResonatorEchoDaoCoreJDBC implements ResonatorEchoDaoCore {
     private final JdbcTemplate jdbcTemplate;
     
-    public ResonatorEchoCoreJDBC(JdbcTemplate jdbcTemplate){
+    public ResonatorEchoDaoCoreJDBC(JdbcTemplate jdbcTemplate){
         this.jdbcTemplate = jdbcTemplate;
     }
 }
