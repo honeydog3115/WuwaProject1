@@ -12,9 +12,11 @@ import org.junit.jupiter.params.provider.ValueSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import com.sjb.wuwaechorank.dao.entity.presetecho.PresetEchoDao;
 import com.sjb.wuwaechorank.dao.entity.resonatorecho.ResonatorEchoDao;
 import com.sjb.wuwaechorank.entity.Echo;
 import com.sjb.wuwaechorank.entity.MainStat;
+import com.sjb.wuwaechorank.entity.PresetEcho;
 import com.sjb.wuwaechorank.entity.ResonatorEcho;
 import com.sjb.wuwaechorank.entity.SonataEffect;
 import com.sjb.wuwaechorank.entity.SubStat;
@@ -35,20 +37,31 @@ public class ResonatorEchoDaoTest {
     @Autowired
     ResonatorEchoDao resonatorEchoDao;
 
+    @Autowired
+    PresetEchoDao presetEchoDao;
+
     ResonatorEcho resonatorEcho1;
     ResonatorEcho resonatorEcho2;
     ResonatorEcho resonatorEcho3;
+
+    PresetEcho presetEcho1;
+    PresetEcho presetEcho2;
+    PresetEcho presetEcho3;
 
     @BeforeEach
     void setUp(){
         testFixture.createReferenceEntity(ResonatorEcho.class);
         daoJDBCUtil.setTestFixture(testFixture);
         daoJDBCUtil.initTables(TABLE_NAME);
+        daoJDBCUtil.initTables("presetecho");
         daoJDBCUtil.initReferenceTables();
 
         this.resonatorEcho1 = new ResonatorEcho(1, 1, 1, 1, 1, 1, 1, 1, 50);
         this.resonatorEcho2 = new ResonatorEcho(2, 1, 1, 1, 1, 1, 1, 1, 50);
         this.resonatorEcho3 = new ResonatorEcho(3, 1, 1, 1, 1, 1, 1, 1, 50);
+        this.presetEcho1 = new PresetEcho(1, 1, 1);
+        this.presetEcho2 = new PresetEcho(2, 1, 2);
+        this.presetEcho3 = new PresetEcho(3, 1, 3);
     }
 
     @Test
@@ -115,5 +128,20 @@ public class ResonatorEchoDaoTest {
         this.resonatorEchoDao.add(resonatorEcho1);
         daoJDBCUtil.deleteRefEntity(refEntityClass);
         assertEquals(0, this.resonatorEchoDao.getCount());
+    }
+
+    @Test
+    void getAllByPresetId(){
+        this.resonatorEchoDao.add(this.resonatorEcho1);
+        this.resonatorEchoDao.add(this.resonatorEcho2);
+        this.resonatorEchoDao.add(this.resonatorEcho3);
+        this.presetEchoDao.add(this.presetEcho1);
+        this.presetEchoDao.add(this.presetEcho2);
+        this.presetEchoDao.add(this.presetEcho3);
+
+        List<ResonatorEcho> resonatorEchos = this.resonatorEchoDao.getAllByPresetId(1);
+        List<ResonatorEcho> expected = List.of(this.resonatorEcho1, this.resonatorEcho2, this.resonatorEcho3);
+
+        assertThat(resonatorEchos).usingRecursiveComparison().isEqualTo(expected);
     }
 }
