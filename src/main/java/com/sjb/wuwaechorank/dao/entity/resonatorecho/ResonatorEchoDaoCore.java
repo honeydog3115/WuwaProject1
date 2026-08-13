@@ -7,5 +7,5 @@ import com.sjb.wuwaechorank.entity.ResonatorEcho;
 
 @DaoCoreInterface
 public interface ResonatorEchoDaoCore {
-    List<ResonatorEcho> getResonatorEchos(int presetId);
+    List<ResonatorEcho> getAllByPresetId(int presetId);
 }
