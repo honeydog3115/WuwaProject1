@@ -21,7 +21,7 @@ public class ResonatorEchoDaoCoreJDBC implements ResonatorEchoDaoCore {
     @Override
     public List<ResonatorEcho> getAllByPresetId(int presetId) {
         return this.jdbcTemplate.query(
-            "SELECT r.id, r.echoid, r.mainstatid, r.substatid1, r.substatid2, r.substatid3, r.substatid4, r.substatid5, r.score FROM presetecho p INNER JOIN resonatorecho r ON p.resonatorechoid = r.id WHERE p.presetid = ?", 
+            "SELECT r.id, r.echoid, r.mainstatid, r.score FROM presetecho p INNER JOIN resonatorecho r ON p.resonatorechoid = r.id WHERE p.presetid = ?", 
             rowMapper, presetId);
     }
 }

@@ -2,6 +2,8 @@ package com.sjb.wuwaechorank.dao;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import java.util.List;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -40,6 +42,7 @@ public class EchoSubStatInfoDaoTest {
     SubStatInfo subStatInfo2;
     SubStatInfo subStatInfo3;
     
+    ResonatorEcho resonatorEcho1;
     @BeforeEach
     void setUp(){
         this.testFixture.createReferenceEntity(EchoSubStatInfo.class);
@@ -49,12 +52,15 @@ public class EchoSubStatInfoDaoTest {
 
         this.echoSubStatInfo1 = new EchoSubStatInfo(1, 1, 1);
         this.echoSubStatInfo2 = new EchoSubStatInfo(2, 1, 2);
-        this.echoSubStatInfo3 = new EchoSubStatInfo(3, 1, 3);
+        this.echoSubStatInfo3 = new EchoSubStatInfo(3, 2, 3);
 
         this.subStatInfo1 = new SubStatInfo(1, 1, "10%", "10%");
         this.subStatInfo2 = new SubStatInfo(2, 1, "10%", "10%");
         this.subStatInfo3 = new SubStatInfo(3, 1, "10%", "10%");
 
+        this.resonatorEcho1 = new ResonatorEcho(2, 1, 1, 50);
+        
+        this.daoJDBCUtil.addRefEntity(resonatorEcho1);
         this.daoJDBCUtil.addRefEntity(subStatInfo2);
         this.daoJDBCUtil.addRefEntity(subStatInfo3);
     }
@@ -94,7 +100,7 @@ public class EchoSubStatInfoDaoTest {
 
     @Test
     void foreignKeyConstraintFail(){
-        this.echoSubStatInfo1.setResonatorEchoId(2);
+        this.echoSubStatInfo1.setResonatorEchoId(3);
         DaoTestUtil.foreignKeyConstraintViolationTest(()->this.echoSubStatInfoDao.add(echoSubStatInfo1));
         this.echoSubStatInfo2.setSubStatInfoId(4);
         DaoTestUtil.foreignKeyConstraintViolationTest(()->this.echoSubStatInfoDao.add(echoSubStatInfo2));
@@ -115,6 +121,12 @@ public class EchoSubStatInfoDaoTest {
 
     @Test
     void getIdsByResonatorEchoId (){
-        
+        this.echoSubStatInfoDao.add(echoSubStatInfo1);
+        this.echoSubStatInfoDao.add(echoSubStatInfo2);
+        this.echoSubStatInfoDao.add(echoSubStatInfo3);
+
+        List<Integer> ids = this.echoSubStatInfoDao.getIdsByResonatorEchoId(resonatorEcho1.getId());
+
+        assertThat(ids).isEqualTo(List.of(3));
     }
 }   

@@ -15,6 +15,6 @@ public class EchoSubStatInfoDaoCoreJDBC implements EchoSubStatInfoDaoCore{
 
     @Override
     public List<Integer> getIdsByResonatorEchoId(int resonatorEchoId) {
-        return this.jdbcTemplate.queryForList("SELECT id FROM echosubstatinfo WHERE resonatorId = ?", Integer.class, resonatorEchoId);
+        return this.jdbcTemplate.queryForList("SELECT id FROM echosubstatinfo WHERE resonatorechoId = ?", Integer.class, resonatorEchoId);
     }
 }

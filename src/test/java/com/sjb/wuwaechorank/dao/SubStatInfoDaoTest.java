@@ -12,12 +12,20 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.dao.DataIntegrityViolationException;
 
-import com.sjb.wuwaechorank.dao.entity.substat.SubStatDao;
+import com.sjb.wuwaechorank.dao.entity.echo.EchoDao;
+import com.sjb.wuwaechorank.dao.entity.echosubstatinfo.EchoSubStatInfoDao;
+import com.sjb.wuwaechorank.dao.entity.resonatorecho.ResonatorEchoDao;
+import com.sjb.wuwaechorank.dao.entity.sonataeffect.SonataEffectDao;
 import com.sjb.wuwaechorank.dao.entity.substatinfo.SubStatInfoDao;
+import com.sjb.wuwaechorank.entity.Echo;
+import com.sjb.wuwaechorank.entity.EchoSubStatInfo;
+import com.sjb.wuwaechorank.entity.ResonatorEcho;
+import com.sjb.wuwaechorank.entity.SonataEffect;
 import com.sjb.wuwaechorank.entity.SubStat;
 import com.sjb.wuwaechorank.entity.SubStatInfo;
-import com.sjb.wuwaechorank.util.DaoSqlErrorCode;
 import com.sjb.wuwaechorank.util.DaoJDBCUtil;
+import com.sjb.wuwaechorank.util.DaoSqlErrorCode;
+import com.sjb.wuwaechorank.util.TestFixture;
 
 @SpringBootTest
 public class SubStatInfoDaoTest {
@@ -25,13 +33,25 @@ public class SubStatInfoDaoTest {
     private static final String REFERENCE_TABLE_NAME = "substat";
 
     @Autowired
-    DaoJDBCUtil daoTestUtil;
+    DaoJDBCUtil daoJDBCUtil;
 
     @Autowired
     SubStatInfoDao subStatInfoDao;
 
     @Autowired
-    SubStatDao subStatDao;
+    TestFixture testFixture1;
+    
+    @Autowired
+    EchoDao echoDao;
+
+    @Autowired
+    SonataEffectDao sonataeffectDao;
+
+    @Autowired
+    EchoSubStatInfoDao echoSubStatInfoDao;
+
+    @Autowired
+    ResonatorEchoDao resonatorEchoDao;
 
     SubStatInfo subStatInfo1;
     SubStatInfo subStatInfo2;
@@ -48,11 +68,17 @@ public class SubStatInfoDaoTest {
     SubStat subStat4;
     SubStat subStat5;
 
+    EchoSubStatInfo echoSubStatInfo1;
+    EchoSubStatInfo echoSubStatInfo2;
+
+    ResonatorEcho resonatorEcho1;
 
     @BeforeEach
     void setUp(){
-        daoTestUtil.initTables(TABLE_NAME);
-        daoTestUtil.initTables(REFERENCE_TABLE_NAME);
+        this.testFixture1.createReferenceEntity(SubStatInfo.class);
+        daoJDBCUtil.setTestFixture(testFixture1);
+        daoJDBCUtil.initTables(TABLE_NAME, "echo", "sonataeffect", "resonatorecho", "echosubstatinfo");
+        daoJDBCUtil.initTables(REFERENCE_TABLE_NAME);
 
         this.subStat1 = new SubStat(1, "체력%");
         this.subStat2 = new SubStat(2, "크리티컬확률");
@@ -69,13 +95,21 @@ public class SubStatInfoDaoTest {
         this.subStatInfo7 = SubStatInfo.builder().id(7).SubStatId(4).value("10%").build();
         this.subStatInfo8 = SubStatInfo.builder().id(8).SubStatId(5).value("10%").build();
         subStat1 = new SubStat(1, "체력%");
-        this.subStatDao.add(subStat1);
-        this.subStatDao.add(subStat2);
-        this.subStatDao.add(subStat3);
-        this.subStatDao.add(subStat4);
-        this.subStatDao.add(subStat5);
-    }
+        this.daoJDBCUtil.addRefEntity(subStat1);
+        this.daoJDBCUtil.addRefEntity(subStat2);
+        this.daoJDBCUtil.addRefEntity(subStat3);
+        this.daoJDBCUtil.addRefEntity(subStat4);
+        this.daoJDBCUtil.addRefEntity(subStat5);
 
+        this.sonataeffectDao.add(new SonataEffect(1, "솟구치는 용암", "a.jpg"));
+        this.echoDao.add(new Echo(1, "에코", 1, "1cost", "a.jpg"));
+        this.resonatorEcho1 = new ResonatorEcho(1, 1, null, 0);
+        this.resonatorEchoDao.add(resonatorEcho1);
+
+        this.echoSubStatInfo1 = new EchoSubStatInfo(1, 1, 1);
+        this.echoSubStatInfo2 = new EchoSubStatInfo(2, 1, 2);
+    }
+    
     @Test
     void addAndGet(){        
         this.subStatInfoDao.add(subStatInfo1);
@@ -89,7 +123,7 @@ public class SubStatInfoDaoTest {
         this.subStatInfoDao.add(subStatInfo1);
         this.subStatInfoDao.add(subStatInfo2);
         this.subStatInfoDao.add(subStatInfo3);
-
+        
         List<SubStatInfo> subStatInfos = this.subStatInfoDao.getAll();
         assertEquals(3, subStatInfos.size());
     }
@@ -100,7 +134,7 @@ public class SubStatInfoDaoTest {
         this.subStatInfoDao.delete(subStatInfo1.getId());
         assertEquals(0, this.subStatInfoDao.getCount());
     }
-
+    
     @Test
     void update(){
         this.subStatInfoDao.add(subStatInfo1);
@@ -127,10 +161,10 @@ public class SubStatInfoDaoTest {
     @Test
     void cascadeDelete(){
         this.subStatInfoDao.add(subStatInfo1);
-        this.subStatDao.delete(1);
+        this.daoJDBCUtil.deleteRefEntity(SubStat.class);
         assertEquals(0, this.subStatInfoDao.getCount()); 
     }
-
+    
     @Test
     void getAllBySubStatId(){
         this.subStatInfoDao.add(subStatInfo1);
@@ -150,12 +184,21 @@ public class SubStatInfoDaoTest {
         this.subStatInfoDao.add(subStatInfo6);
         this.subStatInfoDao.add(subStatInfo7);
         this.subStatInfoDao.add(subStatInfo8);
-
+        
         List<Integer> subStatIds = List.of(1,2,3,4,5);
         List<SubStatInfo> subStatInfos =  this.subStatInfoDao.getAllBySubStatIdIn(subStatIds);
-
+        
         List<SubStatInfo> expected = List.of(subStatInfo1, subStatInfo2, subStatInfo3, subStatInfo4, subStatInfo5, subStatInfo6, subStatInfo7, subStatInfo8);
-
+        
         assertThat(subStatInfos).usingRecursiveComparison().isEqualTo(expected);
     }
+    
+    @Test
+    void getAllByEchoSubStatInfos(){
+        this.subStatInfoDao.add(subStatInfo1);
+        this.subStatInfoDao.add(subStatInfo2);
+        this.echoSubStatInfoDao.add(echoSubStatInfo1);
+        this.echoSubStatInfoDao.add(echoSubStatInfo2);
+        assertThat(this.subStatInfoDao.getAllByEchoSubStatInfos(List.of(1, 2))).usingRecursiveComparison().isEqualTo(List.of(subStatInfo1, subStatInfo2));
+    }   
 }

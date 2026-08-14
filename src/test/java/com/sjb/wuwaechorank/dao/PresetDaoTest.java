@@ -13,7 +13,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import com.sjb.wuwaechorank.dao.entity.preset.PresetDao;
-import com.sjb.wuwaechorank.dto.SimplePresetInfoDto;
 import com.sjb.wuwaechorank.entity.Preset;
 import com.sjb.wuwaechorank.entity.Resonator;
 import com.sjb.wuwaechorank.entity.User;
@@ -90,7 +89,7 @@ public class PresetDaoTest {
 
     @Test
     void foreignKeyConstraintViolation(){
-        this.preset1.setUserId(2);
+        this.preset1.setUserId(3);
         DaoTestUtil.foreignKeyConstraintViolationTest(()->this.presetDao.add(preset1));
         this.preset3.setResonatorId(2);
         DaoTestUtil.foreignKeyConstraintViolationTest(()->this.presetDao.add(preset3));

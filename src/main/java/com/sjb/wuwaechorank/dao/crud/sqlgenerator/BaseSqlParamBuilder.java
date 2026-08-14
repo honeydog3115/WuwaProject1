@@ -20,7 +20,8 @@ public class BaseSqlParamBuilder implements SqlParamBuilder {
         Map<String, Object> param = new HashMap<>();
         Arrays.stream(entity.getClass().getDeclaredFields())
                     .filter(field -> !field.isAnnotationPresent(PrimaryKey.class))
-                    .map(field -> param.put(field.getName(), getFieldValue(field, entity))).close();
+                    .forEach(field -> param.put(field.getName(), this.getFieldValue(field, entity)));
+                    System.out.println(param);
         return param;
     }
 
