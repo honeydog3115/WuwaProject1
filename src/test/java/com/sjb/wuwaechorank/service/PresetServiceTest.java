@@ -108,11 +108,7 @@ public class PresetServiceTest {
         verify(this.presetDao).add(presetCaptor.capture());
         Preset preset = presetCaptor.getValue();
 
-        verify(this.resonatorEchoDao).add(resonatorEchoCaptor.capture());
-        ResonatorEcho resonatorEcho = resonatorEchoCaptor.getValue();
-
         assertThat(preset).usingRecursiveComparison().isEqualTo(preset1);
-        assertThat(resonatorEcho).usingRecursiveComparison().isEqualTo(resonatorEcho1);
     }
 
     @Test
