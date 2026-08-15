@@ -82,7 +82,6 @@ public class PresetServiceImpl implements PresetService {
 
     @Override
     public PresetOutputInfoDto getPresetInfo(int presestId) {
-        // TODO Auto-generated method stub
         Preset preset = this.presetDao.get(presestId);
         List<ResonatorEcho> resonatorEchos = resonatorEchoDao.getAllByPresetId(presestId);
         List<EchoDetailDto> echoDetailDtos = resonatorEchos.stream()
@@ -105,7 +104,7 @@ public class PresetServiceImpl implements PresetService {
         List<Integer> echoSubStatInfoIds = this.echoSubStatInfoDao.getIdsByResonatorEchoId(resonatorEcho.getId());
         List<SubStatDetailDto> subStatDetailDtos = this.subStatInfoDao.getAllByEchoSubStatInfos(echoSubStatInfoIds).stream()
                 .map(subStatInfo -> SubStatDetailDto.builder()
-                        .subStatValue(this.subStatDao.get(subStatInfo.getSubStatId()).getName())
+                        .subStatName(this.subStatDao.get(subStatInfo.getSubStatId()).getName())
                         .subStatValue(subStatInfo.getValue())
                         .subStatChance(subStatInfo.getChance())
                         .build())

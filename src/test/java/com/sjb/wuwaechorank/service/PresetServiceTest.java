@@ -23,12 +23,20 @@ import com.sjb.wuwaechorank.dao.entity.resonator.ResonatorDao;
 import com.sjb.wuwaechorank.dao.entity.resonatorecho.ResonatorEchoDao;
 import com.sjb.wuwaechorank.dao.entity.substat.SubStatDao;
 import com.sjb.wuwaechorank.dao.entity.substatinfo.SubStatInfoDao;
+import com.sjb.wuwaechorank.dto.EchoDetailDto;
 import com.sjb.wuwaechorank.dto.PresetInputInfoDto;
+import com.sjb.wuwaechorank.dto.PresetOutputInfoDto;
 import com.sjb.wuwaechorank.dto.ResonatorEchoInfoDto;
 import com.sjb.wuwaechorank.dto.ResonatorEchoSubStatDto;
 import com.sjb.wuwaechorank.dto.SimplePresetInfoDto;
+import com.sjb.wuwaechorank.dto.SubStatDetailDto;
+import com.sjb.wuwaechorank.entity.Echo;
+import com.sjb.wuwaechorank.entity.EchoSubStatInfo;
+import com.sjb.wuwaechorank.entity.MainStat;
 import com.sjb.wuwaechorank.entity.Preset;
 import com.sjb.wuwaechorank.entity.ResonatorEcho;
+import com.sjb.wuwaechorank.entity.SubStat;
+import com.sjb.wuwaechorank.entity.SubStatInfo;
 import com.sjb.wuwaechorank.service.preset.PresetService;
 import com.sjb.wuwaechorank.service.preset.PresetServiceImpl;
 import com.sjb.wuwaechorank.service.resonator.ResonatorService;
@@ -69,7 +77,12 @@ public class PresetServiceTest {
     Preset preset3;
 
     ResonatorEcho resonatorEcho1;
-    
+    Echo echo1;
+    MainStat mainStat1;
+    SubStat subStat1;
+    SubStatInfo subStatInfo1;
+    EchoSubStatInfo echoSubStatInfo1;
+
     @BeforeEach
     void setUp(){
         this.resonatorEchoSubStatDtos = List.of(
@@ -99,6 +112,11 @@ public class PresetServiceTest {
         this.resonatorEcho1 = ResonatorEcho.builder()
                 .echoId(this.resonatorEchoInfoDto.get(0).echoId())
                 .build();
+        this.echo1 = new Echo(1, "꾹꾹복어", 1, "1COST", "asdf/qwer/a.jpg");
+        this.mainStat1 = new MainStat(1, "공격력", "30.5", "asdf/qwer/a.jpg");
+        this.echoSubStatInfo1 = new EchoSubStatInfo(1, 1, 1);
+        this.subStatInfo1 = SubStatInfo.builder().id(1).SubStatId(1).value("10%").build();
+        this.subStat1 = new SubStat(1, "체력%");
     }
 
     @Test
@@ -125,5 +143,40 @@ public class PresetServiceTest {
                 .toList();
 
         assertThat(this.presetService.getSimplePresetInfo(1)).usingRecursiveComparison().isEqualTo(simplePresetInfos);
+    }
+
+    @Test
+    void getPresetInfo(){
+        when(this.presetDao.get(preset1.getId())).thenReturn(preset1);
+        when(this.resonatorEchoDao.getAllByPresetId(preset1.getId())).thenReturn(List.of(this.resonatorEcho1));
+        when(this.echoDao.get(echo1.getId())).thenReturn(echo1);
+        when(this.mainStatDao.get(mainStat1.getId())).thenReturn(mainStat1);
+        when(this.echoSubStatInfoDao.getIdsByResonatorEchoId(resonatorEcho1.getId())).thenReturn(List.of(echoSubStatInfo1.getId()));
+        when(this.subStatInfoDao.getAllByEchoSubStatInfos(List.of(echoSubStatInfo1.getId()))).thenReturn(List.of(subStatInfo1));
+        when(this.subStatDao.get(this.subStat1.getId())).thenReturn(this.subStat1);
+
+        assertThat(this.presetService.getPresetInfo(preset1.getId())).usingRecursiveComparison().isEqualTo(
+            PresetOutputInfoDto.builder()
+                    .presetId(preset1.getId())
+                    .presetName(preset1.getName())
+                    .resonatorDetailDto(resonatorService.getResonatorDetail(preset1.getResonatorId()))
+                    .echoDetailDtos(List.of(
+                        EchoDetailDto.builder()
+                                .echo(echo1)
+                                .mainstat(mainStat1)
+                                .subStatDetailDtos(List.of(
+                                    SubStatDetailDto.builder()
+                                            .subStatName(subStat1.getName())
+                                            .subStatChance(subStatInfo1.getChance())
+                                            .subStatValue(subStatInfo1.getValue())
+                                            .build()
+                                    )
+                                )
+                                .build()
+                    ))
+                    .totalScore(preset1.getEchoTotalScore())
+                    .build()
+        );
+
     }
 }
