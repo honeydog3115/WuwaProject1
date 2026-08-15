@@ -4,31 +4,23 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
-import com.sjb.wuwaechorank.dao.entity.attribute.AttributeDao;
 import com.sjb.wuwaechorank.dao.entity.echo.EchoDao;
 import com.sjb.wuwaechorank.dao.entity.echosubstatinfo.EchoSubStatInfoDao;
 import com.sjb.wuwaechorank.dao.entity.mainstat.MainStatDao;
 import com.sjb.wuwaechorank.dao.entity.preset.PresetDao;
-import com.sjb.wuwaechorank.dao.entity.resonator.ResonatorDao;
 import com.sjb.wuwaechorank.dao.entity.resonatorecho.ResonatorEchoDao;
 import com.sjb.wuwaechorank.dao.entity.substat.SubStatDao;
 import com.sjb.wuwaechorank.dao.entity.substatinfo.SubStatInfoDao;
-import com.sjb.wuwaechorank.dao.entity.weapon.WeaponDao;
 import com.sjb.wuwaechorank.dto.EchoDetailDto;
 import com.sjb.wuwaechorank.dto.PresetInputInfoDto;
 import com.sjb.wuwaechorank.dto.PresetOutputInfoDto;
-import com.sjb.wuwaechorank.dto.ResonatorDetailDto;
 import com.sjb.wuwaechorank.dto.ResonatorEchoInfoDto;
-import com.sjb.wuwaechorank.dto.ResonatorEchoSubStatDto;
 import com.sjb.wuwaechorank.dto.SimplePresetInfoDto;
 import com.sjb.wuwaechorank.dto.SubStatDetailDto;
 import com.sjb.wuwaechorank.entity.Echo;
-import com.sjb.wuwaechorank.entity.EchoSubStatInfo;
 import com.sjb.wuwaechorank.entity.MainStat;
 import com.sjb.wuwaechorank.entity.Preset;
-import com.sjb.wuwaechorank.entity.Resonator;
 import com.sjb.wuwaechorank.entity.ResonatorEcho;
-import com.sjb.wuwaechorank.entity.SubStatInfo;
 import com.sjb.wuwaechorank.service.resonator.ResonatorService;
 import com.sjb.wuwaechorank.service.resonatorecho.ResonatorEchoService;
 
@@ -45,7 +37,10 @@ public class PresetServiceImpl implements PresetService {
     private SubStatInfoDao subStatInfoDao;
     private EchoSubStatInfoDao echoSubStatInfoDao;
 
-    public PresetServiceImpl(PresetDao presetDao, ResonatorEchoDao resonatorEchoDao, ResonatorService resonatorService, ResonatorEchoService resonatorEchoService, EchoDao echoDao, MainStatDao mainStatDao, SubStatDao subStatDao, SubStatInfoDao subStatInfoDao, EchoSubStatInfoDao echoSubStatInfoDao) {
+    public PresetServiceImpl(PresetDao presetDao, ResonatorEchoDao resonatorEchoDao,
+            ResonatorService resonatorService, ResonatorEchoService resonatorEchoService, EchoDao echoDao,
+            MainStatDao mainStatDao, SubStatDao subStatDao, SubStatInfoDao subStatInfoDao,
+            EchoSubStatInfoDao echoSubStatInfoDao) {
         this.presetDao = presetDao;
         this.resonatorEchoDao = resonatorEchoDao;
         this.resonatorService = resonatorService;
@@ -68,14 +63,15 @@ public class PresetServiceImpl implements PresetService {
                 .bookmark(false)
                 .build());
 
-        resonatorEchoService.getResonatorEchoScore(presetInfoDto.resonatorId(), resonatorEchoInfos, true, presetId);
+        resonatorEchoService.getResonatorEchoScore(presetInfoDto.resonatorId(), resonatorEchoInfos, true,
+                presetId);
     }
 
     @Override
     public List<SimplePresetInfoDto> getSimplePresetInfo(int userId) {
         List<Preset> presets = this.presetDao.getAllByUserId(userId);
         List<SimplePresetInfoDto> simplePresetInfos = presets.stream()
-                .map(preset->SimplePresetInfoDto.builder()
+                .map(preset -> SimplePresetInfoDto.builder()
                         .id(preset.getId())
                         .name(preset.getName())
                         .bookmark(preset.getBookmark())
@@ -102,11 +98,14 @@ public class PresetServiceImpl implements PresetService {
                 .build();
     }
 
-    private EchoDetailDto getEchoDetail(ResonatorEcho resonatorEcho){
+    // 에코들의 정보(에코 엔티티, 메인 속성, 부음 속성들)을 가져옴
+    private EchoDetailDto getEchoDetail(ResonatorEcho resonatorEcho) {
         Echo echo = this.echoDao.get(resonatorEcho.getEchoId());
         MainStat mainstat = this.mainStatDao.get(resonatorEcho.getMainStatId());
-        List<Integer> echoSubStatInfoIds = this.echoSubStatInfoDao.getIdsByResonatorEchoId(resonatorEcho.getId());
-        List<SubStatDetailDto> subStatDetailDtos = this.subStatInfoDao.getAllByEchoSubStatInfos(echoSubStatInfoIds).stream()
+        List<Integer> echoSubStatInfoIds = this.echoSubStatInfoDao
+                .getIdsByResonatorEchoId(resonatorEcho.getId());
+        List<SubStatDetailDto> subStatDetailDtos = this.subStatInfoDao
+                .getAllByEchoSubStatInfos(echoSubStatInfoIds).stream()
                 .map(subStatInfo -> SubStatDetailDto.builder()
                         .subStatValue(this.subStatDao.get(subStatInfo.getSubStatId()).getName())
                         .subStatValue(subStatInfo.getValue())
