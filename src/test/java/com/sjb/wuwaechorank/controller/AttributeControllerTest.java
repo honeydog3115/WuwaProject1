@@ -1,9 +1,6 @@
 package com.sjb.wuwaechorank.controller;
 
-import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.BDDMockito.given;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import java.util.List;
 
@@ -11,17 +8,16 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.webmvc.test.autoconfigure.WebMvcTest;
-import org.springframework.http.MediaType;
+import org.springframework.context.annotation.Import;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
 
 import com.sjb.wuwaechorank.entity.Attribute;
 import com.sjb.wuwaechorank.service.attribute.AttributeService;
-
-import tools.jackson.core.type.TypeReference;
-import tools.jackson.databind.ObjectMapper;
+import com.sjb.wuwaechorank.util.ControllerTestUtil;
 
 @WebMvcTest(AttributeController.class)
+@Import(ControllerTestUtil.class)
 public class AttributeControllerTest {
     @Autowired
     MockMvc mockMvc;
@@ -30,7 +26,7 @@ public class AttributeControllerTest {
     AttributeService attributeService;
 
     @Autowired
-    ObjectMapper objectMapper;
+    ControllerTestUtil controllerTestUtil;
 
     Attribute attribute1; 
     Attribute attribute2; 
@@ -46,15 +42,6 @@ public class AttributeControllerTest {
     @Test
     void getAttributes() throws Exception{
         given(this.attributeService.getAllAttributes()).willReturn(List.of(this.attribute1, this.attribute2, this.attribute3));
-
-        String content = mockMvc.perform(get("/attribute").accept(MediaType.APPLICATION_JSON))
-                .andExpect(status().isOk())
-                .andReturn()
-                .getResponse()
-                .getContentAsString();
-        
-        List<Attribute> response = objectMapper.readValue(content, new TypeReference<List<Attribute>>() {});
-        assertThat(response).usingRecursiveComparison().isEqualTo(List.of(this.attribute1, this.attribute2, this.attribute3));
+        controllerTestUtil.validateListTypeResponse(mockMvc, "/attribute", Attribute.class, List.of(this.attribute1, this.attribute2, this.attribute3));
     }
-
 }
