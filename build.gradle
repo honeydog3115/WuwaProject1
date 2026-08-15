@@ -28,6 +28,8 @@ dependencies {
     annotationProcessor 'org.projectlombok:lombok'
 	
 	implementation 'org.springframework.boot:spring-boot-starter'
+    // 웹 관련 스프링 부트 의존성. 이게 있어야 @RestConroller와 같은 기능을 사용할 수 있음.
+    implementation 'org.springframework.boot:spring-boot-starter-web'
 	// mysql이 제공하는 JDBC 드라이버
 	implementation 'com.mysql:mysql-connector-j'
 	// JPA 지원 라이브러리. 여기서는 application.properties 에서 spring.datasource 를 사용하기 위해 추가했다.
