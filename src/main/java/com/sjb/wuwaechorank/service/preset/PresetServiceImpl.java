@@ -102,10 +102,8 @@ public class PresetServiceImpl implements PresetService {
     private EchoDetailDto getEchoDetail(ResonatorEcho resonatorEcho) {
         Echo echo = this.echoDao.get(resonatorEcho.getEchoId());
         MainStat mainstat = this.mainStatDao.get(resonatorEcho.getMainStatId());
-        List<Integer> echoSubStatInfoIds = this.echoSubStatInfoDao
-                .getIdsByResonatorEchoId(resonatorEcho.getId());
-        List<SubStatDetailDto> subStatDetailDtos = this.subStatInfoDao
-                .getAllByEchoSubStatInfos(echoSubStatInfoIds).stream()
+        List<Integer> echoSubStatInfoIds = this.echoSubStatInfoDao.getIdsByResonatorEchoId(resonatorEcho.getId());
+        List<SubStatDetailDto> subStatDetailDtos = this.subStatInfoDao.getAllByEchoSubStatInfos(echoSubStatInfoIds).stream()
                 .map(subStatInfo -> SubStatDetailDto.builder()
                         .subStatValue(this.subStatDao.get(subStatInfo.getSubStatId()).getName())
                         .subStatValue(subStatInfo.getValue())
