@@ -2,13 +2,11 @@ package com.sjb.wuwaechorank.service.resonatorecho;
 
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 
 import com.sjb.wuwaechorank.dao.entity.echosubstatinfo.EchoSubStatInfoDao;
-import com.sjb.wuwaechorank.dao.entity.preset.PresetDao;
 import com.sjb.wuwaechorank.dao.entity.presetecho.PresetEchoDao;
 import com.sjb.wuwaechorank.dao.entity.resonator.ResonatorDao;
 import com.sjb.wuwaechorank.dao.entity.resonatorecho.ResonatorEchoDao;
@@ -68,8 +66,6 @@ public class ResonatorEchoServiceImpl implements ResonatorEchoService{
 
     // 예코 점수 계산 함수
     private double calcEchoScore(ResonatorEchoInfoDto resonatorEchoInfoDto, ValidStat validStat, Map<Integer, List<String>> idValueMap, boolean insertDB, int presetId){
-        List<ResonatorEchoSubStatDto> echoSubStats = resonatorEchoInfoDto.echoSubStats();
-
         final int resonatorEchoId = insertDB ? this.resonatorEchoDao.add(
                 ResonatorEcho.builder()
                     .echoId(resonatorEchoInfoDto.echoId())
@@ -119,7 +115,4 @@ public class ResonatorEchoServiceImpl implements ResonatorEchoService{
         return baseScoreUnit * weight;
     }
 
-    private Integer getOrNull(List<ResonatorEchoSubStatDto> echoSubStats, int index){
-        return echoSubStats.size() <= index ? null : echoSubStats.get(index).subStatId();
-    }
 }
