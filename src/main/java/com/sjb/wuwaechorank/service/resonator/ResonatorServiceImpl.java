@@ -98,4 +98,8 @@ public class ResonatorServiceImpl implements ResonatorService {
         }
     }
 
+
+    public ValidStat getResonatorValidStat(int id){
+        return this.validStatDao.get(this.resonatorDao.get(id).getValidStatId());
+    }
 }
