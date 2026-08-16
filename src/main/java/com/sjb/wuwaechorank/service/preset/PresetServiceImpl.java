@@ -60,13 +60,24 @@ public class PresetServiceImpl implements PresetService {
                 .name(presetInfoDto.name())
                 .resonatorId(presetInfoDto.resonatorId())
                 .echoTotalScore(presetInfoDto.score())
-                .bookmark(false)
+                .bookmark(presetInfoDto.bookmark())
                 .build());
 
         resonatorEchoService.getResonatorEchoScore(presetInfoDto.resonatorId(), resonatorEchoInfos, true,
                 presetId);
 
         return presetId;
+    }
+
+    @Override
+    public void updatePreset(int presetId, PresetInputInfoDto presetInfoDto) {
+        this.presetDao.update(presetId, Preset.builder()
+                .userId(presetInfoDto.userId())
+                .name(presetInfoDto.name())
+                .resonatorId(presetInfoDto.resonatorId())
+                .echoTotalScore(presetInfoDto.score())
+                .bookmark(presetInfoDto.bookmark())
+                .build());
     }
 
     @Override
