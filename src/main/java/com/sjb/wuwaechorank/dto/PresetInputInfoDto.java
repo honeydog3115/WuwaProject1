@@ -11,5 +11,6 @@ public record PresetInputInfoDto(
     String name,
     int resonatorId,
     double score,
+    boolean bookmark,
     List<ResonatorEchoInfoDto> echosInfo
 ) {}
