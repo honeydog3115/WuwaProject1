@@ -15,7 +15,7 @@ public class ResonatorEchoController {
         this.resonatorEchoService = resonatorEchoService;
     }
 
-    @PostMapping("path")
+    @PostMapping("/resonatorecho")
     public double getResonatorEchoScore(@RequestBody ResonatorEchoScoreRequest request) {
         return resonatorEchoService.getResonatorEchoScore(
             request.id(), 
