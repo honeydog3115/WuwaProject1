@@ -53,7 +53,7 @@ public class PresetServiceImpl implements PresetService {
     }
 
     @Override
-    public void savePreset(PresetInputInfoDto presetInfoDto) {
+    public int savePreset(PresetInputInfoDto presetInfoDto) {
         List<ResonatorEchoInfoDto> resonatorEchoInfos = presetInfoDto.echosInfo();
         int presetId = this.presetDao.add(Preset.builder()
                 .userId(presetInfoDto.userId())
@@ -65,6 +65,8 @@ public class PresetServiceImpl implements PresetService {
 
         resonatorEchoService.getResonatorEchoScore(presetInfoDto.resonatorId(), resonatorEchoInfos, true,
                 presetId);
+
+        return presetId;
     }
 
     @Override
