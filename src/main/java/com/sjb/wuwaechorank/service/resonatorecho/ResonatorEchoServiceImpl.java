@@ -69,7 +69,7 @@ public class ResonatorEchoServiceImpl implements ResonatorEchoService{
         final int resonatorEchoId = insertDB ? this.resonatorEchoDao.add(
                 ResonatorEcho.builder()
                     .echoId(resonatorEchoInfoDto.echoId())
-                    .mainStatId(resonatorEchoInfoDto.mainStatid())
+                    .mainStatId(resonatorEchoInfoDto.mainStatId())
                     .build()
             ):-1;
 
@@ -81,7 +81,7 @@ public class ResonatorEchoServiceImpl implements ResonatorEchoService{
         if(insertDB){
             this.resonatorEchoDao.update(resonatorEchoId, ResonatorEcho.builder()
                     .echoId(resonatorEchoInfoDto.echoId())
-                    .mainStatId(resonatorEchoInfoDto.mainStatid())
+                    .mainStatId(resonatorEchoInfoDto.mainStatId())
                     .score(score)
                     .build());
             this.presetEchoDao.add(PresetEcho.builder()
