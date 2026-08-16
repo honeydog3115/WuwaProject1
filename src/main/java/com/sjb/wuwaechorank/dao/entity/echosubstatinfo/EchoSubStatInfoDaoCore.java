@@ -6,7 +6,7 @@ import com.sjb.wuwaechorank.customannotation.DaoCoreInterface;
 
 @DaoCoreInterface
 public interface EchoSubStatInfoDaoCore {
-    // ResonatorEchoId로 echoSubStatinfoid를 반환하는 함수
-    List<Integer> getIdsByResonatorEchoId(int resonatorEchoId);
+    // ResonatorEchoId로 subStatInfoId를 반환하는 함수
+    List<Integer> getSubStatInfoIdsByResonatorEchoId(int resonatorEchoId);
 
 }

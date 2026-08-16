@@ -22,6 +22,16 @@ public class SubStatInfoDaoCoreJDBC implements SubStatInfoDaoCore {
         this.jdbcTemplate = jdbcTemplate;
         this.namedParameterJdbcTemplate = namedParameterJdbcTemplate;
     }
+    @Override
+    public List<SubStatInfo> getByIds(List<Integer> ids) {
+        if(ids == null || ids.isEmpty())
+            return List.of();
+
+        MapSqlParameterSource parameter = new MapSqlParameterSource();
+        parameter.addValue("ids", ids);
+        
+        return this.namedParameterJdbcTemplate.query("SELECT * FROM substatinfo WHERE id IN (:ids)", parameter, rowMapper);
+    }
     
     @Override
     public List<SubStatInfo> getAllBySubStatId(int subStatId) {
