@@ -4,9 +4,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-import com.sjb.wuwaechorank.dao.entity.echosubstatinfo.EchoSubStatInfoDao;
-import com.sjb.wuwaechorank.dao.entity.presetecho.PresetEchoDao;
-import com.sjb.wuwaechorank.dao.entity.resonatorecho.ResonatorEchoDao;
+import org.springframework.stereotype.Service;
+
 import com.sjb.wuwaechorank.dao.entity.substatinfo.SubStatInfoDao;
 import com.sjb.wuwaechorank.dto.ResonatorEchoInfoDto;
 import com.sjb.wuwaechorank.dto.ResonatorEchoSubStatDto;
@@ -14,23 +13,18 @@ import com.sjb.wuwaechorank.entity.SubStatInfo;
 import com.sjb.wuwaechorank.entity.ValidStat;
 import com.sjb.wuwaechorank.service.resonator.ResonatorService;
 
+@Service
 public class EchoScoreServiceImpl implements EchoScoreService{
     private static final double MAX_SUBSTAT_SCORE = 20;
 
-    private ResonatorEchoDao resonatorEchoDao;
     private SubStatInfoDao subStatInfoDao;
-    private EchoSubStatInfoDao echoSubStatInfoDao;
-    private PresetEchoDao presetEchoDao;
     private ResonatorService resonatorService;
 
-    public EchoScoreServiceImpl(ResonatorEchoDao resonatorEchoDao, SubStatInfoDao subStatInfoDao, EchoSubStatInfoDao echoSubStatInfoDao, PresetEchoDao presetEchoDao, ResonatorService resonatorService){
-        this.resonatorEchoDao = resonatorEchoDao;
+    public EchoScoreServiceImpl(SubStatInfoDao subStatInfoDao, ResonatorService resonatorService){
         this.subStatInfoDao = subStatInfoDao;
-        this.echoSubStatInfoDao = echoSubStatInfoDao;
-        this.presetEchoDao = presetEchoDao;
         this.resonatorService = resonatorService;
     }
-    
+
     public List<Double> getResonatorEchoScore(int resonatorId, List<ResonatorEchoInfoDto> resonatorEchosInfo) {
         ValidStat validStat = this.resonatorService.getResonatorValidStat(resonatorId);
 
