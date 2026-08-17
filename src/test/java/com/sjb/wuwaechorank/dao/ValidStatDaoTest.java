@@ -20,7 +20,7 @@ import com.sjb.wuwaechorank.util.DaoTestUtil;
 import com.sjb.wuwaechorank.util.TestFixture;
 
 @SpringBootTest
-public class ValidStatDaoTest {
+public class ValidStatDaoTest extends BaseDaoTest{
     private final static String TABLE_NAME = "validstat";
 
     @Autowired

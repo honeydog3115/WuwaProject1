@@ -16,7 +16,7 @@ import com.sjb.wuwaechorank.entity.MainStat;
 import com.sjb.wuwaechorank.util.DaoJDBCUtil;
 
 @SpringBootTest
-public class MainStatDaoTest {
+public class MainStatDaoTest extends BaseDaoTest{
     private static final String TABLE_NAME = "mainstat";
     @Autowired
     DaoJDBCUtil daoTestUtil;

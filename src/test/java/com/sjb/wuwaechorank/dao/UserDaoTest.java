@@ -14,7 +14,7 @@ import com.sjb.wuwaechorank.entity.User;
 import com.sjb.wuwaechorank.util.DaoJDBCUtil;
 
 @SpringBootTest
-public class UserDaoTest {
+public class UserDaoTest extends BaseDaoTest{
     private static final String TABLE_NAME = "user";
     @Autowired
     DaoJDBCUtil daoJDBCUtil;

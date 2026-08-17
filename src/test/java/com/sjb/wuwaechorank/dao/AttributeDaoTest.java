@@ -15,7 +15,7 @@ import com.sjb.wuwaechorank.entity.Attribute;
 import com.sjb.wuwaechorank.util.DaoJDBCUtil;
 
 @SpringBootTest
-public class AttributeDaoTest {
+public class AttributeDaoTest extends BaseDaoTest {
     private static final String TABLE_NAME = "attribute";
 
     @Autowired

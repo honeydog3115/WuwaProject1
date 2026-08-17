@@ -11,6 +11,7 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.jdbc.core.JdbcTemplate;
 
 import com.sjb.wuwaechorank.dao.entity.presetecho.PresetEchoDao;
 import com.sjb.wuwaechorank.dao.entity.resonatorecho.ResonatorEchoDao;
@@ -18,13 +19,16 @@ import com.sjb.wuwaechorank.entity.Echo;
 import com.sjb.wuwaechorank.entity.PresetEcho;
 import com.sjb.wuwaechorank.entity.ResonatorEcho;
 import com.sjb.wuwaechorank.entity.SonataEffect;
-import com.sjb.wuwaechorank.util.DaoTestUtil;
 import com.sjb.wuwaechorank.util.DaoJDBCUtil;
+import com.sjb.wuwaechorank.util.DaoTestUtil;
 import com.sjb.wuwaechorank.util.TestFixture;
 
 @SpringBootTest
-public class ResonatorEchoDaoTest {
+public class ResonatorEchoDaoTest extends BaseDaoTest{
     private static final String TABLE_NAME = "resonatorecho";
+    
+    @Autowired
+    JdbcTemplate jdbcTemplate;
 
     @Autowired
     DaoJDBCUtil daoJDBCUtil;
@@ -57,9 +61,15 @@ public class ResonatorEchoDaoTest {
         this.resonatorEcho1 = new ResonatorEcho(1, 1, 1, 50);
         this.resonatorEcho2 = new ResonatorEcho(2, 1, 1, 50);
         this.resonatorEcho3 = new ResonatorEcho(3, 1, 1, 50);
+
         this.presetEcho1 = new PresetEcho(1, 1, 1);
         this.presetEcho2 = new PresetEcho(2, 1, 2);
         this.presetEcho3 = new PresetEcho(3, 1, 3);
+        this.jdbcTemplate.execute("SET FOREIGN_KEY_CHECKS = 0");
+        this.presetEchoDao.add(presetEcho1);
+        this.presetEchoDao.add(presetEcho2);
+        this.presetEchoDao.add(presetEcho3);
+        this.jdbcTemplate.execute("SET FOREIGN_KEY_CHECKS = 1");
     }
 
     @Test
@@ -121,9 +131,6 @@ public class ResonatorEchoDaoTest {
         this.resonatorEchoDao.add(this.resonatorEcho1);
         this.resonatorEchoDao.add(this.resonatorEcho2);
         this.resonatorEchoDao.add(this.resonatorEcho3);
-        this.presetEchoDao.add(this.presetEcho1);
-        this.presetEchoDao.add(this.presetEcho2);
-        this.presetEchoDao.add(this.presetEcho3);
 
         List<ResonatorEcho> resonatorEchos = this.resonatorEchoDao.getAllByPresetId(1);
         List<ResonatorEcho> expected = List.of(this.resonatorEcho1, this.resonatorEcho2, this.resonatorEcho3);

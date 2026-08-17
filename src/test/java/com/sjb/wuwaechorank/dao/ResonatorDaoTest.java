@@ -21,7 +21,7 @@ import com.sjb.wuwaechorank.util.DaoTestUtil;
 import com.sjb.wuwaechorank.util.TestFixture;
 
 @SpringBootTest
-public class ResonatorDaoTest {
+public class ResonatorDaoTest extends BaseDaoTest{
     private static final String TABLE_NAME = "resonator";
     @Autowired
     DaoJDBCUtil daoJDBCUtil;

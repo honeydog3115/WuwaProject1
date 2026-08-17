@@ -20,7 +20,7 @@ import com.sjb.wuwaechorank.util.DaoTestUtil;
 import com.sjb.wuwaechorank.util.TestFixture;
 
 @SpringBootTest
-public class PresetEchoDaoTest {
+public class PresetEchoDaoTest extends BaseDaoTest{
     private static final String TABLE_NAME = "presetecho";
 
     @Autowired

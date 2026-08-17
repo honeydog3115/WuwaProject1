@@ -3,6 +3,7 @@ package com.sjb.wuwaechorank.dao.entity.substat;
 import java.util.List;
 
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
+import org.springframework.jdbc.core.DataClassRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
@@ -17,8 +18,7 @@ public class SubStatDaoCoreJDBC implements SubStatDaoCore {
     private JdbcTemplate jdbcTemplate;
     private final NamedParameterJdbcTemplate namedParameterJdbcTemplate;
     private RowMapper<SubStat> rowMapper = BeanPropertyRowMapper.newInstance(SubStat.class); 
-    private RowMapper<SubStatDetailDto> detailRowMapper  = BeanPropertyRowMapper.newInstance(SubStatDetailDto.class); 
-
+    RowMapper<SubStatDetailDto> detailRowMapper = DataClassRowMapper.newInstance(SubStatDetailDto.class);
 
     public SubStatDaoCoreJDBC(JdbcTemplate jdbcTemplate, NamedParameterJdbcTemplate namedParameterJdbcTemplate){
         this.jdbcTemplate = jdbcTemplate;
@@ -45,10 +45,10 @@ public class SubStatDaoCoreJDBC implements SubStatDaoCore {
         parameter.addValue("ids", subStatInfoIds);
 
         return this.namedParameterJdbcTemplate.query(
-            "SELECT s.name, si.value, si.chance " +
+            "SELECT s.name as subStatName, si.value as subStatValue, si.chance as subStatChance " +
             "FROM substat s " + 
             "INNER JOIN substatinfo si ON s.id = si.substatid "+ 
-            "WHERE si.substatid IN :ids", parameter, detailRowMapper);
+            "WHERE si.id IN (:ids)", parameter, detailRowMapper);
     }
     
 }

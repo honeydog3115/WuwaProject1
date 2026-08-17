@@ -21,7 +21,7 @@ import com.sjb.wuwaechorank.util.DaoTestUtil;
 import com.sjb.wuwaechorank.util.TestFixture;
 
 @SpringBootTest
-public class PresetDaoTest {
+public class PresetDaoTest extends BaseDaoTest{
     private static final String TABLE_NAME = "preset";
     @Autowired
     DaoJDBCUtil daoJDBCUtil;

@@ -28,7 +28,7 @@ import com.sjb.wuwaechorank.util.DaoSqlErrorCode;
 import com.sjb.wuwaechorank.util.TestFixture;
 
 @SpringBootTest
-public class SubStatInfoDaoTest {
+public class SubStatInfoDaoTest extends BaseDaoTest{
     private static final String TABLE_NAME = "substatinfo";
     private static final String REFERENCE_TABLE_NAME = "substat";
 
@@ -200,5 +200,17 @@ public class SubStatInfoDaoTest {
         this.echoSubStatInfoDao.add(echoSubStatInfo1);
         this.echoSubStatInfoDao.add(echoSubStatInfo2);
         assertThat(this.subStatInfoDao.getAllByEchoSubStatInfos(List.of(1, 2))).usingRecursiveComparison().isEqualTo(List.of(subStatInfo1, subStatInfo2));
-    }   
+    }
+
+    @Test
+    void getByIds(){
+        this.subStatInfoDao.add(subStatInfo1);
+        this.subStatInfoDao.add(subStatInfo2);
+        this.subStatInfoDao.add(subStatInfo3);
+        List<SubStatInfo> substatInfos = this.subStatInfoDao.getByIds(List.of(1,2,3));
+        List<SubStatInfo> expected = List.of(subStatInfo1, subStatInfo2, subStatInfo3);
+        assertThat(substatInfos)
+        .usingRecursiveFieldByFieldElementComparator()
+        .containsExactlyInAnyOrderElementsOf(expected);    
+    }
 }

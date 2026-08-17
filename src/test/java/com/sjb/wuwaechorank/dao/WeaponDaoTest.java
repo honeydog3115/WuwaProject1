@@ -16,7 +16,7 @@ import com.sjb.wuwaechorank.entity.Weapon;
 import com.sjb.wuwaechorank.util.DaoJDBCUtil;
 
 @SpringBootTest
-public class WeaponDaoTest {
+public class WeaponDaoTest extends BaseDaoTest{
     private static final String TABLE_NAME = "weapon";
 
     @Autowired

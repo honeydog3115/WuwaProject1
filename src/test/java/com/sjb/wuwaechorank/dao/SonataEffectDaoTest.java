@@ -16,7 +16,7 @@ import com.sjb.wuwaechorank.entity.SonataEffect;
 import com.sjb.wuwaechorank.util.DaoJDBCUtil;
 
 @SpringBootTest
-public class SonataEffectDaoTest {
+public class SonataEffectDaoTest extends BaseDaoTest{
     private static final String TABLE_NAME = "sonataEffect";
     @Autowired
     DaoJDBCUtil daoTestUtil;

@@ -22,7 +22,7 @@ import com.sjb.wuwaechorank.util.DaoTestUtil;
 import com.sjb.wuwaechorank.util.TestFixture;
 
 @SpringBootTest
-public class EchoSubStatInfoDaoTest {
+public class EchoSubStatInfoDaoTest extends BaseDaoTest{
     private final static String TABLE_NAME = "echosubstatinfo";
 
     @Autowired

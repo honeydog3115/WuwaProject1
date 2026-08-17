@@ -16,11 +16,11 @@ import com.sjb.wuwaechorank.dao.entity.echo.EchoDao;
 import com.sjb.wuwaechorank.dao.entity.sonataeffect.SonataEffectDao;
 import com.sjb.wuwaechorank.entity.Echo;
 import com.sjb.wuwaechorank.entity.SonataEffect;
-import com.sjb.wuwaechorank.util.DaoSqlErrorCode;
 import com.sjb.wuwaechorank.util.DaoJDBCUtil;
+import com.sjb.wuwaechorank.util.DaoSqlErrorCode;
 
 @SpringBootTest
-public class EchoDaoTest {
+public class EchoDaoTest extends BaseDaoTest {
     private static final String TABLE_NAME = "echo";
     private static final String REFERENCE_TABLE_NAME = "sonataeffect";
 
