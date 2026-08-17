@@ -15,6 +15,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import com.sjb.wuwaechorank.dao.entity.echosubstatinfo.EchoSubStatInfoDao;
 import com.sjb.wuwaechorank.dao.entity.substat.SubStatDao;
 import com.sjb.wuwaechorank.dao.entity.substatinfo.SubStatInfoDao;
 import com.sjb.wuwaechorank.dto.SubStatWithSubStatInfoDto;
@@ -32,8 +33,11 @@ public class SubStatServiceTest {
     @Mock
     SubStatInfoDao subStatInfoDao;
 
+    @Mock
+    EchoSubStatInfoDao echoSubStatInfoDao;
+
     @InjectMocks
-    SubStatService subStatService = new SubStatServiceImpl(subStatDao, subStatInfoDao);
+    SubStatService subStatService = new SubStatServiceImpl(subStatDao, subStatInfoDao, echoSubStatInfoDao);
 
     SubStat subStat1;
     SubStat subStat2;

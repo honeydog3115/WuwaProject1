@@ -125,7 +125,7 @@ public class EchoSubStatInfoDaoTest {
         this.echoSubStatInfoDao.add(echoSubStatInfo2);
         this.echoSubStatInfoDao.add(echoSubStatInfo3);
 
-        List<Integer> ids = this.echoSubStatInfoDao.getIdsByResonatorEchoId(resonatorEcho1.getId());
+        List<Integer> ids = this.echoSubStatInfoDao.getSubStatInfoIdsByResonatorEchoId(resonatorEcho1.getId());
 
         assertThat(ids).isEqualTo(List.of(3));
     }

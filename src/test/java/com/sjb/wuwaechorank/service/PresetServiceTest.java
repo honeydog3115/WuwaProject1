@@ -40,6 +40,7 @@ import com.sjb.wuwaechorank.entity.SubStatInfo;
 import com.sjb.wuwaechorank.service.preset.PresetService;
 import com.sjb.wuwaechorank.service.preset.PresetServiceImpl;
 import com.sjb.wuwaechorank.service.resonator.ResonatorService;
+import com.sjb.wuwaechorank.service.resonatorecho.EchoScoreService;
 import com.sjb.wuwaechorank.service.resonatorecho.ResonatorEchoService;
 
 @ExtendWith(MockitoExtension.class)
@@ -58,9 +59,10 @@ public class PresetServiceTest {
     @Mock ResonatorEchoService resonatorEchoService;
     @Mock SubStatInfoDao subStatInfoDao;
     @Mock EchoSubStatInfoDao echoSubStatInfoDao;
+    @Mock EchoScoreService echoScoreService;
 
     @InjectMocks
-    PresetService presetService = new PresetServiceImpl(presetDao, resonatorEchoDao, resonatorService, resonatorEchoService, echoDao, mainStatDao, subStatDao, subStatInfoDao, echoSubStatInfoDao);
+    PresetService presetService = new PresetServiceImpl(presetDao, resonatorService, echoScoreService, resonatorEchoService);
 
     @Captor
     ArgumentCaptor<Preset> presetCaptor;
@@ -151,7 +153,7 @@ public class PresetServiceTest {
         when(this.resonatorEchoDao.getAllByPresetId(preset1.getId())).thenReturn(List.of(this.resonatorEcho1));
         when(this.echoDao.get(echo1.getId())).thenReturn(echo1);
         when(this.mainStatDao.get(mainStat1.getId())).thenReturn(mainStat1);
-        when(this.echoSubStatInfoDao.getIdsByResonatorEchoId(resonatorEcho1.getId())).thenReturn(List.of(echoSubStatInfo1.getId()));
+        when(this.echoSubStatInfoDao.getSubStatInfoIdsByResonatorEchoId(resonatorEcho1.getId())).thenReturn(List.of(echoSubStatInfo1.getId()));
         when(this.subStatInfoDao.getAllByEchoSubStatInfos(List.of(echoSubStatInfo1.getId()))).thenReturn(List.of(subStatInfo1));
         when(this.subStatDao.get(this.subStat1.getId())).thenReturn(this.subStat1);
 
