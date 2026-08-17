@@ -42,9 +42,8 @@ public class PresetServiceImpl implements PresetService {
                 .bookmark(presetInfoDto.bookmark())
                 .build());
 
-        this.echoScoreService.getResonatorEchoScore(presetInfoDto.resonatorId(), resonatorEchoInfos, true,
-                presetId);
-
+        List<Double> scores = this.echoScoreService.getResonatorEchoScore(presetInfoDto.resonatorId(), resonatorEchoInfos);
+        resonatorEchoService.saveResonatorEchos(presetId, resonatorEchoInfos, scores);
         return presetId;
     }
 
