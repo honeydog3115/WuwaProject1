@@ -37,33 +37,43 @@ public class ResonatorEchoServiceImpl implements ResonatorEchoService{
         this.presetEchoDao = presetEchoDao;
         this.echoSubStatInfoDao = echoSubStatInfoDao;
     }
-    @Override
-    public void saveResonatorEchos(int presetId, List<ResonatorEchoInfoDto> resonatorEchoInfos) {
-        List<Integer> resoantorEchoIds = resonatorEchoInfos.stream()
-                .map(resonatorEchoInfo->ResonatorEcho.builder()
-                        .echoId(resonatorEchoInfo.echoId())
-                        .mainStatId(resonatorEchoInfo.mainStatId())
-                        .score(0)
-                        .build())
-                .map(resoantorEcho->this.resonatorEchoDao.add(resoantorEcho))
-                .toList();
 
-        resoantorEchoIds.stream()
-                .map(id->PresetEcho.builder()
-                        .presetId(presetId)
-                        .resonatorEchoId(id)
-                        .build())
-                .forEach(presetEcho->{
-                    this.presetEchoDao.add(presetEcho);
-                    resonatorEchoInfos.stream()
-                            .forEach(resonatorEchoInfo->resonatorEchoInfo.echoSubStats().stream()
-                                    .map(substat->EchoSubStatInfo.builder()
-                                            .resonatorEchoId(presetEcho.getResonatorEchoId())
-                                            .subStatInfoId(substat.subStatInfoId())
-                                            .build())
-                                    .forEach(echoSubStatInfo->this.echoSubStatInfoDao.add(echoSubStatInfo))
-                            );
-                });
+    @Override
+    public void saveResonatorEchos(int presetId, List<ResonatorEchoInfoDto> resonatorEchoInfos, List<Double> scores) {
+        if(resonatorEchoInfos == null || resonatorEchoInfos.size() == 0){
+            return;
+        }
+
+        if(scores.size() != resonatorEchoInfos.size()){
+            throw new IllegalArgumentException("resonatorEchoInfos와 scores의 개수가 일치하지 않습니다.");
+        }
+
+        for (int i=0; i < resonatorEchoInfos.size(); i++) {
+            ResonatorEchoInfoDto resonatorEchoInfo = resonatorEchoInfos.get(i);
+            ResonatorEcho resoantorEcho = ResonatorEcho.builder()
+                    .echoId(resonatorEchoInfo.echoId())
+                    .mainStatId(resonatorEchoInfo.mainStatId())
+                    .score(scores.get(i))
+                    .build();
+            
+            int resonatorEchoId = this.resonatorEchoDao.add(resoantorEcho);
+
+            PresetEcho presetEcho = PresetEcho.builder()
+                    .presetId(presetId)
+                    .resonatorEchoId(resonatorEchoId)
+                    .build();
+            this.presetEchoDao.add(presetEcho);
+            
+            if(resonatorEchoInfo.echoSubStats() != null & resonatorEchoInfo.echoSubStats().size() != 0){
+                List<EchoSubStatInfo> echoSubStatInfos = resonatorEchoInfo.echoSubStats().stream()
+                        .map(substat->EchoSubStatInfo.builder()
+                                .resonatorEchoId(resonatorEchoId)
+                                .subStatInfoId(substat.subStatInfoId())
+                                .build()).toList();
+    
+                echoSubStatInfos.stream().forEach(echoSubStatInfo->this.echoSubStatInfoDao.add(echoSubStatInfo));
+            }
+        }
     }
 
     @Override

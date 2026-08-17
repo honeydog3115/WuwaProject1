@@ -22,7 +22,7 @@ public class Test{
         this.resonatorService = resonatorService;
     }
     
-    public double getResonatorEchoScore(int resonatorId, List<ResonatorEchoInfoDto> resonatorEchosInfo) {
+    public List<Double> getResonatorEchoScore(int resonatorId, List<ResonatorEchoInfoDto> resonatorEchosInfo) {
         ValidStat validStat = this.resonatorService.getResonatorValidStat(resonatorId);
 
         //
@@ -39,13 +39,11 @@ public class Test{
                 ));
         //
 
-        double totalScore = resonatorEchosInfo.stream()
+        List<Double> scores = resonatorEchosInfo.stream()
                 .map(resonatorEchoInfo->this.calcEchoScore(resonatorEchoInfo, validStat, idValueMap))
-                .mapToDouble(Double::doubleValue)
-                .average()
-                .orElse(0.0);
-        
-        return totalScore;
+                .mapToDouble(Double::doubleValue).boxed().toList();
+                
+        return scores;
     }
 
     // 예코 점수 계산 함수

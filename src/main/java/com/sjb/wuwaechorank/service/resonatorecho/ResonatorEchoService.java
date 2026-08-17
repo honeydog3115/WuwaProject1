@@ -15,5 +15,5 @@ public interface ResonatorEchoService {
     List<ResonatorEcho> getResonatorEchosByPresetId(int presetId);
 
     // ResonatorEcho를 저장하는 함수
-    void saveResonatorEchos(int presetId, List<ResonatorEchoInfoDto> resonatorEchoInfos);
+    void saveResonatorEchos(int presetId, List<ResonatorEchoInfoDto> resonatorEchoInfos, List<Double> scores);
 }
