@@ -33,6 +33,10 @@ public class ResonatorServiceImpl implements ResonatorService {
 
     public ResonatorServiceImpl(ResonatorDao resonatorDao, AttributeDao attributeDao, WeaponDao weaponDao, ValidStatDao validStatDao, SubStatDao subStatDao){
         this.resonatorDao = resonatorDao;
+        this.attributeDao = attributeDao;
+        this.weaponDao = weaponDao;
+        this.validStatDao = validStatDao;
+        this.subStatDao = subStatDao;
     }
 
     // 전체 공명자 정보 반환
