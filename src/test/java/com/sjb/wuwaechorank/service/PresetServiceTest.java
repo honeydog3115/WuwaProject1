@@ -15,14 +15,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import com.sjb.wuwaechorank.dao.entity.echo.EchoDao;
-import com.sjb.wuwaechorank.dao.entity.echosubstatinfo.EchoSubStatInfoDao;
-import com.sjb.wuwaechorank.dao.entity.mainstat.MainStatDao;
 import com.sjb.wuwaechorank.dao.entity.preset.PresetDao;
-import com.sjb.wuwaechorank.dao.entity.resonator.ResonatorDao;
-import com.sjb.wuwaechorank.dao.entity.resonatorecho.ResonatorEchoDao;
-import com.sjb.wuwaechorank.dao.entity.substat.SubStatDao;
-import com.sjb.wuwaechorank.dao.entity.substatinfo.SubStatInfoDao;
 import com.sjb.wuwaechorank.dto.EchoDetailDto;
 import com.sjb.wuwaechorank.dto.PresetInputInfoDto;
 import com.sjb.wuwaechorank.dto.PresetOutputInfoDto;
@@ -48,17 +41,8 @@ public class PresetServiceTest {
     @Mock
     PresetDao presetDao;
     @Mock
-    ResonatorEchoDao resonatorEchoDao;
-    @Mock
-    ResonatorDao resonatorDao;
-    @Mock
     ResonatorService resonatorService;
-    @Mock EchoDao echoDao;
-    @Mock MainStatDao mainStatDao;
-    @Mock SubStatDao subStatDao;
     @Mock ResonatorEchoService resonatorEchoService;
-    @Mock SubStatInfoDao subStatInfoDao;
-    @Mock EchoSubStatInfoDao echoSubStatInfoDao;
     @Mock EchoScoreService echoScoreService;
 
     @InjectMocks
@@ -149,13 +133,23 @@ public class PresetServiceTest {
 
     @Test
     void getPresetInfo(){
+        List<EchoDetailDto> echoDetailDtos = List.of(
+            EchoDetailDto.builder()
+                    .echo(echo1)
+                    .mainstat(mainStat1)
+                    .subStatDetailDtos(List.of(
+                        SubStatDetailDto.builder()
+                                .subStatName(subStat1.getName())
+                                .subStatChance(subStatInfo1.getChance())
+                                .subStatValue(subStatInfo1.getValue())
+                                .build()
+                        )
+                    ).build());
+        List<ResonatorEcho> resonatorEchos = List.of(ResonatorEcho.builder().build());
+
         when(this.presetDao.get(preset1.getId())).thenReturn(preset1);
-        when(this.resonatorEchoDao.getAllByPresetId(preset1.getId())).thenReturn(List.of(this.resonatorEcho1));
-        when(this.echoDao.get(echo1.getId())).thenReturn(echo1);
-        when(this.mainStatDao.get(mainStat1.getId())).thenReturn(mainStat1);
-        when(this.echoSubStatInfoDao.getSubStatInfoIdsByResonatorEchoId(resonatorEcho1.getId())).thenReturn(List.of(echoSubStatInfo1.getId()));
-        when(this.subStatInfoDao.getAllByEchoSubStatInfos(List.of(echoSubStatInfo1.getId()))).thenReturn(List.of(subStatInfo1));
-        when(this.subStatDao.get(this.subStat1.getId())).thenReturn(this.subStat1);
+        when(this.resonatorEchoService.getResonatorEchosByPresetId(preset1.getId())).thenReturn(resonatorEchos);
+        when(this.resonatorEchoService.getEchoDetail(resonatorEchos.get(0))).thenReturn(echoDetailDtos.get(0));
 
         assertThat(this.presetService.getPresetInfo(preset1.getId())).usingRecursiveComparison().isEqualTo(
             PresetOutputInfoDto.builder()
