@@ -28,7 +28,7 @@ public class ResonatorController {
     }
     
     @GetMapping("/resonator/{id}")
-    public ResonatorDetailDto getMethodName(@PathVariable int id) {
+    public ResonatorDetailDto getMethodName(@PathVariable("id") int id) {
         return resonatorService.getResonatorDetail(id);
     }
     
