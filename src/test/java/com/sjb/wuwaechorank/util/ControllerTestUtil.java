@@ -6,14 +6,14 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import java.util.List;
 
+import org.springframework.boot.test.context.TestComponent;
 import org.springframework.http.MediaType;
-import org.springframework.stereotype.Component;
 import org.springframework.test.web.servlet.MockMvc;
 
 import tools.jackson.databind.ObjectMapper;
 import tools.jackson.databind.type.CollectionType;
 
-@Component
+@TestComponent
 public class ControllerTestUtil {
     private ObjectMapper objectMapper;
 
