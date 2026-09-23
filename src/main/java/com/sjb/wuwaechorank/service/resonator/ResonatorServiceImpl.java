@@ -94,11 +94,17 @@ public class ResonatorServiceImpl implements ResonatorService {
     }
 
     private SubStat getSubStat(Field field, ValidStat validStat){
+        Object subStatId = null;
+
         try {
             field.setAccessible(true);
-            return this.subStatDao.get(field.get(validStat));
+            subStatId = field.get(validStat);
+            if (subStatId == null)
+                return SubStat.builder().id(0).name("").build();
+            return this.subStatDao.get(subStatId);
         } catch (Exception e) {
-            throw new IllegalArgumentException("getResonatorDetail() 예외 발생", e);
+            throw new IllegalArgumentException("getResonatorDetail() 예외 발생" + e.getMessage() + "\n" + 
+            "substatId: " + subStatId, e);
         }
     }
 
