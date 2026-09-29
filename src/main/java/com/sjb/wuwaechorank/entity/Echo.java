@@ -1,5 +1,7 @@
 package com.sjb.wuwaechorank.entity;
 
+import java.util.List;
+
 import com.sjb.wuwaechorank.customannotation.ForeignKey;
 import com.sjb.wuwaechorank.customannotation.PrimaryKey;
 
@@ -22,9 +24,9 @@ public class Echo {
     String name = "꾹꾹복어";
     @ForeignKey
     @Builder.Default
-    int SonataEffectId = 1;
+    List<Integer> sonataEffectId = List.of(1);
     @Builder.Default
     String cost = "1COST";
     @Builder.Default
-    String ImagePath = "asdf/qwer/a.jpg";
+    String imagePath = "asdf/qwer/a.jpg";
 }
