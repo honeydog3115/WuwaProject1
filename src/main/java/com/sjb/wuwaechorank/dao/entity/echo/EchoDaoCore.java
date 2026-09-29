@@ -8,4 +8,8 @@ import com.sjb.wuwaechorank.entity.Echo;
 @DaoCoreInterface
 public interface EchoDaoCore {
     List<Echo> getAllBySonataEffect(int id);
+    int add(Echo entity);
+    Echo get(Object primaryKey);
+    List<Echo> getAll();
+    void update(Object primaryKey, Echo entity);
 }

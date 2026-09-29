@@ -5,6 +5,5 @@ import com.sjb.wuwaechorank.dao.crud.CrudDao;
 import com.sjb.wuwaechorank.entity.Echo;
 
 @DaoInterface
-public interface EchoDao extends CrudDao<Echo>, EchoDaoCore {
-    
+public interface EchoDao extends EchoDaoCore, CrudDao<Echo> {
 }
