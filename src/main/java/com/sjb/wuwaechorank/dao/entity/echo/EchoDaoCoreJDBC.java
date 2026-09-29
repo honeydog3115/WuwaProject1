@@ -34,7 +34,7 @@ public class EchoDaoCoreJDBC implements EchoDaoCore {
 
             if (sonataEffectIds != null) {
                 try {
-                    // JSON 문자열을 List<String>으로 역직렬화
+                    // JSON 문자열을 List<Integer>로 역직렬화
                     idList = objectMapper.readValue(sonataEffectIds, new TypeReference<List<Integer>>() {});
                 } catch (JacksonException e) {
                     throw new RuntimeException("JSON 파싱 에러", e);
