@@ -29,8 +29,16 @@ public class EchoServiceImpl implements EchoService{
         List<SonataEffect> sonataEffects = this.sonataEffectDao.getAll();
 
         List<Echo> echos = this.echoDao.getAll();
+        // Map<Integer, List<Echo>> echosBySonataEffectMap = echos.stream()
+        //         .collect(Collectors.groupingBy(Echo::getSonataEffectId));
         Map<Integer, List<Echo>> echosBySonataEffectMap = echos.stream()
-                .collect(Collectors.groupingBy(Echo::getSonataEffectId));
+                .filter(echo -> echo.getSonataEffectId() != null)
+                .flatMap(echo -> echo.getSonataEffectId().stream()
+                        .map(effectId -> Map.entry(effectId, echo)))
+                .collect(Collectors.groupingBy(
+                        Map.Entry::getKey,
+                        Collectors.mapping(Map.Entry::getValue, Collectors.toList())
+                ));
 
         return sonataEffects.stream()
                 .map(sonataEffect -> EchoInfoGroupBySonataEffectDto.builder()
