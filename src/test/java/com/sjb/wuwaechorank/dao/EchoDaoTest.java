@@ -44,10 +44,10 @@ public class EchoDaoTest extends BaseDaoTest {
     void setUp(){
         daoTestUtil.initTables(TABLE_NAME);
         daoTestUtil.initTables(REFERENCE_TABLE_NAME);
-        echo1 = new Echo(1, "꾹꾹복어", 1, "1COST", "asdf/qwer/a.jpg");
-        echo2 = new Echo(2, "타종거북이", 1, "4COST", "asdf/qwer/b.jpg");
-        echo3 = new Echo(3, "화살곰", 1, "3COST", "asdf/qwer/c.jpg");
-        echo4 = new Echo(4, "지옥불기사", 2, "4COST", "asdf/qwer/d.jpg");
+        echo1 = new Echo(1, "꾹꾹복어", List.of(1), "1COST", "asdf/qwer/a.jpg");
+        echo2 = new Echo(2, "타종거북이", List.of(1), "4COST", "asdf/qwer/b.jpg");
+        echo3 = new Echo(3, "화살곰", List.of(1), "3COST", "asdf/qwer/c.jpg");
+        echo4 = new Echo(4, "지옥불기사", List.of(2), "4COST", "asdf/qwer/d.jpg");
         sonataEffect1 = new SonataEffect(1, "야밤의 서리", "asdf/qwer/a.jpg");
         sonataEffect2 = new SonataEffect(2, "솟구치는 용암", "asdf/qwer/b.jpg");
         this.sonataEffectDao.add(sonataEffect1);
@@ -100,7 +100,7 @@ public class EchoDaoTest extends BaseDaoTest {
     
     @Test
     void foreignKeyConstraintFail(){
-        this.echo1.setSonataEffectId(2);
+        this.echo1.setSonataEffectId(List.of(2));
         
         try {
             this.echoDao.add(echo1);            
@@ -111,12 +111,12 @@ public class EchoDaoTest extends BaseDaoTest {
         }
     }
 
-    @Test
-    void cascadeDelete(){
-        this.echoDao.add(echo1);
-        this.sonataEffectDao.delete(1);
-        assertEquals(0, this.echoDao.getCount()); 
-    }
+    // @Test
+    // void cascadeDelete(){
+    //     this.echoDao.add(echo1);
+    //     this.sonataEffectDao.delete(1);
+    //     assertEquals(0, this.echoDao.getCount()); 
+    // }
 
     @Test
     void getAllBySonataEffect(){

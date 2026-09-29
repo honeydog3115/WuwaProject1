@@ -102,7 +102,7 @@ public class SubStatInfoDaoTest extends BaseDaoTest{
         this.daoJDBCUtil.addRefEntity(subStat5);
 
         this.sonataeffectDao.add(new SonataEffect(1, "솟구치는 용암", "a.jpg"));
-        this.echoDao.add(new Echo(1, "에코", 1, "1cost", "a.jpg"));
+        this.echoDao.add(new Echo(1, "에코", List.of(1), "1cost", "a.jpg"));
         this.resonatorEcho1 = new ResonatorEcho(1, 1, null, 0);
         this.resonatorEchoDao.add(resonatorEcho1);
 

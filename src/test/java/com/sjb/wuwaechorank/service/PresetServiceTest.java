@@ -98,7 +98,7 @@ public class PresetServiceTest {
         this.resonatorEcho1 = ResonatorEcho.builder()
                 .echoId(this.resonatorEchoInfoDto.get(0).echoId())
                 .build();
-        this.echo1 = new Echo(1, "꾹꾹복어", 1, "1COST", "asdf/qwer/a.jpg");
+        this.echo1 = new Echo(1, "꾹꾹복어", List.of(1), "1COST", "asdf/qwer/a.jpg");
         this.mainStat1 = new MainStat(1, "공격력", "30.5", "asdf/qwer/a.jpg");
         this.echoSubStatInfo1 = new EchoSubStatInfo(1, 1, 1);
         this.subStatInfo1 = SubStatInfo.builder().id(1).SubStatId(1).value("10%").build();

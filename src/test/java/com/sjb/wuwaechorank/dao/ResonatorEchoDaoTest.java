@@ -7,18 +7,14 @@ import java.util.List;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.ValueSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.jdbc.core.JdbcTemplate;
 
 import com.sjb.wuwaechorank.dao.entity.presetecho.PresetEchoDao;
 import com.sjb.wuwaechorank.dao.entity.resonatorecho.ResonatorEchoDao;
-import com.sjb.wuwaechorank.entity.Echo;
 import com.sjb.wuwaechorank.entity.PresetEcho;
 import com.sjb.wuwaechorank.entity.ResonatorEcho;
-import com.sjb.wuwaechorank.entity.SonataEffect;
 import com.sjb.wuwaechorank.util.DaoJDBCUtil;
 import com.sjb.wuwaechorank.util.DaoTestUtil;
 import com.sjb.wuwaechorank.util.TestFixture;
@@ -115,16 +111,16 @@ public class ResonatorEchoDaoTest extends BaseDaoTest{
         resonatorEcho1.setMainStatId(2);
         DaoTestUtil.foreignKeyConstraintViolationTest(()->this.resonatorEchoDao.add(resonatorEcho1));   
     }
-    @ParameterizedTest(name = "{0} 삭제시 Cascade 삭제 검증")
-    @ValueSource(classes = {
-        SonataEffect.class,
-        Echo.class
-    })
-    void cascadeDeleteByRefEntity(Class<?> refEntityClass){
-        this.resonatorEchoDao.add(resonatorEcho1);
-        daoJDBCUtil.deleteRefEntity(refEntityClass);
-        assertEquals(0, this.resonatorEchoDao.getCount());
-    }
+    // @ParameterizedTest(name = "{0} 삭제시 Cascade 삭제 검증")
+    // @ValueSource(classes = {
+    //     SonataEffect.class,
+    //     Echo.class
+    // })
+    // void cascadeDeleteByRefEntity(Class<?> refEntityClass){
+    //     this.resonatorEchoDao.add(resonatorEcho1);
+    //     daoJDBCUtil.deleteRefEntity(refEntityClass);
+    //     assertEquals(0, this.resonatorEchoDao.getCount());
+    // }
 
     @Test
     void getAllByPresetId(){

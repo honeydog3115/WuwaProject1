@@ -46,10 +46,10 @@ public class EchoServiceTest {
 
     @BeforeEach
     void setUp(){
-        echo1 = new Echo(1, "꾹꾹복어", 1, "1COST", "asdf/qwer/a.jpg");
-        echo2 = new Echo(2, "타종거북이", 1, "4COST", "asdf/qwer/b.jpg");
-        echo3 = new Echo(3, "화살곰", 1, "3COST", "asdf/qwer/c.jpg");
-        echo4 = new Echo(4, "지옥불기사", 2, "4COST", "asdf/qwer/d.jpg");
+        echo1 = new Echo(1, "꾹꾹복어", List.of(1), "1COST", "asdf/qwer/a.jpg");
+        echo2 = new Echo(2, "타종거북이", List.of(1), "4COST", "asdf/qwer/b.jpg");
+        echo3 = new Echo(3, "화살곰", List.of(1), "3COST", "asdf/qwer/c.jpg");
+        echo4 = new Echo(4, "지옥불기사", List.of(2), "4COST", "asdf/qwer/d.jpg");
         sonataEffect1 = new SonataEffect(1, "야밤의 서리", "asdf/qwer/a.jpg");
         sonataEffect2 = new SonataEffect(2, "솟구치는 용암", "asdf/qwer/b.jpg");
     }
@@ -68,7 +68,13 @@ public class EchoServiceTest {
         when(this.sonataEffectDao.getAll()).thenReturn(sonataEffects);
 
         Map<Integer, List<Echo>> echosBySonataEffectMap = echos.stream()
-                .collect(Collectors.groupingBy(Echo::getSonataEffectId));
+                .filter(echo -> echo.getSonataEffectId() != null)
+                .flatMap(echo -> echo.getSonataEffectId().stream()
+                        .map(effectId -> Map.entry(effectId, echo)))
+                .collect(Collectors.groupingBy(
+                        Map.Entry::getKey,
+                        Collectors.mapping(Map.Entry::getValue, Collectors.toList())
+                ));
 
         List<EchoInfoGroupBySonataEffectDto> expected = sonataEffects.stream()
                 .map(sonataEffect -> EchoInfoGroupBySonataEffectDto.builder()
