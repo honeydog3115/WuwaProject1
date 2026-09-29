@@ -3,20 +3,19 @@ package com.sjb.wuwaechorank.dao.beangenerator;
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.util.Arrays;
 
-import com.sjb.wuwaechorank.dao.crud.CrudDao;
 import com.sjb.wuwaechorank.dao.crud.CrudDaoJDBC;
 
 public class DaoInvocationHandler implements InvocationHandler {
     private final CrudDaoJDBC<?> crudDaoJDBC;
     private final Object daoCore;
-    private final Method[] interfaceMethods;
+    // private final Method[] interfaceMethods;
     
     public DaoInvocationHandler(CrudDaoJDBC<?> crudDaoJDBC, Object customDao) {
         this.crudDaoJDBC = crudDaoJDBC;
         this.daoCore = customDao;
-        this.interfaceMethods = CrudDao.class.getMethods();
+        // this.interfaceMethods = CrudDao.class.getMethods();
+        // this.interfaceMethods = customDao.getClass().getMethods();
     }
 
     /** 
@@ -31,7 +30,14 @@ public class DaoInvocationHandler implements InvocationHandler {
         if (method.getDeclaringClass() == Object.class) {
             return invokeObjectMethod(proxy, method, args);
         }
-        Object target = isBaseDaoMethod(method)?crudDaoJDBC:daoCore;
+        // Object target = isBaseDaoMethod(method)?crudDaoJDBC:daoCore;
+        Object target;
+        if (hasMethod(daoCore, method)){
+            target = daoCore;
+        }else{
+            target = crudDaoJDBC;
+        }
+
         Method targetMethod = target.getClass().getMethod(method.getName(),method.getParameterTypes());
 
         try {
@@ -41,16 +47,25 @@ public class DaoInvocationHandler implements InvocationHandler {
         }
     }
 
+    private boolean hasMethod(Object target, Method method) {
+        try {
+            target.getClass().getMethod(method.getName(), method.getParameterTypes());
+            return true;
+        } catch (NoSuchMethodException e) {
+            return false;
+        }
+    }
+
     /** 
      * @param method
      * @return boolean
      */
-    private boolean isBaseDaoMethod(Method method) {
-        return Arrays.stream(this.interfaceMethods)
-                .anyMatch(
-                    interfaceMethod->interfaceMethod.getName().equals(method.getName()) && 
-                    Arrays.equals(interfaceMethod.getParameterTypes(), method.getParameterTypes()));
-    }
+    // private boolean isBaseDaoMethod(Method method) {
+    //     return Arrays.stream(this.interfaceMethods)
+    //             .anyMatch(
+    //                 interfaceMethod->interfaceMethod.getName().equals(method.getName()) && 
+    //                 Arrays.equals(interfaceMethod.getParameterTypes(), method.getParameterTypes()));
+    // }
 
     /** 
      * @param proxy
