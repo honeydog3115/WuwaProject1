@@ -5,8 +5,6 @@ import java.util.List;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
-import org.springframework.jdbc.support.GeneratedKeyHolder;
-import org.springframework.jdbc.support.KeyHolder;
 
 import com.sjb.wuwaechorank.dao.crud.sqlgenerator.SqlBuilder;
 import com.sjb.wuwaechorank.dao.crud.sqlgenerator.SqlParamBuilder;
