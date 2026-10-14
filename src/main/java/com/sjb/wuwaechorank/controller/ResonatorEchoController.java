@@ -17,7 +17,7 @@ public class ResonatorEchoController {
 
     @PostMapping("/resonatorecho")
     public double getResonatorEchoScore(@RequestBody ResonatorEchoScoreRequest request) {
-        return echoScoreService.getResonatorEchoScore(request.id(), request.resonatorEchoInfoDtos()).stream()
+        return echoScoreService.getResonatorEchoScore(request.resonatorId(), request.resonatorEchoInfoDtos()).stream()
                 .mapToDouble(Double::doubleValue).average().orElse(0.0);
     }
 }

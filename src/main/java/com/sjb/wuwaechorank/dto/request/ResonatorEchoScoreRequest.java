@@ -5,7 +5,7 @@ import java.util.List;
 import com.sjb.wuwaechorank.dto.ResonatorEchoInfoDto;
 
 public record ResonatorEchoScoreRequest(
-    int id,
+    int resonatorId,
     List<ResonatorEchoInfoDto> resonatorEchoInfoDtos,
     boolean insertDB,
     int presetId

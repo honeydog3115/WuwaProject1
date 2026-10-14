@@ -8,5 +8,4 @@ public class WuwaEchorankApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(WuwaEchorankApplication.class, args);
 	}
-
 }

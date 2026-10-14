@@ -29,7 +29,7 @@ public class PresetController {
 
     @GetMapping("/simplepresetsinfo/{userId}")
     public List<SimplePresetInfoDto> getSimplePresetsInfo(@PathVariable int userId) {
-        return presetService.getSimplePresetInfo(userId);
+        return presetService.getSimplePresetInfo(userId); 
     }
     
     @GetMapping("/{presetId}")
