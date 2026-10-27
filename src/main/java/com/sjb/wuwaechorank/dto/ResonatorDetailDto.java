@@ -11,10 +11,9 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-
 // 공명자 세부 정보 전달 클래스
 @NoArgsConstructor
-@AllArgsConstructor
+@AllArgsConstructor 
 @Getter
 @Setter
 @Builder

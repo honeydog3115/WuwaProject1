@@ -4,15 +4,17 @@ import com.sjb.wuwaechorank.entity.Attribute;
 import com.sjb.wuwaechorank.entity.Weapon;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 // 전체 공명자 정보 클래스
-@NoArgsConstructor
-@AllArgsConstructor
+@NoArgsConstructor 
+@AllArgsConstructor 
 @Getter
 @Setter
+@Builder
 public class ResonatorsInfoDto {
     int id;
     String name;
