@@ -13,6 +13,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.dao.DataIntegrityViolationException;
 
 import com.sjb.wuwaechorank.dao.entity.echo.EchoDao;
+import com.sjb.wuwaechorank.dao.entity.echo.EchoDaoCore;
 import com.sjb.wuwaechorank.dao.entity.echosubstatinfo.EchoSubStatInfoDao;
 import com.sjb.wuwaechorank.dao.entity.resonatorecho.ResonatorEchoDao;
 import com.sjb.wuwaechorank.dao.entity.sonataeffect.SonataEffectDao;
@@ -102,7 +103,7 @@ public class SubStatInfoDaoTest extends BaseDaoTest{
         this.daoJDBCUtil.addRefEntity(subStat5);
 
         this.sonataeffectDao.add(new SonataEffect(1, "솟구치는 용암", "a.jpg"));
-        this.echoDao.add(new Echo(1, "에코", List.of(1), "1cost", "a.jpg"));
+        ((EchoDaoCore) this.echoDao).add(new Echo(1, "에코", List.of(1), "1cost", "a.jpg"));
         this.resonatorEcho1 = new ResonatorEcho(1, 1, null, 0);
         this.resonatorEchoDao.add(resonatorEcho1);
 
