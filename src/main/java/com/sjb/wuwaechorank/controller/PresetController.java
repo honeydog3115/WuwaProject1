@@ -18,6 +18,7 @@ import com.sjb.wuwaechorank.service.preset.PresetService;
 @RequestMapping("/preset")
 public class PresetController {
     private PresetService presetService;
+
     public PresetController(PresetService presetService){
         this.presetService = presetService;
     }

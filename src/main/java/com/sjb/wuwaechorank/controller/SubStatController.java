@@ -12,6 +12,7 @@ import com.sjb.wuwaechorank.service.substat.SubStatService;
 @RestController
 public class SubStatController {
     private SubStatService subStatService;
+
     public SubStatController(SubStatService subStatService){
         this.subStatService = subStatService;
     }
