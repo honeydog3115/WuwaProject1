@@ -13,6 +13,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.dao.DataIntegrityViolationException;
 
 import com.sjb.wuwaechorank.dao.entity.echo.EchoDao;
+import com.sjb.wuwaechorank.dao.entity.echo.EchoDaoCore;
 import com.sjb.wuwaechorank.dao.entity.sonataeffect.SonataEffectDao;
 import com.sjb.wuwaechorank.entity.Echo;
 import com.sjb.wuwaechorank.entity.SonataEffect;
@@ -56,7 +57,7 @@ public class EchoDaoTest extends BaseDaoTest {
 
     @Test
     void addAndGet(){
-        this.echoDao.add(echo1);
+        ((EchoDaoCore) this.echoDao).add(echo1);
         
         Echo echo = this.echoDao.get(1);
         assertEquals(echo1.getId(), echo.getId());
@@ -67,9 +68,9 @@ public class EchoDaoTest extends BaseDaoTest {
 
     @Test
     void getAll(){
-        this.echoDao.add(echo1);
-        this.echoDao.add(echo2);
-        this.echoDao.add(echo3);
+        ((EchoDaoCore) this.echoDao).add(echo1);
+        ((EchoDaoCore) this.echoDao).add(echo2);
+        ((EchoDaoCore) this.echoDao).add(echo3);
 
         List<Echo> echos = this.echoDao.getAll();
 
@@ -78,7 +79,7 @@ public class EchoDaoTest extends BaseDaoTest {
     
     @Test
     void deleteAndCount(){
-        this.echoDao.add(echo1);
+        ((EchoDaoCore) this.echoDao).add(echo1);
         
         this.echoDao.delete(1);
         assertEquals(0, this.echoDao.getCount());
@@ -86,9 +87,9 @@ public class EchoDaoTest extends BaseDaoTest {
     
     @Test
     void update(){
-        this.echoDao.add(echo1);
+        ((EchoDaoCore) this.echoDao).add(echo1);
         
-        this.echoDao.update(1, echo2);
+        ((EchoDaoCore) this.echoDao).update(1, echo2);
         Echo echo = this.echoDao.get(1);
 
         assertEquals(1, echo.getId());
@@ -103,7 +104,7 @@ public class EchoDaoTest extends BaseDaoTest {
         this.echo1.setSonataEffectId(List.of(2));
         
         try {
-            this.echoDao.add(echo1);            
+            ((EchoDaoCore) this.echoDao).add(echo1);            
         } catch (DataIntegrityViolationException e) {
             assertEquals("SQLIntegrityConstraintViolationException", e.getMostSpecificCause().getClass().getSimpleName());
             SQLIntegrityConstraintViolationException sqlException = (SQLIntegrityConstraintViolationException)e.getCause();
@@ -113,17 +114,17 @@ public class EchoDaoTest extends BaseDaoTest {
 
     // @Test
     // void cascadeDelete(){
-    //     this.echoDao.add(echo1);
+    //     ((EchoDaoCore) this.echoDao).add(echo1);
     //     this.sonataEffectDao.delete(1);
     //     assertEquals(0, this.echoDao.getCount()); 
     // }
 
     @Test
     void getAllBySonataEffect(){
-        this.echoDao.add(this.echo1);
-        this.echoDao.add(this.echo2);
-        this.echoDao.add(this.echo3);
-        this.echoDao.add(this.echo4);
+        ((EchoDaoCore) this.echoDao).add(this.echo1);
+        ((EchoDaoCore) this.echoDao).add(this.echo2);
+        ((EchoDaoCore) this.echoDao).add(this.echo3);
+        ((EchoDaoCore) this.echoDao).add(this.echo4);
         
         List<Echo> echos = this.echoDao.getAllBySonataEffect(1);
 

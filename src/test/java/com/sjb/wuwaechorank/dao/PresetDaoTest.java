@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import com.sjb.wuwaechorank.dao.entity.preset.PresetDao;
+import com.sjb.wuwaechorank.dto.SimplePresetInfoDto;
 import com.sjb.wuwaechorank.entity.Preset;
 import com.sjb.wuwaechorank.entity.Resonator;
 import com.sjb.wuwaechorank.entity.User;
@@ -131,6 +132,14 @@ public class PresetDaoTest extends BaseDaoTest{
                 .name(preset3.getName())
                 .bookmark(preset3.getBookmark())
                 .build();
-        assertThat(this.presetDao.getAllByUserId(1)).usingRecursiveComparison().isEqualTo(List.of(presetInfo1, presetInfo2, presetInfo3));
+        List<Preset> presets = this.presetDao.getAllByUserId(1);
+        List<SimplePresetInfoDto> simplePresetInfos = presets.stream()
+                .map(preset -> SimplePresetInfoDto.builder()
+                        .id(preset.getId())
+                        .name(preset.getName())
+                        .bookmark(preset.getBookmark())
+                        .build())
+                .toList();
+        assertThat(simplePresetInfos).usingRecursiveComparison().isEqualTo(List.of(presetInfo1, presetInfo2, presetInfo3));
     }    
 }
